@@ -81,35 +81,6 @@
   .pa .p-note { position: absolute; inset: auto auto 22px var(--pad); }
 }
 
-/* ================= B — ARCHITECTURE ================= */
-.pb { position: relative; overflow: hidden; padding: 108px var(--pad) 0; display: grid; gap: 34px; }
-.pb .p-copy .t-hero { font-size: clamp(38px, 9.6vw, 60px); }
-.pb-stage { position: relative; direction: ltr; margin-inline: calc(var(--pad) * -1); padding: 26px var(--pad) 46px; }
-.pb-wall { position: absolute; inset: 0 0 34% 0; background: var(--navy-d); }
-.pb-wall::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(255, 255, 255, .05), transparent 40%); }
-.pb-wall2 { display: none; }
-.pb-floor { display: none; }
-.pb-signs { position: relative; display: flex; flex-wrap: wrap; gap: 6px 18px; margin-bottom: 20px; direction: rtl; font-size: 13px; font-weight: 500; letter-spacing: .01em; color: rgba(255, 255, 255, .78); }
-.pb-signs li { display: flex; align-items: center; gap: 8px; } .pb-signs i { flex: none; width: 7px; height: 7px; background: var(--c); } .pb-signs s { display: none; }
-.pb-plane { position: relative; aspect-ratio: 1120 / 700; border-radius: 4px; box-shadow: 0 0 0 1px rgba(11, 27, 58, .1), 0 50px 70px -40px rgba(11, 27, 58, .55); }
-.pb .p-note { position: relative; margin-top: 16px; direction: rtl; }
-@media (min-width: 1024px) {
-  .pb { min-height: 100vh; min-height: 100svh; padding-block: 0; align-items: center; }
-  .pb .p-copy { width: 27vw; max-width: 430px; padding-top: 60px; }
-  .pb .p-copy .t-hero { font-size: clamp(38px, 3.7vw, 62px); }
-  .pb .cta-row .btn { height: 50px; padding: 0 20px; font-size: 15px; }
-  .pb-stage { position: absolute; inset: 0; margin: 0; padding: 0; pointer-events: none; }
-  /* two navy planes at different depths and a floor line: the opening the product comes through */
-  .pb-wall { inset: 0 auto 0 0; width: 33vw; }
-  .pb-wall2 { display: block; position: absolute; left: 33vw; top: 0; width: 6vw; height: 58%; background: var(--navy-l); box-shadow: inset 1px 0 0 rgba(255, 255, 255, .06); }
-  .pb-floor { display: block; position: absolute; left: 33vw; right: 0; bottom: 0; height: 17%; background: linear-gradient(180deg, #E9EEF5, var(--mist)); box-shadow: inset 0 1px 0 rgba(11, 27, 58, .12); }
-  .pb-plane { position: absolute; left: 21vw; top: 50%; width: 46vw; margin-top: calc(46vw * -.3125 + 26px); border-radius: 3px; box-shadow: 0 0 0 1px rgba(11, 27, 58, .1), 30px 60px 90px -40px rgba(11, 27, 58, .6), 0 2px 0 rgba(11, 27, 58, .2); }
-  .pb-signs { position: absolute; left: 4vw; width: 17vw; top: calc(50% - 72px); margin: 0; display: grid; gap: 22px; }
-  .pb-signs li { gap: 10px; white-space: nowrap; direction: ltr; }
-  .pb-signs s { display: block; flex: 1; height: 1px; background: var(--mint); opacity: .7; transform-origin: left; text-decoration: none; }
-  .pb .p-note { position: absolute; margin: 0; inset: auto var(--pad) 22px auto; }
-}
-
 /* ================= C — EDITORIAL ================= */
 .pc { position: relative; overflow: hidden; display: grid; }
 .pc-bg { display: none; }
@@ -154,7 +125,7 @@
 @media (min-width: 1024px) { body[data-concept="b"] .hd-lang { color: rgba(255, 255, 255, .7); } }
 
 /* stacked layouts: the wide product image must not stretch the text column */
-.pa, .pb { grid-template-columns: minmax(0, 1fr); }
+.pa { grid-template-columns: minmax(0, 1fr); }
 .p-copy { min-width: 0; }
 .pa .p-copy .t-hero { font-size: clamp(38px, 9.6vw, 60px); }
 @media (min-width: 1024px) { .pa .p-copy .t-hero { font-size: clamp(42px, 4.3vw, 72px); } }
@@ -448,3 +419,13 @@
 .nc-phone .hd nav a.has-mega { display: inline-flex; align-items: center; gap: 4px; }
 .nc-phone .hd.mega-open nav a.has-mega { background: rgba(255, 255, 255, .1); color: #fff; }
 .nc-hd { background: none; }
+
+/* ================= phones and tablets (under 1024px) =================
+   No pinned scroll story here, so the three scene slides only repeated the AI, campaigns and analytics sections
+   right below: hide them. The phone is drawn larger so it reads as the hero's subject, and the header stays solid
+   once the page scrolls (the frosted bar turned grey over the light sections). */
+@media (max-width: 1023px) {
+  .pa-slide { display: none; }
+  .nc-phone .hd.scrolled .hd-in { background: #152955; -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: inset 0 -1px 0 rgba(255, 255, 255, .1), 0 8px 24px -14px rgba(5, 13, 36, .6); }
+}
+@media (max-width: 767px) { .pa-shot { width: 270%; margin-inline: -85%; margin-block: -24% -22%; } }
