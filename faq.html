@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="navy-canvas.css">
 <link rel="stylesheet" href="sections.css">
 <link rel="stylesheet" href="pages.css">
+<link rel="stylesheet" href="footer.css">
 </head>
 <body>
 <a class="skip-link" href="#main">تخطَّ إلى المحتوى</a>
@@ -88,7 +89,39 @@
 </section>
 </main>
 
-<footer class="foot"><div class="wrap"><span>© <span class="num">2026</span> ClickChat. جميع الحقوق محفوظة.</span><span style="margin-inline-start:auto">من <span lang="en">Click &amp; More</span></span></div></footer>
+<footer class="ft" data-ft>
+  <div class="ft-bg" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="ft-top">
+      <div class="ft-brand" style="--i:0">
+        <a href="index.html" class="ft-logo" aria-label="ClickChat كليك شات — الرئيسية"><img src="ClickChat-Brand-Identity/ClickChat-Brand-Identity/01-Logo/01-horizontal-bilingual/SVG/clickchat-horizontal-reversed.svg" alt="ClickChat كليك شات" width="168" height="44" loading="lazy"></a>
+        <p>منصة سعودية تجمع واتساب وماسنجر وإنستغرام في صندوق وارد واحد، مع الذكاء الاصطناعي والأتمتة والحملات الجماعية.</p>
+        <p class="ft-meta"><span data-icon="shield" data-size="15"></span>متوافق مع واجهات ميتا الرسمية</p>
+        <a href="index.html#top" class="btn btn-mint ft-cta">ابدأ مجاناً <span data-icon="arrow" data-size="18"></span></a>
+      </div>
+      <nav class="ft-cols" aria-label="روابط الموقع">
+        <div class="ft-col" style="--i:1"><h2>المنتج</h2><ul><li><a href="index.html#features">المزايا</a></li><li><a href="integrations.html">التكاملات</a></li><li><a href="pricing.html">الأسعار</a></li><li><a href="faq.html">الأسئلة الشائعة</a></li></ul></div>
+        <div class="ft-col" style="--i:2"><h2>الحلول</h2><ul><li><a href="industry-restaurants.html">المطاعم والكافيهات</a></li><li><a href="industry-clinics.html">العيادات والمراكز الطبية</a></li><li><a href="industry-ecommerce.html">المتاجر الإلكترونية</a></li><li><a href="solutions.html">كل الحلول</a></li></ul></div>
+        <div class="ft-col" style="--i:3"><h2>الشركة</h2><ul><li><a href="#">من نحن</a></li><li><a href="use-cases.html">حالات الاستخدام</a></li><li><a href="contact.html">تواصل معنا</a></li></ul></div>
+        <div class="ft-col" style="--i:4"><h2>قانوني</h2><ul><li><a href="#">سياسة الخصوصية</a></li><li><a href="#">الشروط والأحكام</a></li><li><a href="#">سياسة ملفات الارتباط</a></li></ul></div>
+      </nav>
+    </div>
+    <svg class="ft-word" viewBox="0 0 1000 190" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="ftFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".16"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+        <radialGradient id="ftSpot" gradientUnits="userSpaceOnUse" cx="500" cy="95" r="240"><stop offset="0" stop-color="#12C99B" stop-opacity=".85"/><stop offset=".55" stop-color="#12C99B" stop-opacity=".18"/><stop offset="1" stop-color="#12C99B" stop-opacity="0"/></radialGradient>
+      </defs>
+      <text class="w-fill" x="500" y="160" text-anchor="middle" textLength="990" lengthAdjust="spacingAndGlyphs">ClickChat</text>
+      <text class="w-spot" x="500" y="160" text-anchor="middle" textLength="990" lengthAdjust="spacingAndGlyphs">ClickChat</text>
+      <text class="w-line" x="500" y="160" text-anchor="middle" textLength="990" lengthAdjust="spacingAndGlyphs">ClickChat</text>
+    </svg>
+    <div class="ft-bar">
+      <p class="ft-copy">© <span class="num">2026</span> ClickChat. جميع الحقوق محفوظة.</p>
+      <a class="ft-by" href="https://clickandmore.sa" target="_blank" rel="noopener" lang="en" aria-label="Powered by Click & More (opens in a new tab)"><span class="ft-by-l">Powered by</span><span class="ft-by-m">Click<i>&amp;</i>More</span><span class="ft-by-go"><span data-icon="arrow" data-size="14"></span></span></a>
+      <button type="button" class="ft-up" data-up aria-label="العودة إلى الأعلى"><span data-icon="arrow" data-size="18"></span></button>
+    </div>
+  </div>
+</footer>
 
 <nav class="proto-switch" aria-label="Prototype">
   <a href="index.html">Navy Canvas · Home</a>
@@ -102,5 +135,6 @@
 <script src="pages.js"></script>
 <script src="sections.js"></script>
 <script src="menu.js"></script>
+<script src="footer.js"></script>
 </body>
 </html>

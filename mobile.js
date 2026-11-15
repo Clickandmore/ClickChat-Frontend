@@ -58,6 +58,7 @@
   const set = () => { const on = past && !atEnd; bar.classList.toggle('on', on); bar.inert = !on; };
   if ('IntersectionObserver' in window) {
     if (heroCta) new IntersectionObserver(([e]) => { past = !e.isIntersecting && e.boundingClientRect.top < 0; set(); }).observe(heroCta);
-    if (endCta) new IntersectionObserver(([e]) => { atEnd = e.isIntersecting; set(); }, { rootMargin: '0px 0px -10% 0px' }).observe(endCta);
+    /* hidden from the closing call to action onwards, footer included */
+    if (endCta) new IntersectionObserver(([e]) => { atEnd = e.isIntersecting || e.boundingClientRect.top < 0; set(); }, { rootMargin: '0px 0px -10% 0px' }).observe(endCta);
   }
 })();

@@ -33,6 +33,8 @@ GSAP is loaded from a CDN, so the animations need an internet connection. Withou
 - `pages.css` / `pages.js`: the inner pages.
 - `menu.js`: the «حلولنا» dropdown and the phone/tablet menu, shared by every page.
 - `logos.js`: channel and integration marks.
+- `footer.css` / `footer.js`: the site footer on every page (columns, the drawn ClickChat wordmark, Powered by Click & More, back to top).
+- `mobile.css` / `mobile.js`: the home page's phone layer (under 768px): short header, swipeable card rails, steps timeline, sticky call-to-action bar.
 - `MOTION-STORYBOARD.md`: what each section's animation does.
 - `screenshots/`: reference captures.
 
