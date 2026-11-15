@@ -1,0 +1,36 @@
+# This repository publishes the Navy Canvas marketing-site prototype only.
+# Everything in the working folder is ignored unless it is listed below (the prototype and the shared files it loads).
+/*
+!/.gitignore
+!/README.md
+
+# the prototype
+!/prototypes/
+/prototypes/*
+!/prototypes/experiments/
+/prototypes/experiments/*
+!/prototypes/experiments/navy-canvas/
+/prototypes/experiments/navy-canvas/_backup/
+
+# shared files the prototype loads: fonts, base styles, icons, sector photos (JPG only), channel logos
+!/prototypes/assets/
+/prototypes/assets/*
+!/prototypes/assets/brand-fonts.css
+!/prototypes/assets/base.css
+!/prototypes/assets/icons.js
+!/prototypes/assets/logos/
+!/prototypes/assets/photos/
+/prototypes/assets/photos/*.png
+
+# brand kit: only the SVG logos, the favicon and the patterns the pages reference
+!/ClickChat-Brand-Identity/
+/ClickChat-Brand-Identity/*
+!/ClickChat-Brand-Identity/ClickChat-Brand-Identity/
+/ClickChat-Brand-Identity/ClickChat-Brand-Identity/*
+!/ClickChat-Brand-Identity/ClickChat-Brand-Identity/01-Logo/
+/ClickChat-Brand-Identity/ClickChat-Brand-Identity/01-Logo/*/*
+!/ClickChat-Brand-Identity/ClickChat-Brand-Identity/01-Logo/*/SVG/
+!/ClickChat-Brand-Identity/ClickChat-Brand-Identity/02-App-Icons-and-Favicons/
+/ClickChat-Brand-Identity/ClickChat-Brand-Identity/02-App-Icons-and-Favicons/*
+!/ClickChat-Brand-Identity/ClickChat-Brand-Identity/02-App-Icons-and-Favicons/favicon.svg
+!/ClickChat-Brand-Identity/ClickChat-Brand-Identity/04-Patterns/
