@@ -1,0 +1,84 @@
+/* Navy Canvas — phone layer (home page). Loaded last; everything here applies under 768px only, so desktop and tablet
+   are unchanged. Goal: an app-grade phone page — a short header, swipeable card rails instead of long stacks, a compact
+   steps timeline, a denser integrations grid and a sticky call-to-action bar (built by mobile.js). */
+
+.m-bar, .m-dots { display: none; }
+
+@media (max-width: 767px) {
+
+  /* ---------- header: logo, call to action, menu. Language and sign-in live in the menu ---------- */
+  .nc-phone .hd-in, .nc-phone .hd.scrolled .hd-in { height: 62px; padding-inline: 16px; }
+  .nc-phone .hd-lang { display: none; }
+  .nc-phone .hd .btn-sm { height: 40px; padding-inline: 18px; font-size: 14px; }
+  .nc-phone .hd-burger { width: 42px; height: 42px; }
+  .proto-switch { display: none; }
+
+  /* ---------- rhythm: the light sections sit a little closer together ---------- */
+  .fix, .steps, .secu, .faq, .more, .why, .solu { padding-block: 64px; }
+
+  /* ---------- swipeable rails: features (4 panels) and benefits (6 cards) ---------- */
+  .reel, .bento {
+    display: flex; gap: 12px; height: auto; margin-inline: -24px; padding: 6px 24px 20px;
+    overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: 24px;
+    scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  }
+  .reel::-webkit-scrollbar, .bento::-webkit-scrollbar { display: none; }
+  .reel > *, .bento > * { flex: 0 0 86%; min-width: 0; scroll-snap-align: start; }
+  .bento > .bt:hover { translate: none; }
+  .bento { align-items: flex-start; }   /* each card keeps its own height: stretching to the tallest (the team demo) left large gaps */
+  .bento > .bt { grid-column: auto; grid-row: auto; }
+  .bt.m-lead { margin-top: 36px; }   /* the team demo, moved above the rail by mobile.js */
+  .bt.m-lead + .bento { margin-top: 0; padding-top: 12px; }
+  .pn-body { height: 100%; align-content: start; }
+
+  .m-dots { display: flex; justify-content: center; gap: 8px; margin-top: 2px; }
+  .m-dots button { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 99px; background: rgba(11, 27, 58, .18); transition: width .35s var(--ease), background-color .35s; }
+  .m-dots button[aria-current="true"] { width: 24px; background: var(--navy); }
+  .m-dots button:focus-visible { outline: 2px solid var(--mint); outline-offset: 3px; }
+
+  /* ---------- steps: a numbered timeline instead of three 110px outline numbers ---------- */
+  .steps .step3 { gap: 0; margin-top: 36px; }
+  .steps .step3 li { display: grid; grid-template-columns: 48px minmax(0, 1fr); column-gap: 16px; padding-bottom: 30px; }
+  .steps .step3 li:last-child { padding-bottom: 0; }
+  .steps .step3 li::after { content: ""; position: absolute; inset-inline-start: 23px; top: 56px; bottom: 6px; width: 2px; border-radius: 2px; background: rgba(11, 27, 58, .1); }
+  .steps .step3 li:last-child::after { display: none; }
+  .steps .step3 b { grid-row: span 2; display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%;
+    font: 600 19px/1 Inter, sans-serif; letter-spacing: 0; -webkit-text-stroke: 0; color: var(--navy); background: var(--mist);
+    box-shadow: inset 0 0 0 1.5px rgba(11, 27, 58, .14); transition: background-color .4s, color .4s, box-shadow .4s; }
+  .steps .step3 li.on b { color: #fff; background: var(--navy); box-shadow: 0 8px 18px -10px rgba(11, 27, 58, .7); }
+  .steps .step3 li:last-child.on b { color: var(--navy); background: var(--mint); box-shadow: 0 8px 18px -10px rgba(18, 201, 155, .8); }
+  .steps .step3 h3 { margin-top: 10px; font-size: 19px; }
+  .steps .step3 p { margin-top: 4px; font-size: 15px; }
+
+  /* ---------- integrations: three across ---------- */
+  .sockets { grid-template-columns: repeat(3, 1fr); }
+  .sockets li { justify-items: center; text-align: center; gap: 2px; padding: 20px 6px 18px; }
+  .sockets .lg2 { width: 28px; height: 28px; margin-bottom: 10px; }
+  .sockets b { font-size: 12.5px; }
+  .sockets em { font-size: 11px; }
+
+  /* ---------- campaigns: a shorter contact grid (7 rows of 10) ---------- */
+  .cells i:nth-child(n+71) { display: none; }
+
+  /* ---------- sticky call to action ---------- */
+  .m-bar {
+    position: fixed; z-index: 60; left: 12px; right: 12px; bottom: max(12px, env(safe-area-inset-bottom));
+    display: flex; gap: 8px; padding: 8px; border-radius: 20px;
+    background: rgba(8, 20, 50, .94); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .1), 0 18px 40px -16px rgba(2, 6, 20, .75);
+    transform: translateY(calc(100% + 24px)); opacity: 0; pointer-events: none;
+    transition: transform .45s var(--ease), opacity .3s;
+  }
+  @supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+    .m-bar { background: rgba(8, 20, 50, .82); -webkit-backdrop-filter: blur(16px) saturate(160%); backdrop-filter: blur(16px) saturate(160%); }
+  }
+  .m-bar.on { transform: none; opacity: 1; pointer-events: auto; }
+  .mnav-open .m-bar { transform: translateY(calc(100% + 24px)); opacity: 0; pointer-events: none; }
+  .m-bar .btn { height: 48px; font-size: 15px; }
+  .m-bar .btn-mint { flex: 1; }
+  .m-bar .m-talk { flex: none; display: inline-flex; align-items: center; gap: 8px; padding-inline: 16px; border-radius: 14px; color: #fff; font-weight: 600; font-size: 14.5px; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .2); }
+  .m-bar .m-talk svg { color: var(--mint); }
+}
+
+@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+  .m-bar, .m-dots button { transition: none; }
+}
