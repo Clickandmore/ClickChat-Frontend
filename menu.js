@@ -43,9 +43,9 @@
   const mega = d.createElement('div');
   mega.className = 'mega'; mega.id = 'mega'; mega.setAttribute('aria-label', 'حلولنا');
   mega.innerHTML = '<div class="mega-in">' +
-    '<div class="mg-col"><p class="mg-t">حسب القطاع</p><ul class="mg-list two">' + SECTORS.map(item).join('') + '</ul></div>' +
-    '<div class="mg-col side"><p class="mg-t">حسب فريق العمل</p><ul class="mg-list">' + TEAMS.map((x, i) => item(x, i + 2)).join('') + '</ul>' +
-    '<a class="mg-all" href="solutions.html">كل الحلول ' + svg('arrow', 16) + '</a></div></div>';
+    '<div class="mg-col"><p class="mg-t">أمثلة حسب النشاط</p><ul class="mg-list two">' + SECTORS.map(item).join('') + '</ul></div>' +
+    '<div class="mg-col side"><p class="mg-t">أمثلة حسب الفريق</p><ul class="mg-list">' + TEAMS.map((x, i) => item(x, i + 2)).join('') + '</ul>' +
+    '<a class="mg-all" href="solutions.html">كل الأمثلة ' + svg('arrow', 16) + '</a></div></div>';
   hd.append(mega);
   link.classList.add('has-mega'); link.insertAdjacentHTML('beforeend', '<span class="mg-chev">' + svg('chev', 15) + '</span>');
   link.setAttribute('aria-haspopup', 'true'); link.setAttribute('aria-controls', 'mega'); link.setAttribute('aria-expanded', 'false');
@@ -80,8 +80,8 @@
     '<button type="button" class="mn-x" aria-label="إغلاق القائمة">' + svg('close', 22) + '</button></div>' +
     '<nav aria-label="القائمة الرئيسية"><ul class="mn-list">' + LINKS.map((l, i) => l.sol
       ? '<li style="--i:' + i + '"><button type="button" class="mn-acc" aria-expanded="false" aria-controls="mn-sub">' + l.t + '<span class="mg-chev">' + svg('chev', 20) + '</span></button>' +
-        '<div class="mn-sub" id="mn-sub"><div><p class="mg-t">حسب القطاع</p><ul>' + SECTORS.map(sub).join('') + '</ul><p class="mg-t">حسب فريق العمل</p><ul>' + TEAMS.map(sub).join('') + '</ul>' +
-        '<a class="mg-all" href="solutions.html">كل الحلول ' + svg('arrow', 16) + '</a></div></div></li>'
+        '<div class="mn-sub" id="mn-sub"><div><p class="mg-t">أمثلة حسب النشاط</p><ul>' + SECTORS.map(sub).join('') + '</ul><p class="mg-t">أمثلة حسب الفريق</p><ul>' + TEAMS.map(sub).join('') + '</ul>' +
+        '<a class="mg-all" href="solutions.html">كل الأمثلة ' + svg('arrow', 16) + '</a></div></div></li>'
       : '<li style="--i:' + i + '"><a href="' + l.h + '"' + (l.cur ? ' aria-current="page"' : '') + '>' + l.t + '</a></li>').join('') + '</ul></nav>' +
     '<div class="mn-foot"><div class="mn-lang" role="group" aria-label="اللغة"><a href="#" aria-current="true">العربية</a><a href="#" lang="en">English</a></div>' +
     '<a href="#" class="btn btn-line">تسجيل الدخول</a><a href="index.html#top" class="btn btn-mint">ابدأ الآن ' + svg('arrow', 18) + '</a></div>';

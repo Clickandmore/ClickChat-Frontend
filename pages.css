@@ -227,3 +227,7 @@ html.anim .phero [data-in] { visibility: hidden; }
 .tm-list li { display: flex; align-items: center; gap: 11px; padding: 11px 0; border-bottom: 1px solid var(--hair); font-weight: 600; font-size: 14.5px; }
 .tm-list li:last-child { border-bottom: 0; } .tm-list li > span { color: var(--mint-600); }
 @media (min-width: 1024px) { .reel.three { height: 440px; } .reel.three .pn-body { width: calc((100cqw - 24px) * .7143); } }
+
+/* sector pages: the plain note under the hero buttons. ClickChat is a general platform; these pages are suggested examples */
+.ind-note { max-width: 36rem; margin-top: 26px; padding: 12px 16px; border-radius: 14px; font-size: 14px; line-height: 1.85; color: var(--steel); background: rgba(255, 255, 255, .7); box-shadow: inset 0 0 0 1px rgba(11, 27, 58, .08); border-inline-start: 3px solid var(--mint); }
+.ind-note b { color: var(--navy); font-weight: 600; }

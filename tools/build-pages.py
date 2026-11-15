@@ -99,7 +99,7 @@ def page(key, file, title, desc, body, extra_js=''):
       </div>
       <nav class="ft-cols" aria-label="روابط الموقع">
         <div class="ft-col" style="--i:1"><h2>المنتج</h2><ul><li><a href="index.html#features">المزايا</a></li><li><a href="integrations.html">التكاملات</a></li><li><a href="pricing.html">الأسعار</a></li><li><a href="faq.html">الأسئلة الشائعة</a></li></ul></div>
-        <div class="ft-col" style="--i:2"><h2>الحلول</h2><ul><li><a href="industry-restaurants.html">المطاعم والكافيهات</a></li><li><a href="industry-clinics.html">العيادات والمراكز الطبية</a></li><li><a href="industry-ecommerce.html">المتاجر الإلكترونية</a></li><li><a href="solutions.html">كل الحلول</a></li></ul></div>
+        <div class="ft-col" style="--i:2"><h2>الاستخدامات</h2><ul><li><a href="industry-sales.html">فرق المبيعات</a></li><li><a href="industry-customer-service.html">خدمة العملاء</a></li><li><a href="industry-operations.html">فرق العمليات</a></li><li><a href="solutions.html">كل الأمثلة</a></li></ul></div>
         <div class="ft-col" style="--i:3"><h2>الشركة</h2><ul><li><a href="#">من نحن</a></li><li><a href="use-cases.html">حالات الاستخدام</a></li><li><a href="contact.html">تواصل معنا</a></li></ul></div>
         <div class="ft-col" style="--i:4"><h2>قانوني</h2><ul><li><a href="#">سياسة الخصوصية</a></li><li><a href="#">الشروط والأحكام</a></li><li><a href="#">سياسة ملفات الارتباط</a></li></ul></div>
       </nav>
@@ -174,18 +174,18 @@ TEAMS = [('sales', 'target', 'فرق المبيعات', 'وزّع العملاء
 SEC = dict((s[2], s) for s in SECTORS)
 SUPPORT = ('', '', 'laptop-angle', '50%', 'inbox', 'دعم وخدمات', 'أين وصل طلب الدعم؟', 'تم تحويله للفريق المختص', 0)
 CASES = [
-    ('cart', 'المتاجر الإلكترونية', 'حوّل المحادثات إلى طلبات', 'اربط متجرك على شوبيفاي أو ووكومرس أو بيغ كومرس، وأرسل تأكيدات الطلبات وتذكيرات السلات المتروكة عبر واتساب، ورُدّ على أسئلة المنتجات فوراً بالروبوت الذكي.', SEC['store']),
-    ('target', 'العقارات', 'استجب للعميل المهتم قبل غيرك', 'استقبل استفسارات الإعلانات من واتساب وإنستغرام في صندوق واحد، ووزّعها على الوسطاء تلقائياً، وتابع كل عميل حتى موعد المعاينة.', SEC['realestate']),
-    ('users', 'التعليم والتدريب', 'تواصل منظّم مع الطلاب وأولياء الأمور', 'أرسل تذكيرات المحاضرات والتسجيل والنتائج لآلاف المستفيدين في دقائق، ودع الروبوت يجيب عن الأسئلة المتكررة حول الرسوم والمواعيد.', SEC['education']),
-    ('calendar', 'العيادات والرعاية الصحية', 'مواعيد أقل غياباً ومراجعون أكثر رضا', 'ذكّر المراجعين بمواعيدهم، واستقبل طلبات الحجز من واتساب وإنستغرام، واترك ملاحظات داخلية بين موظفي الاستقبال دون أن يراها المراجع.', SEC['clinic']),
-    ('message', 'المطاعم والتجزئة', 'عملاء يعودون مرة بعد مرة', 'أطلق عروضك على قوائم عملائك المقسّمة، واستقبل الطلبات والحجوزات من قنواتك كلها، وانشر محتواك على حساباتك الاجتماعية من تقويم واحد.', SEC['cafe']),
+    ('cart', 'المتاجر الإلكترونية', 'أسئلة المنتجات وإشعارات الطلب', 'اربط متجرك على شوبيفاي أو ووكومرس أو بيغ كومرس، وأرسل تأكيدات الطلبات وتذكيرات السلات المتروكة عبر واتساب، ورُدّ على أسئلة المنتجات فوراً بالروبوت الذكي.', SEC['store']),
+    ('target', 'العقارات', 'توزيع استفسارات الإعلانات على الوسطاء', 'استقبل استفسارات الإعلانات من واتساب وإنستغرام في صندوق واحد، ووزّعها على الوسطاء تلقائياً، وتابع كل عميل حتى موعد المعاينة.', SEC['realestate']),
+    ('users', 'التعليم والتدريب', 'تواصل منظّم مع الطلاب وأولياء الأمور', 'أرسل تذكيرات المحاضرات والتسجيل والنتائج لقوائم الطلاب والمتدربين، ودع الروبوت يجيب عن الأسئلة المتكررة حول الرسوم والمواعيد.', SEC['education']),
+    ('calendar', 'العيادات والرعاية الصحية', 'تذكيرات المواعيد وطلبات الحجز', 'ذكّر المراجعين بمواعيدهم، واستقبل طلبات الحجز من واتساب وإنستغرام، واترك ملاحظات داخلية بين موظفي الاستقبال دون أن يراها المراجع.', SEC['clinic']),
+    ('message', 'المطاعم والتجزئة', 'الطلبات والحجوزات والعروض', 'أطلق عروضك على قوائم عملائك المقسّمة، واستقبل الطلبات والحجوزات من قنواتك كلها، وانشر محتواك على حساباتك الاجتماعية من تقويم واحد.', SEC['cafe']),
     ('inbox', 'الشركات الخدمية والدعم', 'خدمة عملاء سريعة ومنظّمة', 'اجمع طلبات الدعم من كل القنوات في صندوق واحد، ووزّعها على الفريق، وتابع زمن الاستجابة وأداء كل موظف من التقارير.', SUPPORT),
 ]
 rows = '\n      '.join('''<article class="uc">
-        <div class="uc-txt"><span class="uc-n" aria-hidden="true">%02d</span><span class="uc-tag"><span data-icon="%s" data-size="15"></span>%s</span><h3>%s</h3><p>%s</p><a href="industry-%s.html" class="link">عرض التفاصيل <span data-icon="arrow" data-size="16"></span></a></div>
+        <div class="uc-txt"><span class="uc-n" aria-hidden="true">%02d</span><span class="uc-tag"><span data-icon="%s" data-size="15"></span>%s</span><h3>%s</h3><p>%s</p><a href="industry-%s.html" class="link">شاهد المثال <span data-icon="arrow" data-size="16"></span></a></div>
         %s
       </article>''' % (i + 1, c[0], c[1], c[2], c[3], SLUG_BY_PHOTO.get(c[4][2], 'customer-service'), photo(c[4], caption=False, tag='div')) for i, c in enumerate(CASES))
-body = hero('حالات الاستخدام', ['حلول تواصل تناسب', 'طبيعة نشاطك'], 'سواء كنت تدير متجراً إلكترونياً أو عيادة أو مكتباً عقارياً، يساعدك ClickChat على الرد أسرع، وأتمتة المتابعة، وتحويل المحادثات إلى نتائج.',
+body = hero('حالات الاستخدام', ['ما الذي يمكنك', 'فعله بـ ClickChat'], 'أمثلة مقترحة من أنشطة مختلفة لما يمكن تنفيذه من اليوم الأول: الرد على العملاء من صندوق واحد، وأتمتة المتابعة، وإرسال التذكيرات والعروض. ClickChat منصة عامة تتكيّف مع طريقة عملك.',
             '<a href="index.html#top" class="btn btn-mint">ابدأ مجاناً %s</a>' % ARROW) + '''
 
 <section class="chapter white" aria-labelledby="uc-title">
@@ -193,12 +193,12 @@ body = hero('حالات الاستخدام', ['حلول تواصل تناسب', 
     <div class="sec-copy wide split" data-head>
       <div><p class="eyebrow" data-rv>القطاعات</p>
       <h2 id="uc-title" class="t-h2">%s</h2></div>
-      <p class="t-lead" data-rv>اختر قطاعك لترى أمثلة عملية على ما يمكنك تنفيذه من اليوم الأول.</p>
+      <p class="t-lead" data-rv>ليست قائمة بالقطاعات التي نتخصص فيها، بل أفكار عملية تأخذ منها ما يناسبك.</p>
     </div>
     <div style="margin-top:clamp(24px,3vw,40px)">
       %s
     </div>
-    <p class="t-small">الصور والمحادثات فوقها توضيحية.</p>
+    <p class="t-small">أمثلة مقترحة؛ الصور والمحادثات فوقها توضيحية.</p>
   </div>
 </section>
 
@@ -217,8 +217,8 @@ body = hero('حالات الاستخدام', ['حلول تواصل تناسب', 
   </div>
 </section>
 
-%s''' % (lines(['كيف تستفيد الشركات', 'من ClickChat'], 'data-rv', False), rows, lines(['جاهز للعمل', 'في دقائق'], 'data-rv', False),
-         cta(['لم تجد', 'قطاعك؟'], 'المنصة مرنة وتناسب أي نشاط يتواصل مع عملائه بالمحادثة. أخبرنا عن احتياجك وسنريك كيف.'))
+%s''' % (lines(['أمثلة مقترحة', 'من أنشطة مختلفة'], 'data-rv', False), rows, lines(['جاهز للعمل', 'في دقائق'], 'data-rv', False),
+         cta(['نشاطك', 'مختلف؟'], 'إذا كان عملك يعتمد على المحادثة مع العملاء فالأرجح أن ClickChat يناسبك. جرّبه مجاناً، أو أخبرنا عن احتياجك وسنقول لك بوضوح إن كان مناسباً.'))
 page('use-cases', 'use-cases.html', 'حالات الاستخدام', 'Navy Canvas inner page: six use cases. Live copy from clickchat.sa/use-cases.', body)
 
 # ------------------------------------------------------------------ 3. Integrations
@@ -394,8 +394,39 @@ def split2(t):
 SEC_BY_SLUG = dict((SLUG_BY_PHOTO[s[2]], s) for s in SECTORS)
 CH = ''.join('<span class="lg c-%s" data-lg="%s" title="%s"></span>' % (k, k, n) for k, n in (('wa', 'واتساب'), ('ig', 'إنستغرام'), ('fb', 'ماسنجر'), ('sms', 'رسائل SMS'), ('mail', 'البريد الإلكتروني')))
 
+# ------------------------------------------------------------------ realistic framing
+# ClickChat is a general conversation platform, not a product built for each sector. The sector pages are suggested
+# examples: the wording says so, promised outcomes become plain capabilities, and each sector page names the system
+# ClickChat works beside rather than replaces. Applied to the captured data so a fresh capture keeps it.
+SYS = {  # what each sector keeps using; ClickChat does not replace it
+    'restaurants': 'نظام نقاط البيع أو تطبيقات التوصيل',
+    'clinics': 'نظام إدارة العيادة والملفات الطبية',
+    'real-estate': 'نظام إدارة العقارات أو منصات الإعلانات',
+    'ecommerce': 'منصة متجرك، بل يتصل بها ليرسل إشعارات الطلب',
+    'car-showrooms': 'نظام إدارة المعرض أو جهات التمويل',
+    'salons': 'نظام الحجوزات أو الكاشير',
+    'education': 'نظام التسجيل أو منصة التعلم',
+    'recruitment': 'أنظمة الاستقدام الرسمية أو نظامك الداخلي',
+}
+TITLE_FIX = {  # headlines that promised an outcome
+    'clinics': 'رسائل المرضى وتذكيرات المواعيد في مكان واحد',
+    'salons': 'حجوزات الصالون ورسائله في مكان واحد',
+    'ecommerce': 'أسئلة العملاء وإشعارات الطلب في مكان واحد',
+    'sales': 'رد أسرع على كل عميل محتمل',
+}
+for slug, v in IND.items():
+    b = v['blocks']
+    b['faqs']['title'] = 'أسئلة متوقعة'   # was «أسئلة يطرحها عملاؤنا»: implied existing customers in each sector
+    if v['category'] == 'sector':
+        b['hero']['badge'] = 'مثال استخدام · ' + v['name']
+        b['use_cases']['badge'] = 'أفكار للاستخدام'
+        b['use_cases']['title'] = 'كيف يمكن أن تستخدمه'
+        b['use_cases']['subtitle'] = 'أفكار تطبّقها بأدوات المنصة نفسها: صندوق الوارد المشترك، والردود الآلية، وقوالب واتساب، والحملات.'
+    if slug in TITLE_FIX: b['hero']['title'] = TITLE_FIX[slug]
+
 for slug, v in IND.items():
     b = v['blocks']; h = b['hero']; name = fx(v['name'])
+    note = ('<p class="ind-note" data-in><b>مثال مقترح.</b> ClickChat منصة محادثات عامة وليس نظاماً متخصصاً لقطاع %s: يتولى رسائل عملائك وتنظيم فريقك، ولا يحل محل %s.</p>' % (name, SYS[slug])) if slug in SYS else ''
     tpls = b['templates']['items']
     if slug in SEC_BY_SLUG:
         s = list(SEC_BY_SLUG[slug]); t = next((x for x in tpls if x.get('customer')), None)
@@ -412,10 +443,11 @@ for slug, v in IND.items():
       <h1 id="page-title" class="t-hero">%s</h1>
       <p class="t-lead" data-in>%s</p>
       <div class="cta-row" data-in><a href="index.html#top" class="btn btn-mint">%s %s</a><a href="contact.html" class="btn btn-line">%s</a></div>
+      %s
     </div>
     <div class="ind-visual" data-in>%s</div>
   </div>
-</section>''' % (name, fx(h['badge']), lines(split2(fx(h['title']))), fx(h['subtitle']), fx(h['primary_label']), ARROW, fx(h['secondary_label']), visual)
+</section>''' % (name, fx(h['badge']), lines(split2(fx(h['title']))), fx(h['subtitle']), fx(h['primary_label']), ARROW, fx(h['secondary_label']), note, visual)
 
     pp = b['pain_points']
     pains = '''<section class="chapter rise" aria-labelledby="pp-title">
@@ -497,7 +529,7 @@ def ex_media(i, slug):
             '<span class="ph-tag"><span data-icon="%s" data-size="15"></span>%s</span>'
             '<ul class="ex-chips" aria-hidden="true">%s</ul>'
             '<span class="ex-cap"><span class="ph-q" aria-hidden="true">%s</span><span class="ph-r" aria-hidden="true"><span data-icon="check" data-size="13"></span>%s</span>'
-            '<b>%s</b><small>%s</small><span class="ex-go">عرض التفاصيل <span data-icon="arrow" data-size="16"></span></span></span></a>'
+            '<b>%s</b><small>%s</small><span class="ex-go">شاهد المثال <span data-icon="arrow" data-size="16"></span></span></span></a>'
             % (slug, ' on' if i == 0 else '', s[2], ' class="dim"' if s[8] else '', s[3], s[4], s[5], chips, q, r, fx(v['name']), fx(v['short_description'])))
 tabs = ''.join('<button type="button" class="ex-tab%s" role="tab" aria-selected="%s" data-ex-tab><span class="num">%02d</span><b>%s</b><span class="ex-arr" aria-hidden="true"><span data-icon="arrow" data-size="18"></span></span></button>'
                % (' on' if i == 0 else '', 'true' if i == 0 else 'false', i + 1, fx(IND[s]['name'])) for i, s in enumerate(SECTOR_SLUGS))
@@ -505,7 +537,7 @@ kinds = ['dark', 'violet', 'mint']
 doors = '\n      '.join('''<article class="pn %s%s">
         <button type="button" class="pn-tab" aria-expanded="%s"><span class="num">%02d</span>%s<b>%s</b></button>
         <div class="pn-body">
-          <div class="pn-txt">%s<h3>%s</h3><p>%s</p><a href="industry-%s.html" class="link">عرض التفاصيل <span data-icon="arrow" data-size="16"></span></a></div>
+          <div class="pn-txt">%s<h3>%s</h3><p>%s</p><a href="industry-%s.html" class="link">شاهد المثال <span data-icon="arrow" data-size="16"></span></a></div>
           <div class="mini"><ul class="tm-list">%s</ul></div>
         </div>
       </article>''' % (kinds[i], ' on' if i == 0 else '', 'true' if i == 0 else 'false', i + 1, ic(IND[t[0]]['icon'], 24), t[2],
@@ -516,7 +548,7 @@ body = '''<section class="phero sol" aria-labelledby="page-title">
     <div>
       <p class="pill" data-in><b>✦</b>حلولنا</p>
       <h1 id="page-title" class="t-hero">%s</h1>
-      <p class="t-lead" data-in style="margin-top:18px;max-width:34rem">اختر قطاعك أو فريقك لترى كيف يساعدك ClickChat في الرد على العملاء وتنظيم العمل.</p>
+      <p class="t-lead" data-in style="margin-top:18px;max-width:34rem">ClickChat منصة محادثات عامة وليس نظاماً مخصصاً لقطاع واحد. هذه أمثلة مقترحة من أنشطة وفرق مختلفة لتتخيل كيف يناسب عملك.</p>
     </div>
     <div class="fan" aria-hidden="true" data-in>
       <img src="assets/photos/clinic.jpg" alt="" width="1200" height="800"><img src="assets/photos/store.jpg" alt="" width="1200" height="800"><img src="assets/photos/cafe.jpg" alt="" width="1200" height="800">
@@ -526,30 +558,33 @@ body = '''<section class="phero sol" aria-labelledby="page-title">
 
 <section class="chapter rise ex" aria-labelledby="by-sector">
   <div class="wrap">
-    <div class="ex-head"><h2 id="by-sector" class="ch-title">حسب القطاع</h2><div class="ex-prog" aria-hidden="true"><i data-ex-bar></i></div></div>
+    <div class="ex-head"><h2 id="by-sector" class="ch-title">أمثلة حسب النشاط</h2><div class="ex-prog" aria-hidden="true"><i data-ex-bar></i></div></div>
     <div class="ex-grid" data-ex>
       <div class="ex-tabs" role="tablist" aria-label="القطاعات">%s</div>
       <div class="ex-stage">%s</div>
     </div>
-    <p class="t-small" style="margin-top:16px;color:rgba(255,255,255,.45)">الصور والمحادثات توضيحية.</p>
+    <p class="t-small" style="margin-top:16px;color:rgba(255,255,255,.45)">أمثلة مقترحة؛ الصور والمحادثات توضيحية.</p>
   </div>
 </section>
 
 <section class="chapter mist" aria-labelledby="by-team">
   <div class="wrap">
-    <h2 id="by-team" class="ch-title">حسب فريق العمل</h2>
+    <h2 id="by-team" class="ch-title">أمثلة حسب الفريق</h2>
     <div class="reel three" data-reel>
       %s
     </div>
   </div>
 </section>
 
-%s''' % (lines(['حلول مصممة', 'لقطاعك ولفريقك']), tabs, ''.join(ex_media(i, s) for i, s in enumerate(SECTOR_SLUGS)), doors,
-         cta(['لم تجد', 'قطاعك؟'], 'المنصة تناسب أي نشاط يتواصل مع عملائه عبر واتساب. تحدث معنا ونساعدك في الإعداد.'))
+%s''' % (lines(['منصة واحدة،', 'وأمثلة لطريقة استخدامها']), tabs, ''.join(ex_media(i, s) for i, s in enumerate(SECTOR_SLUGS)), doors,
+         cta(['نشاطك', 'مختلف؟'], 'إذا كان عملك يعتمد على المحادثة مع العملاء فالأرجح أن ClickChat يناسبك. جرّبه مجاناً، أو أخبرنا عن احتياجك وسنقول لك بوضوح إن كان مناسباً.'))
 page('solutions', 'solutions.html', 'حلولنا', 'Navy Canvas inner page: sector explorer and team doors. Live copy from clickchat.sa/industries.', body)
 
 # ------------------------------------------------------------------ home: point the header at the pages
 m = re.search(r'(<nav aria-label="الرئيسية">)(.*?)(</nav>)', home, re.S)
-new = m.group(1) + '\n      ' + nav('home') + '\n    ' + m.group(3)
-if m.group(0) != new: wr('index.html', home.replace(m.group(0), new, 1))
+if m:
+    new = m.group(1) + '\n      ' + nav('home') + '\n    ' + m.group(3)
+    if m.group(0) != new: wr('index.html', home.replace(m.group(0), new, 1))
+else:   # the phone hero brought its own header markup: the home page keeps it
+    print('home header left as it is')
 print('built 6 pages + %d sector pages' % len(IND))
