@@ -99,12 +99,14 @@
 
   /* ================= HERO ================= */
   const hero = $('[data-hero]'), stage = $('[data-stage]'), lap = $('[data-lap]'), screen = $('[data-screen]'), ui = $('[data-ui]');
-  const lines = $('[data-lines]'), cards = $$('.card', stage), dots = $('[data-dots]'), sheet = $('[data-sheet]'), mchips = $$('[data-mchips] li');
-  const heroInbox = Inbox($('[data-inbox="hero"]'), 7); heroInbox.seed(['ig', 'fb', 'mail', 'sms', 'wa', 'ig', 'fb']);
+  const lines = $('[data-lines]'), cards = stage ? $$('.card', stage) : [], dots = $('[data-dots]'), sheet = $('[data-sheet]'), mchips = $$('[data-mchips] li');
+  const OLD_HERO = !!stage;   /* the laptop hero was replaced by the phone hero (hero-phone.js); its code below only runs if that markup is present */
+  const heroInbox = OLD_HERO ? Inbox($('[data-inbox="hero"]'), 7) : null; if (OLD_HERO) heroInbox.seed(['ig', 'fb', 'mail', 'sms', 'wa', 'ig', 'fb']);
   const ANCH = V === 'c' ? { wa: 'l', fb: 'l', ig: 'l', sms: 't', mail: 't' } : { wa: 'r', ig: 'r', mail: 'r', fb: 'l', sms: 'l' };
   let wires = {}, introDone = !motion;
 
   function layoutHero() {
+    if (!OLD_HERO) return;
     // the inbox is drawn at a fixed size and scaled into the laptop screen; phones get a narrower, simpler layout (see "mlap" in sections.css)
     const sc = 'scale(' + (screen.clientWidth / (!desktop() && innerWidth < 768 ? 300 : 640)) + ')';
     ui.style.transform = desktop() ? sc : ''; ui.style.setProperty('--ui-s', sc);
@@ -140,7 +142,7 @@
     if (w && desktop()) { retrigger(w.card, 'ping'); launchHero(w.p, COL[ch], 1.15, () => arriveHero(ch)); }
     else { const c = mchips[ORDER.indexOf(ch)]; if (c) retrigger(c, 'ping'); setTimeout(() => arriveHero(ch), 450); }
   }
-  if (!reduce) whileVisible(hero, 1900, sendHero);
+  if (!reduce && OLD_HERO) whileVisible(hero, 1900, sendHero);
 
   /* ================= CHANNELS → ONE INBOX ================= */
   const grid = $('[data-chgrid]'), chsvg = $('[data-chlines]'), index = $('[data-chindex]'), items = $$('.ch-item', index);
@@ -198,6 +200,7 @@
   else {
     root.classList.remove('anim');   // same task as the tweens below, so nothing paints in between and GSAP reads true end values
     const dk = desktop();
+    if (OLD_HERO) {
     const tl = G.timeline({ defaults: { ease: 'power3.out' }, onComplete: () => { introDone = true; } });
     // 1–2  the light environment, then the navy plane
     if (V === 'b') tl.from(sheet, { yPercent: 100, duration: 1.25, ease: 'power4.out' }, 0);
@@ -246,6 +249,7 @@
     if (dk) {
       G.to(lap, { yPercent: -6, ease: 'none', scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: 0.5 } });
       cards.forEach((c, i) => G.to(c, { yPercent: -40 - i * 22, ease: 'none', scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: 0.5 } }));
+    }
     }
 
     // metrics: numbers rise out of the rule, one after another

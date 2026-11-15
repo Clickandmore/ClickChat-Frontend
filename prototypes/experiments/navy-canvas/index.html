@@ -4,113 +4,86 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Navy Canvas · experiment | ClickChat كليك شات</title>
-<meta name="description" content="Navy Canvas experiment: two hero compositions (B Stage Sheet, C The Column), metrics and the channels-to-inbox section. Live-site copy; product UI is illustrative.">
+<meta name="description" content="Navy Canvas: phone hero with a three-scene scroll story, metrics and the sections of the home page. Live-site copy; product UI is illustrative.">
 <link rel="icon" type="image/svg+xml" href="../../../ClickChat-Brand-Identity/ClickChat-Brand-Identity/02-App-Icons-and-Favicons/favicon.svg">
 <script>
   /* hero variant: index.html = B, index.html?v=c (or c.html) = C */
   (function () {
     var d = document.documentElement, v = /[?&]v=c\b/.test(location.search) ? 'c' : 'b';
     d.setAttribute('data-v', v);
-    d.classList.add('mlap');   // laptop frame on phones and tablets; delete this line to return to the plain inbox panel
-    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) d.classList.add('anim');
+    // (the 'mlap' phone-layout class belonged to the laptop hero and is no longer set)
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) { d.classList.add('anim'); if (!/[?&]still\b/.test(location.search)) d.classList.add('pa-anim'); }   // pa-anim drives the phone hero
   })();
 </script>
 <link rel="stylesheet" href="../../assets/brand-fonts.css">
 <link rel="stylesheet" href="../../assets/base.css">
 <link rel="stylesheet" href="navy-canvas.css">
 <link rel="stylesheet" href="sections.css">
+<link rel="stylesheet" href="hero-phone.css">
 </head>
 <body>
 <a class="skip-link" href="#main">تخطَّ إلى المحتوى</a>
 
 <!-- Header: the live site's menu -->
+<div class="nc-phone nc-hd">
 <header class="hd" data-header>
   <div class="hd-in">
-    <a href="#top" class="hd-logo" aria-label="ClickChat كليك شات — الرئيسية"><img src="../../../ClickChat-Brand-Identity/ClickChat-Brand-Identity/01-Logo/01-horizontal-bilingual/SVG/clickchat-horizontal-color.svg" alt="ClickChat كليك شات"></a>
-    <nav aria-label="الرئيسية">
+    <a href="#top" class="hd-logo" aria-label="ClickChat كليك شات — الرئيسية"><img src="../../../ClickChat-Brand-Identity/ClickChat-Brand-Identity/01-Logo/01-horizontal-bilingual/SVG/clickchat-horizontal-reversed.svg" alt="ClickChat كليك شات"></a>
+    <nav aria-label="الرئيسية" data-nav>
       <a href="index.html#features">المزايا</a><a href="solutions.html">حلولنا</a><a href="use-cases.html">حالات الاستخدام</a><a href="integrations.html">التكاملات</a><a href="pricing.html">الأسعار</a><a href="faq.html">الأسئلة الشائعة</a><a href="contact.html">تواصل معنا</a>
     </nav>
     <div class="hd-act">
-      <a href="#" class="hd-lang" lang="en">AR</a>
+      <a href="#" class="hd-lang" lang="en"><span data-icon="globe" data-size="16"></span>AR</a>
+      <a href="#" class="hd-login">تسجيل الدخول</a>
       <a href="#" class="btn btn-mint btn-sm">ابدأ الآن</a>
     </div>
   </div>
 </header>
+</div>
 
 <main id="main">
-<!-- ============ HERO (B: Stage Sheet · C: The Column) ============ -->
-<section class="hero" id="top" aria-labelledby="hero-title" data-hero>
-  <svg class="geo" viewBox="0 0 1000 420" aria-hidden="true" data-geo><path d="M60 10H940a50 50 0 0 1 50 50V300a50 50 0 0 1-50 50H220l-90 60v-60H60a50 50 0 0 1-50-50V60a50 50 0 0 1 50-50Z"/></svg>
-
-  <div class="copy">
-    <p class="pill" data-in="fade"><b>✦</b>مدعوم بالذكاء الاصطناعي ومتوافق مع واجهات ميتا الرسمية</p>
-    <h1 id="hero-title" class="t-hero"><span class="ln"><span class="in" data-in="line">كل محادثات</span></span> <span class="ln"><span class="in" data-in="line">عملائك</span></span> <span class="ln"><span class="in mark" data-in="line" data-mark>في مكان واحد</span></span></h1>
-    <p class="t-lead" data-in="fade">اجمع واتساب وماسنجر وإنستغرام في صندوق وارد واحد، ورُدّ تلقائياً بالذكاء الاصطناعي، وأطلق حملاتك الجماعية، وحوّل المحادثات إلى مبيعات — من منصة واحدة.</p>
-    <div class="cta-row" data-in="fade">
-      <a href="#" class="btn btn-mint">ابدأ مجاناً <span data-icon="arrow" data-size="18"></span></a>
-      <a href="#" class="btn btn-line">تصفح الباقات</a>
-    </div>
-    <ul class="trust" data-in="fade">
-      <li><span data-icon="check" data-size="15"></span>بدون بطاقة ائتمانية</li>
-      <li><span data-icon="check" data-size="15"></span>تجربة مجانية حتى 14 يوماً</li>
-      <li><span data-icon="check" data-size="15"></span>واجهات ميتا الرسمية</li>
+<!-- ============ HERO: one phone, five channels, and a three-scene scroll story (styles: hero-phone.css · script: hero-phone.js).
+     The phone picture is generated (Figma AI) and cut out of its backdrop; screen contents are illustrative. ============ -->
+<div class="nc-phone">
+<div class="pa-pin" data-pin>
+<section class="pa on-navy" id="top" aria-labelledby="hero-title" data-hero>
+  <div class="pa-set" aria-hidden="true" data-set><i></i><i></i></div>
+  <div class="p-copy"><p class="pill" data-in="fade"><b>✦</b>مدعوم بالذكاء الاصطناعي ومتوافق مع واجهات ميتا الرسمية</p><h1 id="hero-title" class="t-hero pa-title"><span class="ln"><span class="in" data-in="line">كل محادثات عملائك</span></span> <span class="ln"><span class="in mark" data-in="line" data-mark>في مكان واحد</span></span></h1><p class="t-lead" data-in="fade">اجمع واتساب وماسنجر وإنستغرام في صندوق وارد واحد، ورُدّ تلقائياً بالذكاء الاصطناعي، وأطلق حملاتك الجماعية، وحوّل المحادثات إلى مبيعات — من منصة واحدة.</p><div class="cta-row" data-in="fade"><a href="#" class="btn btn-mint">ابدأ مجاناً <span data-icon="arrow" data-size="18"></span></a><a href="#" class="btn btn-line">تصفح الباقات</a></div><ul class="trust" data-in="fade"><li><span data-icon="check" data-size="15"></span>بدون بطاقة ائتمانية</li><li><span data-icon="check" data-size="15"></span>تجربة مجانية حتى 14 يوماً</li><li><span data-icon="check" data-size="15"></span>واجهات ميتا الرسمية</li></ul></div>
+  <div class="pa-shot" data-shot>
+    <p class="sr-only">صورة توضيحية لواجهة صندوق الوارد في ClickChat: قائمة محادثات من واتساب وإنستغرام وماسنجر، ومحادثة مفتوحة فيها رد آلي بالذكاء الاصطناعي، ومحادثة مسندة إلى أحد أعضاء الفريق.</p>
+    <img src="img/phone-cutout.png" alt="" width="1536" height="1024">
+    <div class="pa-plane" data-plane><div data-screen></div><div class="pa-off" data-off></div></div>
+    <div class="pa-sweep" data-sweep aria-hidden="true"></div>
+    <svg class="pa-wires" aria-hidden="true" data-wires></svg>
+    <ul class="pa-cards" aria-hidden="true" data-cards>
+      <li data-ch="wa" style="--c:var(--wa)"><span class="lg" data-lg="wa"></span><div><b>واتساب للأعمال</b><span data-msg>السلام عليكم، عندكم توصيل اليوم؟</span></div></li>
+      <li data-ch="fb" style="--c:var(--fb)"><span class="lg" data-lg="fb"></span><div><b>فيسبوك ماسنجر</b><span data-msg>متى يتوفر العرض؟</span></div></li>
+      <li data-ch="sms" style="--c:var(--sms)"><span class="lg" data-lg="sms"></span><div><b>الرسائل النصية</b><span data-msg>وصلني تنبيه الطلب، شكراً</span></div></li>
+      <li data-ch="mail" style="--c:var(--mail)"><span class="lg" data-lg="mail"></span><div><b>البريد الإلكتروني</b><span data-msg>أرغب بمعرفة طرق الدفع المتاحة</span></div></li>
+      <li data-ch="ig" style="--c:var(--ig)"><span class="lg" data-lg="ig"></span><div><b>رسائل إنستغرام</b><span data-msg>كم سعر عطر العود الملكي؟</span></div></li>
     </ul>
   </div>
-
-  <div class="stage" data-stage>
-    <i class="echo e2" aria-hidden="true"></i><i class="echo e1" aria-hidden="true"></i>
-    <div class="sheet" data-sheet></div>
-    <div class="dots" aria-hidden="true" data-dots><i></i><i></i><i></i></div>
-    <p class="sr-only">مشهد توضيحي: رسائل من واتساب وماسنجر وإنستغرام والرسائل النصية والبريد الإلكتروني تصل عبر خطوط إلى صندوق وارد واحد على شاشة حاسوب محمول، ثم تُسند كل محادثة إلى أحد أعضاء الفريق.</p>
-
-    <ul class="m-chips" aria-hidden="true" data-mchips>
-      <li class="c-wa" data-lg="wa"></li><li class="c-fb" data-lg="fb"></li><li class="c-ig" data-lg="ig"></li><li class="c-sms" data-lg="sms"></li><li class="c-mail" data-lg="mail"></li>
-    </ul>
-
-    <svg class="lines" aria-hidden="true" data-lines></svg>
-
-    <div class="lap" data-lap data-in="lap">
-      <div class="lap-shadow"></div>
-      <img class="lap-img" src="../../assets/photos/laptop.jpg" alt="" width="1316" height="890">
-      <div class="lap-screen" data-screen>
-        <div class="lap-ui ui" data-ui aria-hidden="true">
-          <div class="ui-bar">
-            <img src="../../../ClickChat-Brand-Identity/ClickChat-Brand-Identity/01-Logo/03-icon/SVG/clickchat-icon-color.svg" alt="">
-            <span>صندوق الوارد</span><span class="ui-tag">كل القنوات</span><span class="ui-live">مباشر</span>
-          </div>
-          <div class="ui-body">
-            <div class="ui-rail"><span class="on" data-icon="inbox" data-size="15"></span><span data-icon="users" data-size="15"></span><span data-icon="megaphone" data-size="15"></span><span data-icon="bot" data-size="15"></span><span data-icon="chart" data-size="15"></span></div>
-            <ul class="ui-list" data-inbox="hero"></ul>
-            <div class="ui-thread">
-              <div class="ui-th-head"><span class="av">ن<span class="lg c-wa" data-lg="wa"></span></span><b>نورة</b><span class="ui-tag">واتساب للأعمال</span><span class="who on" style="margin-inline-start:auto">سارة</span></div>
-              <!-- the live site's own demo conversation -->
-              <div class="ui-th-body">
-                <p class="bub c">السلام عليكم، عندكم توصيل اليوم؟</p>
-                <p class="bub t"><span class="ai"><span data-icon="sparkles" data-size="9"></span>رد آلي</span>وعليكم السلام 🌿 نعم! اطلب قبل الساعة 4 ويوصلك اليوم.</p>
-                <p class="bub c">ممتاز، أبي واحد 👍</p>
-                <p class="bub t">تم تجهيز طلبك 🎉 هذا رابط الدفع: <span class="num" lang="en">pay.link/…</span></p>
-              </div>
-              <div class="ui-compose">اكتب رسالة…<i></i></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card c-wa" data-ch="wa" data-in="card" aria-hidden="true"><span class="lg" data-lg="wa"></span><div><b>واتساب للأعمال</b><span>السلام عليكم، عندكم توصيل اليوم؟</span></div></div>
-    <div class="card c-ig" data-ch="ig" data-in="card" aria-hidden="true"><span class="lg" data-lg="ig"></span><div><b>رسائل إنستغرام</b><span>كم سعر عطر العود الملكي؟</span></div></div>
-    <div class="card c-mail" data-ch="mail" data-in="card" aria-hidden="true"><span class="lg" data-lg="mail"></span><div><b>البريد الإلكتروني</b><span>أرغب بمعرفة طرق الدفع المتاحة</span></div></div>
-    <div class="card c-fb" data-ch="fb" data-in="card" aria-hidden="true"><span class="lg" data-lg="fb"></span><div><b>فيسبوك ماسنجر</b><span>متى يتوفر العرض؟</span></div></div>
-    <div class="card c-sms" data-ch="sms" data-in="card" aria-hidden="true"><span class="lg" data-lg="sms"></span><div><b>الرسائل النصية</b><span>وصلني تنبيه الطلب، شكراً</span></div></div>
-
-    <ul class="trust" data-in="fade">
-      <li><span data-icon="check" data-size="15"></span>بدون بطاقة ائتمانية</li>
-      <li><span data-icon="check" data-size="15"></span>تجربة مجانية حتى 14 يوماً</li>
-      <li><span data-icon="check" data-size="15"></span>واجهات ميتا الرسمية</li>
-    </ul>
-    <p class="note" data-in="fade">عرض توضيحي ببيانات افتراضية</p>
+  <!-- scroll story: two more scenes. The phone travels to a new place for each and its screen changes. -->
+  <div class="pa-slide s1" data-slide="1">
+    <p class="pa-eye is-ai"><span data-icon="sparkles" data-size="15"></span>الذكاء الاصطناعي</p>
+    <h2 class="pa-h2">روبوتات دردشة ذكية</h2>
+    <p class="t-lead">درّب الروبوت على مستنداتك وأسئلتك الشائعة ليجيب عملاءك فوراً وبدقة وبأي لغة.</p>
+    <p class="pa-sub"><b>سرعة في الرد</b>ردود جاهزة وروبوت ذكي وتوزيع تلقائي يختصر زمن الرد على عملائك.</p>
   </div>
+  <div class="pa-slide s2a" data-slide="2">
+    <p class="pa-eye is-camp"><span data-icon="megaphone" data-size="15"></span>الحملات</p>
+    <h2 class="pa-h2">حملات جماعية</h2>
+    <p class="t-lead">أرسل حملات واتساب ورسائل نصية مخصّصة لآلاف جهات الاتصال مع جدولة ذكية.</p>
+  </div>
+  <div class="pa-slide s2b" data-slide="2">
+    <p class="pa-eye"><span data-icon="chart" data-size="15"></span>التحليلات والتقارير</p>
+    <p class="t-lead">تابع معدلات التسليم والقراءة والرد وأداء الفريق ونتائج الحملات.</p>
+  </div>
+  <ol class="pa-dots" aria-hidden="true" data-dots><li class="on"></li><li></li><li></li></ol>
+  <p class="p-note">عرض توضيحي ببيانات افتراضية</p>
 </section>
+</div>
+</div>
 
 <!-- ============ METRICS (live) ============ -->
 <section class="metrics" aria-label="أرقام">
@@ -580,8 +553,7 @@
 
 <nav class="proto-switch" aria-label="Prototype">
   <a href="../../index.html">Overview</a>
-  <a href="index.html" data-sw="b">Navy Canvas · B Stage Sheet</a>
-  <a href="index.html?v=c" data-sw="c">C The Column</a>
+  <a href="index.html" aria-current="page">Navy Canvas</a>
 </nav>
 
 <script src="../../assets/icons.js"></script>
@@ -591,5 +563,6 @@
 <script src="navy-canvas.js"></script>
 <script src="sections.js"></script>
 <script src="menu.js"></script>
+<script src="hero-phone.js"></script>
 </body>
 </html>
