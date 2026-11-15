@@ -1,4 +1,4 @@
-# This repository publishes the Navy Canvas marketing-site prototype only.
+# This repository publishes the marketing-site prototypes (Navy Canvas, and on this branch Direction 4.1 "Living Universe").
 # Everything in the working folder is ignored unless it is listed below (the prototype and the shared files it loads).
 /*
 !/.gitignore
@@ -12,6 +12,9 @@
 !/prototypes/experiments/navy-canvas/
 /prototypes/experiments/navy-canvas/_backup/
 
+# Direction 4.1 "Living Universe" (single page)
+!/prototypes/direction-4-1-living-universe.html
+
 # shared files the prototype loads: fonts, base styles, icons, sector photos (JPG only), channel logos
 !/prototypes/assets/
 /prototypes/assets/*
@@ -21,6 +24,11 @@
 !/prototypes/assets/logos/
 !/prototypes/assets/photos/
 /prototypes/assets/photos/*.png
+# files Direction 4.1 loads: the 3D hero icon scene, the Tailwind config and the hero posters
+!/prototypes/assets/hero-icon-scene.js
+!/prototypes/assets/tailwind-config.js
+!/prototypes/assets/universe-logo-poster-desktop.jpg
+!/prototypes/assets/universe-logo-poster-mobile.jpg
 
 # brand kit: only the SVG logos, the favicon and the patterns the pages reference
 !/ClickChat-Brand-Identity/

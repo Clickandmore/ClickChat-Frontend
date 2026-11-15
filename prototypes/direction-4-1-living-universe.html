@@ -1,0 +1,975 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Direction 4.1 · Living Universe | ClickChat كليك شات</title>
+<meta name="description" content="كليك شات منصة سعودية تجمع واتساب وماسنجر وإنستغرام في صندوق وارد واحد، مع روبوتات دردشة بالذكاء الاصطناعي وأتمتة وحملات جماعية.">
+<link rel="icon" type="image/svg+xml" href="../ClickChat-Brand-Identity/ClickChat-Brand-Identity/02-App-Icons-and-Favicons/favicon.svg">
+<link rel="stylesheet" href="assets/brand-fonts.css">
+<link rel="stylesheet" href="assets/base.css">
+<script src="https://cdn.tailwindcss.com/3.4.1"></script>
+<script src="assets/tailwind-config.js"></script>
+<script src="assets/icons.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>document.documentElement.classList.add('js');</script>
+<script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/" } }</script>
+<style>
+  :root { --focus: #12C99B; --space: #040B18; }
+  html, body { background: #040B18; }
+  body { color: #F5F8FB; }
+  .no-webgl body { background: radial-gradient(60% 50% at 30% 45%, rgba(18,201,155,.16), transparent 70%), radial-gradient(120% 90% at 30% 35%, #0B1B3A, #040B18) fixed; }
+  #universe { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 0; transition: opacity .4s; }
+  .solid { position: relative; z-index: 10; background: var(--space); }
+  .universe-poster { position: absolute; inset: 0; z-index: 0; pointer-events: none; background: url("assets/universe-logo-poster-desktop.jpg") center top / cover no-repeat; transition: opacity .9s ease; }
+  @media (max-width: 767px) { .universe-poster { background-image: url("assets/universe-logo-poster-mobile.jpg"); background-size: 100% auto; } }
+  .universe-live .universe-poster { opacity: 0; }
+  [data-header].scrolled { background: rgba(4,11,24,.82); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: 0 1px 0 rgba(255,255,255,.06); }
+  /* Hero channel chips: shown while that channel sends a message (desktop only). */
+  .chip { position: absolute; top: 0; left: 0; white-space: nowrap; opacity: 0; transition: opacity .35s ease-out; will-change: transform; }
+  .chip.show { opacity: 1; }
+  /* Hero reveal: each headline line is drawn in from the reading side (right to left); the rest rises in. */
+  .wipe .ln { position: relative; display: block; width: fit-content; }
+  .js .wipe .ln > span { display: inline-block; clip-path: inset(-.25em 0 -.35em 100%); }
+  .js .wipe.on .ln > span { animation: wipe-ink .95s cubic-bezier(.65,0,.25,1) forwards; animation-delay: calc(var(--i, 0) * .15s); }
+  @keyframes wipe-ink { to { clip-path: inset(-.25em 0 -.35em 0); } }
+  .js .rise { opacity: 0; transform: translateY(18px); transition: opacity .7s cubic-bezier(.2,0,0,1), transform .7s cubic-bezier(.2,0,0,1); transition-delay: var(--d, 0s); }
+  .js .rise.on { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .js .wipe .ln > span { clip-path: none !important; animation: none !important; } .js .rise { opacity: 1; transform: none; transition: none; } }
+
+  /* ---------- Typography system (one scale, used everywhere) ----------
+     Display 40→76 · H2 32→50 · H3 20 · Lead 17→19 · Body 15 · Small 13. Readex Pro 600 for headings
+     (700 read heavy and blobby in Arabic), IBM Plex Sans Arabic for text, Inter (tabular) for numbers.
+     Arabic is never letter-spaced and never split into letters; generous leading keeps marks clear. */
+  .t-display { font-family: "Readex Pro", "IBM Plex Sans Arabic", system-ui, sans-serif; font-weight: 600; font-size: clamp(40px, 5.4vw, 76px); line-height: 1.22; text-wrap: balance; }
+  .t-h2 { font-family: "Readex Pro", "IBM Plex Sans Arabic", system-ui, sans-serif; font-weight: 600; font-size: clamp(32px, 3.5vw, 50px); line-height: 1.28; text-wrap: balance; }
+  .t-h3 { font-family: "Readex Pro", "IBM Plex Sans Arabic", system-ui, sans-serif; font-weight: 600; font-size: 20px; line-height: 1.45; }
+  .t-lead { font-size: clamp(17px, 1.3vw, 19px); line-height: 1.85; color: #AEBBCD; text-wrap: pretty; }
+  /* Hero: its own size (two centred lines under the 3D icon, bounded by the screen height), tighter leading. */
+  .t-hero { font-family: "Readex Pro", "IBM Plex Sans Arabic", system-ui, sans-serif; font-weight: 600; font-size: clamp(36px, min(4.4vw, 7.4vh), 66px); line-height: 1.18; }
+  .hero-lead { font-size: clamp(17px, 1.35vw, 19.5px); line-height: 1.85; color: #C3CDDB; text-wrap: pretty; }
+  .t-body { font-size: 15px; line-height: 1.8; color: #9DAABD; }
+  .t-small { font-size: 13px; line-height: 1.6; color: #8D9AAE; }
+  .num { font-family: Inter, system-ui, sans-serif; font-feature-settings: "tnum"; direction: ltr; unicode-bidi: isolate; display: inline-block; }
+  .t-label { display: inline-flex; align-items: center; gap: 9px; height: 32px; padding: 0 14px; border-radius: 999px; font-size: 13.5px; font-weight: 600; color: #BFF3E3; background: rgba(18,201,155,.08); box-shadow: inset 0 0 0 1px rgba(18,201,155,.28); }
+  .t-label::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #12C99B; box-shadow: 0 0 0 3px rgba(18,201,155,.2); }
+  .t-label.violet { color: #DCDDFF; background: rgba(108,92,231,.12); box-shadow: inset 0 0 0 1px rgba(184,185,255,.3); }
+  .t-label.violet::before { background: #B8B9FF; box-shadow: 0 0 0 3px rgba(108,92,231,.3); }
+  /* Key phrase: set in mint — no block, shadow or glow behind the text. */
+  .hl { color: #12C99B; }
+  /* Word masks: room above and below (net zero in layout) so Arabic marks are never clipped. */
+  .word { display: inline-block; overflow: hidden; vertical-align: top; padding: .12em 0 .32em; margin: -.12em 0 -.32em; }
+  .word > span { display: inline-block; will-change: transform; }
+
+  /* ---------- Modern cards: navy surface (Direction 3 palette), gradient hairline, pointer spotlight ---------- */
+  .glass { position: relative; border-radius: 24px; isolation: isolate; overflow: hidden;
+    background: radial-gradient(90% 70% at 100% 0%, var(--glow, rgba(18,201,155,.08)), transparent 62%), linear-gradient(200deg, rgba(255,255,255,.05), rgba(255,255,255,.012) 55%), #09152D;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 30px 80px -40px rgba(0,0,0,.9); }
+  .glass::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none; z-index: 2;
+    background: linear-gradient(150deg, rgba(85,220,177,.5), rgba(255,255,255,.1) 28%, rgba(255,255,255,.04) 70%, rgba(85,220,177,.2));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+  .glass::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0; transition: opacity .3s ease-out;
+    background: radial-gradient(420px circle at var(--mx, 50%) var(--my, -20%), rgba(18,201,155,.13), transparent 45%); }
+  .glass:hover::after { opacity: 1; }
+  .glass-mint { background: linear-gradient(150deg, #34DFB3 0%, #12C99B 42%, #0A9775 100%); color: #0B1B3A; }
+  .glass-mint::before { background: linear-gradient(150deg, rgba(255,255,255,.75), rgba(255,255,255,.12) 40%, rgba(255,255,255,.05)); }
+  .glass-mint::after { background: radial-gradient(420px circle at var(--mx, 50%) var(--my, -20%), rgba(255,255,255,.22), transparent 45%); }
+  .glass-violet { --glow: rgba(108,92,231,.32); }
+  /* Product UI on navy panels (Direction 3 palette). */
+  .app { background: #0B1830; border-radius: 20px; color: #E8ECF1; box-shadow: 0 0 0 1px #1C2C4A, inset 0 1px 0 rgba(255,255,255,.05), 0 50px 120px -40px rgba(18,201,155,.35); }
+  .app-raised { background: #12223F; } .app-line { border-color: #1C2C4A !important; }
+  .b-cust { background: #12223F; color: #E8ECF1; } .b-team { background: #143B2E; color: #DBF8EC; }
+  .tail-c { border-radius: 16px; border-end-start-radius: 4px; } .tail-t { border-radius: 16px; border-end-end-radius: 4px; }
+  .aura { background: radial-gradient(55% 45% at 90% 0%, rgba(18,201,155,.09), transparent 70%), radial-gradient(45% 40% at 0% 100%, rgba(108,92,231,.07), transparent 70%), var(--space); }
+
+  .stage3d { perspective: 1400px; }
+  .stage3d .row { transform-style: preserve-3d; will-change: transform, opacity; }
+  .lists-swap { position: relative; } .lists-swap [data-list-after] { position: absolute; inset: 0; margin: 0; }
+
+  /* ---------- Sadu seams (from Direction 4) ---------- */
+  .seam { position: relative; z-index: 10; background: var(--space); overflow: hidden; }
+  .seam svg { display: block; width: 100%; }
+  .seam[data-seam="band"] svg { height: 46px; }
+  .seam[data-seam="thread"] { padding-block: 14px; }
+  .seam[data-seam="thread"] svg { height: 18px; }
+  .seam.flip svg { transform: scaleY(-1); }
+  .seam-light { position: absolute; top: 0; bottom: 0; right: -240px; width: 240px; pointer-events: none; opacity: 0; background: radial-gradient(closest-side, rgba(18,201,155,.6), rgba(18,201,155,0)); mix-blend-mode: screen; }
+
+  /* ---------- Pricing: three compact plan cards; Pro is lit ---------- */
+  .plans { scrollbar-width: none; } .plans::-webkit-scrollbar { display: none; }
+  .plan-pro { box-shadow: inset 0 0 0 1.5px rgba(18,201,155,.6), inset 0 1px 0 rgba(255,255,255,.08), 0 40px 100px -40px rgba(18,201,155,.5); }
+
+  /* ---------- FAQ chat (dark) ---------- */
+  .faq-log { overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #1C2C4A transparent; }
+  .msg { animation: bubble-in .22s cubic-bezier(.2,0,0,1) both; }
+  @keyframes bubble-in { from { opacity: 0; scale: .92; } to { opacity: 1; scale: 1; } }
+  .msg.flash { animation: flash 1.1s ease-out; }
+  @keyframes flash { 0%, 40% { box-shadow: 0 0 0 3px rgba(18,201,155,.55); } 100% { box-shadow: 0 0 0 3px rgba(18,201,155,0); } }
+  .typing span { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #55DCB1; animation: dot 1s ease-in-out infinite; }
+  .typing span:nth-child(2) { animation-delay: .15s; } .typing span:nth-child(3) { animation-delay: .3s; }
+  @keyframes dot { 0%, 60%, 100% { transform: translateY(0); opacity: .45; } 30% { transform: translateY(-4px); opacity: 1; } }
+  .faq-chips { scrollbar-width: none; } .faq-chips::-webkit-scrollbar { display: none; }
+  .faq-chip[data-asked] { background: rgba(18,201,155,.16); }
+  @media (prefers-reduced-motion: reduce) { .msg, .msg.flash { animation: none; } .typing span { animation: none; opacity: .7; } }
+
+  /* ---------- AI chapter: the live chat (3D glass), what the bot learned from, the workflow it follows ---------- */
+  .ai-stage { perspective: 1600px; }
+  .ai-device { position: relative; transform-style: preserve-3d; box-shadow: 0 0 0 1px #1C2C4A, inset 0 1px 0 rgba(255,255,255,.05), 0 50px 120px -40px rgba(108,92,231,.5); }
+  .ai-device::before { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; transform: translate3d(26px, 26px, -90px);
+    background: linear-gradient(160deg, rgba(108,92,231,.26), rgba(18,201,155,.05) 70%); box-shadow: inset 0 0 0 1px rgba(184,185,255,.18); }
+  @media (max-width: 1023px) { .ai-device::before { inset: 0 16px; transform: translate3d(0, 14px, -40px); } }   /* narrow: the plate peeks out below, never past the screen edge */
+  .js [data-ai-log]:not(.all) [data-step]:not(.on), .js [data-ai-log].all .typing { display: none; }
+  [data-ai-replay][hidden] { display: none !important; }
+  .src { transition: box-shadow .45s ease; }
+  .src-ic { display: grid; place-items: center; width: 36px; height: 36px; flex-shrink: 0; border-radius: 12px; background: rgba(108,92,231,.16); color: #B8B9FF; transition: background-color .45s ease, color .45s ease; }
+  .src.lit { box-shadow: inset 0 0 0 1px rgba(184,185,255,.6), 0 0 0 4px rgba(108,92,231,.14), 0 30px 80px -40px rgba(0,0,0,.9); }
+  .src.lit .src-ic { background: #6C5CE7; color: #fff; }
+  .flow-step { border-radius: 999px; padding: 6px 12px; background: #12223F; color: #9DAABD; box-shadow: inset 0 0 0 1px #1C2C4A; transition: background-color .4s ease, color .4s ease, box-shadow .4s ease; }
+  .flow-step.lit { background: rgba(18,201,155,.14); color: #BFF3E3; box-shadow: inset 0 0 0 1px rgba(18,201,155,.5); }
+  .flow-step.ai.lit { background: rgba(108,92,231,.24); color: #DCDDFF; box-shadow: inset 0 0 0 1px rgba(184,185,255,.5); }
+  .flow-arrow { color: #56657D; }
+  .ai-threads { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; z-index: 3; }
+  .ai-thread { fill: none; stroke: #B8B9FF; stroke-opacity: .55; stroke-width: 1.5; stroke-linecap: round; }
+  .ai-anchor { fill: #B8B9FF; } .ai-spark { fill: #F5F8FB; }
+  @media (prefers-reduced-motion: reduce) { .src, .src-ic, .flow-step { transition: none; } }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">تخطَّ إلى المحتوى</a>
+<canvas id="universe" aria-hidden="true"></canvas>
+
+<header class="fixed inset-x-0 top-0 z-50 transition-colors duration-300" data-header>
+  <div class="mx-auto max-w-page px-4 md:px-8 h-[72px] flex items-center gap-6">
+    <a href="#top" class="shrink-0" aria-label="ClickChat كليك شات — الرئيسية"><img src="../ClickChat-Brand-Identity/ClickChat-Brand-Identity/01-Logo/01-horizontal-bilingual/SVG/clickchat-horizontal-reversed.svg" alt="ClickChat كليك شات" class="h-9 w-auto"></a>
+    <nav aria-label="الرئيسية" class="hidden lg:flex items-center gap-7 text-[15px] font-medium text-steel-300">
+      <a class="hover:text-white" href="#features">المزايا</a>
+      <a class="hover:text-white inline-flex items-center gap-1" href="#">الحلول <span data-icon="chevron" data-size="16"></span></a>
+      <a class="hover:text-white" href="#integrations">التكاملات</a>
+      <a class="hover:text-white" href="#pricing">الأسعار</a>
+      <a class="hover:text-white" href="#faq">الأسئلة الشائعة</a>
+      <a class="hover:text-white" href="#">تواصل معنا</a>
+    </nav>
+    <div class="ms-auto flex items-center gap-2">
+      <a href="#" lang="en" class="hidden sm:inline-flex h-10 px-3 items-center text-sm font-medium text-steel-300 hover:text-white">EN</a>
+      <a href="#" class="hidden md:inline-flex h-10 px-3 items-center text-[15px] font-medium">تسجيل الدخول</a>
+      <a href="#" class="inline-flex h-11 px-5 items-center rounded-btn bg-mint text-navy text-[15px] font-semibold">ابدأ مجاناً</a>
+      <button type="button" aria-label="فتح القائمة" aria-expanded="false" class="lg:hidden inline-flex h-11 w-11 items-center justify-center rounded-btn"><span data-icon="menu"></span></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<!-- ============ HERO — the ClickChat icon in 3D, with the five channels (from the experiment, revision 2) ============ -->
+<section id="top" aria-labelledby="hero-title" class="relative z-10 min-h-[100svh] flex items-end justify-center text-center" data-hero>
+  <div class="universe-poster" aria-hidden="true"></div>
+  <p class="sr-only" id="universe-desc">مشهد ثلاثي الأبعاد: أيقونة كليك شات، وحولها قنوات واتساب وماسنجر وإنستغرام والرسائل النصية والبريد، ترسل رسائل تصل إلى الأيقونة فتتحرك نقاطها الثلاث.</p>
+  <div class="pointer-events-none fixed inset-0 z-[5] hidden lg:block" aria-hidden="true" data-chips>
+    <div class="chip rounded-full bg-[#040B18]/85 backdrop-blur px-3 py-1.5 text-[13px] ring-1 ring-white/10"><span class="inline-block h-2 w-2 rounded-full bg-wa me-2"></span>واتساب للأعمال</div>
+    <div class="chip rounded-full bg-[#040B18]/85 backdrop-blur px-3 py-1.5 text-[13px] ring-1 ring-white/10"><span class="inline-block h-2 w-2 rounded-full bg-fb me-2"></span>فيسبوك ماسنجر</div>
+    <div class="chip rounded-full bg-[#040B18]/85 backdrop-blur px-3 py-1.5 text-[13px] ring-1 ring-white/10"><span class="inline-block h-2 w-2 rounded-full bg-ig me-2"></span>رسائل إنستغرام</div>
+    <div class="chip rounded-full bg-[#040B18]/85 backdrop-blur px-3 py-1.5 text-[13px] ring-1 ring-white/10"><span class="inline-block h-2 w-2 rounded-full bg-steel-300 me-2"></span>الرسائل النصية</div>
+    <div class="chip rounded-full bg-[#040B18]/85 backdrop-blur px-3 py-1.5 text-[13px] ring-1 ring-white/10"><span class="inline-block h-2 w-2 rounded-full bg-steel-500 me-2"></span>البريد الإلكتروني</div>
+  </div>
+  <div class="relative w-full max-w-page px-4 md:px-8 pb-[5vh] md:pb-[6vh]">
+    <p class="rise inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-1.5 text-[13px] text-[#C9D3E0] ring-1 ring-white/10"><span class="text-mint">✦</span>مدعوم بالذكاء الاصطناعي ومتوافق مع واجهات ميتا الرسمية</p>
+    <h1 id="hero-title" class="t-hero wipe mt-4"><span class="ln mx-auto" style="--i:0"><span>كل محادثات عملائك</span></span><span class="ln mx-auto text-mint" style="--i:1"><span>في مكان واحد</span></span></h1>
+    <p class="hero-lead rise mx-auto mt-4 max-w-[37rem] lg:max-w-[42rem]" style="--d:.35s">اجمع واتساب وماسنجر وإنستغرام في صندوق وارد واحد، ورُدّ تلقائياً بالذكاء الاصطناعي، وأطلق حملاتك الجماعية، وحوّل المحادثات إلى مبيعات — من منصة واحدة.</p>
+    <div class="rise mt-7 flex flex-wrap justify-center gap-3" style="--d:.5s">
+      <a href="#" class="inline-flex h-14 px-7 items-center gap-2 rounded-btn bg-mint text-navy text-[16px] font-semibold hover:shadow-[0_0_36px_rgba(18,201,155,.5)] transition-shadow">ابدأ مجاناً <span data-icon="arrow" data-size="18"></span></a>
+      <a href="#pricing" class="glass inline-flex h-14 px-6 items-center rounded-btn text-[16px] font-semibold">تصفح الباقات</a>
+    </div>
+    <ul class="rise mt-6 flex flex-wrap justify-center gap-x-5 gap-y-2 text-[14px] text-[#B9C4D3]" style="--d:.6s">
+      <li class="inline-flex items-center gap-1.5"><span data-icon="check" data-size="15" class="text-mint"></span><span>بدون بطاقة ائتمانية</span></li>
+      <li class="inline-flex items-center gap-1.5"><span data-icon="check" data-size="15" class="text-mint"></span><span>تجربة مجانية حتى ١٤ يوماً</span></li>
+      <li class="inline-flex items-center gap-1.5"><span data-icon="check" data-size="15" class="text-mint"></span><span>واجهات ميتا الرسمية</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ CHANNELS — bento of the five channels, each in its native format ============ -->
+<section id="channels" aria-labelledby="ch-title" class="solid">
+  <div class="seam" data-seam="band" aria-hidden="true"></div>
+  <div class="mx-auto max-w-page px-4 md:px-8 py-20 md:py-28">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:items-end">
+      <div class="lg:col-span-7"><p class="t-label">قنوات متعددة</p><h2 id="ch-title" class="t-h2 mt-5" data-split>كن حيث يوجد عملاؤك بالفعل</h2></div>
+      <p class="lg:col-span-5 t-lead reveal">اربط كل قنوات التواصل بصندوق وارد واحد مشترك — دون تنقّل بين التطبيقات.</p>
+    </div>
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5" data-bento>
+      <article class="glass p-6 md:p-7 lg:row-span-2 flex flex-col" style="--glow: rgba(37,211,102,.14)">
+        <p class="flex flex-wrap items-center gap-2 t-small font-semibold text-[#C9D3E0]"><span class="h-2.5 w-2.5 rounded-full bg-wa"></span>واتساب للأعمال<span class="ms-auto inline-flex items-center gap-1 rounded-full bg-mint/10 px-2.5 py-1 text-[12px] text-mint-300 ring-1 ring-mint/30"><span data-icon="shield" data-size="12"></span>واجهة ميتا الرسمية</span></p>
+        <h3 class="t-h3 mt-5">قوالب، حملات، ورد آلي على مدار الساعة</h3>
+        <p class="t-body mt-2">واجهة واتساب السحابية الرسمية: القوالب والحملات والردود الآلية على مدار الساعة.</p>
+        <div class="mt-8 lg:mt-auto app p-4" aria-hidden="true">
+          <p class="t-small flex items-center gap-2"><span class="grid h-7 w-7 place-items-center rounded-full app-raised text-[12px] font-semibold text-white">ع</span>متجر العود · قالب معتمد</p>
+          <div class="mt-3 tail-t b-team px-4 py-3 text-[14px] leading-[1.7]">طلبك جاهز للتوصيل اليوم. تقدر تتابع شحنتك من هنا.
+            <span class="mt-1 flex justify-end gap-1 text-[11px] text-mint-300"><span class="num">9:41</span> م ✓✓</span></div>
+          <div class="mt-2 grid grid-cols-2 gap-2 text-[13px] font-semibold text-mint-300"><span class="rounded-btn app-raised py-2.5 text-center">تتبّع الطلب</span><span class="rounded-btn app-raised py-2.5 text-center">تواصل معنا</span></div>
+        </div>
+      </article>
+      <article class="glass p-6 md:p-7 flex flex-col" style="--glow: rgba(228,64,95,.14)">
+        <p class="flex items-center gap-2 t-small font-semibold text-[#C9D3E0]"><span class="h-2.5 w-2.5 rounded-full bg-ig"></span>رسائل إنستغرام</p>
+        <p class="t-body mt-3">أدر الرسائل المباشرة والتعليقات والإشارات لحظة بلحظة.</p>
+        <div class="mt-5 tail-c b-cust w-fit max-w-full px-4 py-3 text-[14px]" aria-hidden="true"><span class="mb-1.5 block border-s-2 border-ig/70 ps-2 text-[12px] text-steel-300">ردّ على قصتك</span>كم سعر العطر اللي في القصة؟</div>
+      </article>
+      <article class="glass p-6 md:p-7 flex flex-col" style="--glow: rgba(0,132,255,.14)">
+        <p class="flex items-center gap-2 t-small font-semibold text-[#C9D3E0]"><span class="h-2.5 w-2.5 rounded-full bg-fb"></span>فيسبوك ماسنجر</p>
+        <p class="t-body mt-3">ردّ على رسائل صفحتك وتعليقاتها من نفس صندوق الوارد.</p>
+        <div class="mt-5 tail-c b-cust w-fit max-w-full px-4 py-3 text-[14px]" aria-hidden="true"><span class="mb-1.5 block text-[12px] text-steel-300">تعليق على منشورك</span>متى ينزل عرض العيد؟</div>
+      </article>
+      <article class="glass p-6 md:p-7 flex flex-col" style="--glow: rgba(183,194,210,.10)">
+        <p class="flex items-center gap-2 t-small font-semibold text-[#C9D3E0]"><span class="h-2.5 w-2.5 rounded-full bg-steel-300"></span>الرسائل النصية</p>
+        <p class="t-body mt-3">أرسل التنبيهات والحملات النصية لعملائك فوراً.</p>
+        <div class="mt-5 ms-auto tail-t b-team w-fit max-w-full px-4 py-3 text-[14px]" aria-hidden="true">طلبك رقم <span class="num">1042</span> في الطريق إليك.</div>
+      </article>
+      <article class="glass p-6 md:p-7 flex flex-col" style="--glow: rgba(85,220,177,.10)">
+        <p class="flex items-center gap-2 t-small font-semibold text-[#C9D3E0]"><span class="h-2.5 w-2.5 rounded-full bg-mint-300"></span>البريد الإلكتروني</p>
+        <p class="t-body mt-3">أرسل رسائل التسويق والإشعارات من نفس سجل العميل.</p>
+        <div class="mt-5 app px-4 py-3 text-[14px]" aria-hidden="true"><span class="block text-[12px] text-steel-300">الموضوع</span><span class="font-semibold">فاتورتك من متجر العود</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<div class="seam" data-seam="thread" aria-hidden="true"></div>
+
+<!-- ============ ONE INBOX (pinned 1/2) — scattered messages fold into the product ============ -->
+<section id="inbox" aria-labelledby="inbox-title" class="solid overflow-clip">
+  <div class="mx-auto max-w-page px-4 md:px-8 min-h-[100svh] grid grid-cols-1 lg:grid-cols-12 gap-10 items-center py-20" data-inbox>
+    <div class="lg:col-span-5">
+      <p class="t-label">صندوق وارد موحّد</p>
+      <h2 id="inbox-title" class="t-h2 mt-5" data-split>رسائل مبعثرة تصبح صندوقاً واحداً</h2>
+      <p class="t-lead mt-5 max-w-[30rem] reveal">كل محادثات واتساب وماسنجر وإنستغرام في مكان واحد، مع توزيع المحادثات والملاحظات الداخلية والردود الجاهزة.</p>
+      <div class="mt-8" data-lists>
+        <div data-list-before>
+          <p class="t-small font-semibold text-[#F2A7AC]">هل يبدو هذا مألوفاً؟</p>
+          <ul class="mt-3 space-y-2.5 t-body">
+            <li class="flex gap-2.5"><span data-icon="x" data-size="17" class="mt-1 shrink-0 text-[#E5777F]"></span>محادثات مبعثرة بين واتساب وماسنجر وإنستغرام والبريد</li>
+            <li class="flex gap-2.5"><span data-icon="x" data-size="17" class="mt-1 shrink-0 text-[#E5777F]"></span>عملاء محتملون يضيعون بينما تنتظر رسائلهم الرد لساعات</li>
+            <li class="flex gap-2.5"><span data-icon="x" data-size="17" class="mt-1 shrink-0 text-[#E5777F]"></span>صعوبة إرسال العروض أو أتمتة المتابعة على نطاق واسع</li>
+            <li class="flex gap-2.5"><span data-icon="x" data-size="17" class="mt-1 shrink-0 text-[#E5777F]"></span>لا رؤية واضحة لأداء الفريق ولا لما يحقق النتائج</li>
+          </ul>
+        </div>
+        <div data-list-after class="mt-8">
+          <p class="t-small font-semibold text-mint-300"><span lang="en">ClickChat</span> يحل ذلك كله</p>
+          <ul class="mt-3 space-y-2.5 t-body text-[#C9D3E0]">
+            <li class="flex gap-2.5"><span data-icon="check" data-size="17" class="mt-1 shrink-0 text-mint"></span>صندوق وارد موحّد لكل القنوات يشاركه فريقك بالكامل</li>
+            <li class="flex gap-2.5"><span data-icon="check" data-size="17" class="mt-1 shrink-0 text-mint"></span>روبوتات ذكية وأتمتة ترد على مدار الساعة</li>
+            <li class="flex gap-2.5"><span data-icon="check" data-size="17" class="mt-1 shrink-0 text-mint"></span>حملات جماعية مع جدولة ذكية وتقسيم للجمهور</li>
+            <li class="flex gap-2.5"><span data-icon="check" data-size="17" class="mt-1 shrink-0 text-mint"></span>تقارير فورية للتسليم وزمن الاستجابة وأداء الفريق</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="lg:col-span-7 min-w-0 stage3d">
+      <div class="app relative" data-inbox-panel>
+        <div class="flex items-center gap-3 px-5 py-4 border-b app-line" data-panel-chrome>
+          <img src="../ClickChat-Brand-Identity/ClickChat-Brand-Identity/01-Logo/03-icon/SVG/clickchat-icon-reversed.svg" alt="" class="h-7 w-7">
+          <p class="font-display font-semibold">صندوق الوارد</p>
+          <span class="ms-auto rounded-full bg-mint-deep text-mint-300 text-[12px] font-semibold px-2.5 py-1"><span class="num">6</span> جديدة</span>
+        </div>
+        <ul class="divide-y divide-[#1C2C4A]" data-rows>
+          <li class="row flex items-center gap-3 px-5 py-3.5 bg-[#0B1830]"><span class="h-10 w-10 shrink-0 rounded-full app-raised grid place-items-center font-display font-semibold">س</span><div class="min-w-0"><p class="font-semibold">سارة العتيبي</p><p class="text-[14px] text-[#8D9AAE] truncate">أبي أعرف تفاصيل الباقة</p></div><span class="ms-auto inline-flex items-center gap-1.5 text-[12px] text-[#8D9AAE]"><span class="h-2 w-2 rounded-full bg-wa"></span>واتساب</span></li>
+          <li class="row flex items-center gap-3 px-5 py-3.5 bg-[#0B1830]"><span class="h-10 w-10 shrink-0 rounded-full app-raised grid place-items-center font-display font-semibold">خ</span><div class="min-w-0"><p class="font-semibold">خالد الدوسري</p><p class="text-[14px] text-[#8D9AAE] truncate">متى يوصل العقد؟</p></div><span class="ms-auto inline-flex items-center gap-1.5 text-[12px] text-[#8D9AAE]"><span class="h-2 w-2 rounded-full bg-ig"></span>إنستغرام</span></li>
+          <li class="row flex items-center gap-3 px-5 py-3.5 bg-[#0B1830]"><span class="h-10 w-10 shrink-0 rounded-full app-raised grid place-items-center font-display font-semibold">ع</span><div class="min-w-0"><p class="font-semibold">عيادة رِفق</p><p class="text-[14px] text-[#8D9AAE] truncate">نحتاج نضيف موظفين</p></div><span class="ms-auto inline-flex items-center gap-1.5 text-[12px] text-[#8D9AAE]"><span class="h-2 w-2 rounded-full bg-fb"></span>ماسنجر</span></li>
+          <li class="row flex items-center gap-3 px-5 py-3.5 bg-[#0B1830]"><span class="h-10 w-10 shrink-0 rounded-full app-raised grid place-items-center font-display font-semibold">م</span><div class="min-w-0"><p class="font-semibold">مؤسسة الندى</p><p class="text-[14px] text-[#8D9AAE] truncate">تم استلام الطلب، شكراً</p></div><span class="ms-auto inline-flex items-center gap-1.5 text-[12px] text-[#8D9AAE]"><span class="h-2 w-2 rounded-full bg-mint"></span>الموقع</span></li>
+          <li class="row flex items-center gap-3 px-5 py-3.5 bg-[#0B1830]"><span class="h-10 w-10 shrink-0 rounded-full app-raised grid place-items-center font-display font-semibold">ن</span><div class="min-w-0"><p class="font-semibold">نورة العتيبي</p><p class="text-[14px] text-[#8D9AAE] truncate">هل المنتج متوفر بالمقاس المتوسط؟</p></div><span class="ms-auto inline-flex items-center gap-1.5 text-[12px] text-[#8D9AAE]"><span class="h-2 w-2 rounded-full bg-wa"></span>واتساب</span></li>
+          <li class="row flex items-center gap-3 px-5 py-3.5 bg-[#0B1830] rounded-b-[20px]"><span class="h-10 w-10 shrink-0 rounded-full app-raised grid place-items-center font-display font-semibold">م</span><div class="min-w-0"><p class="font-semibold">مها القحطاني</p><p class="text-[14px] text-[#8D9AAE] truncate">أرغب بمعرفة طرق الدفع المتاحة</p></div><span class="ms-auto inline-flex items-center gap-1.5 text-[12px] text-[#8D9AAE]"><span class="h-2 w-2 rounded-full bg-steel-300"></span>البريد</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="seam" data-seam="band" aria-hidden="true"></div>
+
+<!-- ============ AI — the live «متجر العود» chat, answered by the AI; each reply lights what it learned from (no pin) ============ -->
+<section id="ai" aria-labelledby="ai-title" class="solid overflow-clip" style="background: radial-gradient(38% 50% at 10% 55%, rgba(108,92,231,.17), transparent 70%), linear-gradient(180deg, #040B18, #0B1B3A 60%, #040B18)">
+  <div class="relative mx-auto max-w-page px-4 md:px-8 py-24 md:py-28 grid grid-cols-1 lg:grid-cols-12 gap-x-10 gap-y-10 lg:gap-y-8" data-ai>
+    <!-- Heading and lead (live copy) -->
+    <div class="lg:col-span-4 lg:col-start-1 lg:row-start-1 lg:self-end">
+      <p class="t-label violet">الذكاء الاصطناعي</p>
+      <h2 id="ai-title" class="t-h2 mt-5" data-split>روبوتات دردشة ذكية</h2>
+      <p class="t-lead mt-5 reveal">درّب الروبوت على مستنداتك وأسئلتك الشائعة ليجيب عملاءك فوراً وبدقة وبأي لغة.</p>
+    </div>
+    <!-- What it learned from (live FAQ wording: «درّبه على مستنداتك وأسئلتك الشائعة ومعلومات منتجاتك»); the sample items are demo-store examples -->
+    <div class="lg:col-span-3 lg:col-start-10 lg:row-start-1 lg:row-span-2 lg:self-center">
+      <p class="text-[13px] font-semibold text-[#B8B9FF]">درّبه على</p>
+      <ul class="mt-3 grid grid-cols-3 lg:grid-cols-1 gap-2.5 lg:gap-3" aria-label="ما يتعلم منه الروبوت">
+        <li class="src glass glass-violet p-3.5 lg:p-4 flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-3" data-src="docs">
+          <span class="src-ic"><span data-icon="file" data-size="18"></span></span>
+          <span class="min-w-0"><span class="block font-semibold text-[14px] lg:text-[15px] leading-snug">مستنداتك</span><span class="hidden lg:flex items-center gap-1.5 t-small"><span class="truncate">سياسة التوصيل</span><span lang="en" class="num shrink-0 rounded px-1 text-[10px] font-semibold leading-[16px] text-[#C9D3E0] bg-white/10">PDF</span></span></span>
+        </li>
+        <li class="src glass glass-violet p-3.5 lg:p-4 flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-3" data-src="faq">
+          <span class="src-ic"><span data-icon="message" data-size="18"></span></span>
+          <span class="min-w-0"><span class="block font-semibold text-[14px] lg:text-[15px] leading-snug">أسئلتك الشائعة</span><span class="hidden lg:block t-small truncate">هل يتوفر توصيل اليوم؟</span></span>
+        </li>
+        <li class="src glass glass-violet p-3.5 lg:p-4 flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-3" data-src="products">
+          <span class="src-ic"><span data-icon="cart" data-size="18"></span></span>
+          <span class="min-w-0"><span class="block font-semibold text-[14px] lg:text-[15px] leading-snug">معلومات منتجاتك</span><span class="hidden lg:block t-small truncate">عطر العود الملكي</span></span>
+        </li>
+      </ul>
+      <p class="hidden lg:block t-small mt-3">ليقدّم إجابات دقيقة خاصة بنشاطك.</p>
+    </div>
+    <!-- The live site's demo conversation (متجر العود), answered by the AI -->
+    <div class="lg:col-span-5 lg:col-start-5 lg:row-start-1 lg:row-span-2 lg:self-center ai-stage">
+      <div class="app ai-device mx-auto max-w-[460px]" data-ai-device role="group" aria-label="محادثة تجريبية: الروبوت الذكي يرد على عميل متجر العود">
+        <div class="flex items-center gap-3 px-5 py-4 border-b app-line">
+          <span class="grid h-10 w-10 place-items-center rounded-full bg-mint text-navy font-display font-semibold">م</span>
+          <div><p class="font-semibold">متجر العود</p><p class="text-[12px] text-mint-300">حساب أعمال موثّق ✓</p></div>
+          <button type="button" class="ms-auto inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-[12px] font-semibold text-[#B4C0CF] ring-1 ring-white/10 hover:bg-white/5" data-ai-replay hidden>إعادة</button>
+        </div>
+        <div class="flex flex-col gap-2.5 px-4 py-5 text-[15px] leading-[1.7]" data-ai-log>
+          <p class="msg on self-start tail-c b-cust max-w-[85%] px-4 py-2.5" data-step data-keep data-flow-i="0">السلام عليكم، عندكم توصيل اليوم؟</p>
+          <p class="msg self-center rounded-full app-raised px-3 py-1 text-[12px] font-semibold text-[#C9D3E0]" data-step data-wait="650" data-flow-i="1">تصنيف: استفسار عن التوصيل</p>
+          <div class="msg self-end tail-t b-team max-w-[85%] px-4 py-2.5" data-step data-wait="350" data-typing="1200" data-from="docs faq" data-flow-i="2"><span class="mb-1 flex items-center gap-1 text-[11px] font-semibold text-violet-300"><span data-icon="sparkles" data-size="11"></span>رد آلي</span>وعليكم السلام 🌿 نعم! اطلب قبل الساعة <span class="num">4</span> ويوصلك اليوم. هذا الأكثر مبيعاً:</div>
+          <div class="msg self-end w-[220px] overflow-hidden rounded-2xl bg-[#12223F] ring-1 ring-white/10" data-step data-wait="500" data-from="products"><div class="h-20 bg-gradient-to-br from-[#3b2a17] via-[#6b4a22] to-[#2a1d10]"></div><div class="px-3 py-2.5"><p class="font-semibold text-[14px]">عطر العود الملكي</p><p class="text-[12px] text-mint-300">متوفر ✓</p></div></div>
+          <p class="msg self-start tail-c b-cust px-4 py-2.5" data-step data-wait="1300">ممتاز، أبي واحد 👍</p>
+          <div class="msg self-end tail-t b-team max-w-[85%] px-4 py-2.5" data-step data-wait="350" data-typing="1000"><span class="mb-1 flex items-center gap-1 text-[11px] font-semibold text-violet-300"><span data-icon="sparkles" data-size="11"></span>رد آلي</span>تم تجهيز طلبك 🎉 هذا رابط الدفع: <span lang="en" class="num">pay.link/…</span> <span class="num text-[13px] text-mint-300">✓✓</span></div>
+        </div>
+      </div>
+    </div>
+    <!-- Automation (live copy): the three steps light as the conversation reaches them -->
+    <div class="lg:col-span-4 lg:col-start-1 lg:row-start-2 lg:self-start glass p-5 md:p-6">
+      <h3 class="t-h3 flex items-center gap-2"><span data-icon="workflow" data-size="20" class="text-mint-300"></span>أتمتة بدون برمجة</h3>
+      <p class="t-body mt-2">ابن مسارات عمل مرئية توجّه الرسائل وتصنّفها وترد عليها تلقائياً.</p>
+      <ol class="mt-4 flex flex-wrap items-center gap-2 text-[13px] font-semibold" data-flow aria-label="مسار العمل">
+        <li class="flow-step">توجّه الرسائل</li><li class="flow-arrow" aria-hidden="true">←</li>
+        <li class="flow-step">تصنّفها</li><li class="flow-arrow" aria-hidden="true">←</li>
+        <li class="flow-step ai">ترد عليها تلقائياً</li>
+      </ol>
+    </div>
+    <svg class="ai-threads hidden lg:block" data-threads aria-hidden="true" focusable="false"></svg>
+  </div>
+</section>
+
+<div class="seam" data-seam="thread" aria-hidden="true"></div>
+
+<!-- ============ FEATURES — nine tools as a modern bento ============ -->
+<section id="features" aria-labelledby="ft-title" class="solid aura">
+  <div class="mx-auto max-w-page px-4 md:px-8 py-20 md:py-28">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:items-end">
+      <div class="lg:col-span-7"><p class="t-label">المزايا</p><h2 id="ft-title" class="t-h2 mt-5" data-split>كل ما تحتاجه للتفوق في كل قناة</h2></div>
+      <p class="lg:col-span-5 t-lead reveal">من صندوق وارد موحّد إلى روبوتات الدردشة الذكية والحملات الجماعية — منصة واحدة لرحلة العميل كاملة.</p>
+    </div>
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5" data-bento>
+      <!-- 1 · unified inbox (featured, mint) -->
+      <article class="glass glass-mint p-6 md:p-7 md:col-span-2 flex flex-col">
+        <span data-icon="inbox" data-size="26"></span>
+        <h3 class="t-h3 mt-4">صندوق وارد موحّد للفريق</h3>
+        <p class="mt-2 text-[15px] leading-[1.8] text-navy/80 max-w-[30rem]">كل محادثات واتساب وماسنجر وإنستغرام في مكان واحد، مع توزيع المحادثات والملاحظات الداخلية والردود الجاهزة.</p>
+        <div class="mt-6 grid gap-2 sm:grid-cols-2 text-[13px] font-semibold" aria-hidden="true">
+          <span class="flex items-center gap-2 rounded-[14px] bg-navy/90 px-3 py-2.5 text-white"><span class="grid h-6 w-6 place-items-center rounded-full bg-mint text-navy text-[11px]">أ</span>مسندة إلى: أحمد</span>
+          <span class="flex items-center gap-2 rounded-[14px] bg-navy/90 px-3 py-2.5 text-white"><span data-icon="lock" data-size="14" class="text-mint-300"></span>ملاحظة داخلية: حدّثنا العنوان</span>
+        </div>
+      </article>
+      <!-- 2 · AI chatbots (violet = AI) -->
+      <article class="glass glass-violet p-6 md:p-7 md:col-span-2 flex flex-col">
+        <span data-icon="sparkles" data-size="26" class="text-violet-300"></span>
+        <h3 class="t-h3 mt-4">روبوتات دردشة ذكية</h3>
+        <p class="t-body mt-2 max-w-[30rem]">درّب الروبوت على مستنداتك وأسئلتك الشائعة ليجيب عملاءك فوراً وبدقة وبأي لغة.</p>
+        <div class="mt-6 flex flex-col gap-2 text-[13px]" aria-hidden="true">
+          <span class="tail-c b-cust w-fit px-3.5 py-2">كم مدة الاستبدال؟</span>
+          <span class="tail-t b-team ms-auto w-fit px-3.5 py-2"><span class="mb-0.5 flex items-center gap-1 text-[11px] font-semibold text-violet-300"><span data-icon="sparkles" data-size="11"></span>رد آلي · من «سياسة الاستبدال»</span>خلال 7 أيام من الاستلام.</span>
+        </div>
+      </article>
+      <!-- 3 · automation -->
+      <article class="glass p-6 flex flex-col">
+        <span data-icon="workflow" data-size="24" class="text-mint-300"></span>
+        <h3 class="t-h3 mt-4">أتمتة بدون برمجة</h3>
+        <p class="t-body mt-2">ابن مسارات عمل مرئية توجّه الرسائل وتصنّفها وترد عليها تلقائياً.</p>
+        <div class="mt-5 flex flex-col items-start gap-1.5 text-[12px] font-semibold" aria-hidden="true">
+          <span class="rounded-full app-raised px-3 py-1 ring-1 ring-[#1C2C4A]">رسالة جديدة</span><span class="ms-4 h-3 w-px bg-mint/50"></span>
+          <span class="rounded-full app-raised px-3 py-1 ring-1 ring-[#1C2C4A]">تصنيف تلقائي</span><span class="ms-4 h-3 w-px bg-mint/50"></span>
+          <span class="rounded-full bg-mint-deep px-3 py-1 text-mint-300">إسناد للفريق</span>
+        </div>
+      </article>
+      <!-- 4 · campaigns (coral = campaigns, kept small) -->
+      <article class="glass p-6 flex flex-col" style="--glow: rgba(255,106,77,.12)">
+        <span data-icon="megaphone" data-size="24" class="text-coral"></span>
+        <h3 class="t-h3 mt-4">حملات جماعية</h3>
+        <p class="t-body mt-2">أرسل حملات واتساب ورسائل نصية مخصصة لآلاف جهات الاتصال مع جدولة ذكية.</p>
+        <svg viewBox="0 0 168 56" class="mt-5 w-full max-w-[220px] h-auto" aria-hidden="true" data-mini-field></svg>
+      </article>
+      <!-- 5 · CRM -->
+      <article class="glass p-6 flex flex-col">
+        <span data-icon="users" data-size="24" class="text-mint-300"></span>
+        <h3 class="t-h3 mt-4">إدارة علاقات العملاء</h3>
+        <p class="t-body mt-2">سجل كامل لكل عميل مع المحادثات والحقول المخصصة والوسوم والشرائح.</p>
+        <p class="mt-5 flex flex-wrap gap-1.5 text-[12px] font-semibold" aria-hidden="true"><span class="rounded-full app-raised px-2.5 py-1">عميلة دائمة</span><span class="rounded-full app-raised px-2.5 py-1">الرياض</span><span class="rounded-full app-raised px-2.5 py-1">عطور</span></p>
+      </article>
+      <!-- 6 · leads -->
+      <article class="glass p-6 flex flex-col">
+        <span data-icon="target" data-size="24" class="text-mint-300"></span>
+        <h3 class="t-h3 mt-4">استقطاب العملاء المحتملين</h3>
+        <p class="t-body mt-2">اجمع العملاء المحتملين وأهّلهم تلقائياً ولا تفوّت أي فرصة.</p>
+        <p class="mt-5 inline-flex w-fit items-center gap-2 rounded-full bg-mint-deep px-3 py-1 text-[12px] font-semibold text-mint-300" aria-hidden="true"><span data-icon="check" data-size="12"></span>عميل محتمل مؤهَّل</p>
+      </article>
+      <!-- 7 · stores -->
+      <article class="glass p-6 md:p-7 md:col-span-2 flex flex-col" style="--glow: rgba(85,220,177,.10)">
+        <span data-icon="cart" data-size="24" class="text-mint-300"></span>
+        <h3 class="t-h3 mt-4">ربط المتاجر الإلكترونية</h3>
+        <p class="t-body mt-2 max-w-[30rem]">اربط متجرك على شوبيفاي أو ووكومرس لمزامنة الطلبات وتذكير السلات المتروكة.</p>
+        <div class="mt-6 grid gap-2 sm:grid-cols-2 text-[13px]" aria-hidden="true">
+          <div class="app px-4 py-3"><p class="text-[12px] text-[#8D9AAE]"><span lang="en">Shopify</span> · طلب <span class="num">#1042</span></p><p class="mt-0.5 font-semibold">عطر العود الملكي</p><p class="mt-0.5 font-semibold text-mint-300">تم الشحن · يصل غداً</p></div>
+          <div class="app px-4 py-3"><p class="text-[12px] text-[#8D9AAE]"><span lang="en">WooCommerce</span> · سلة متروكة</p><p class="mt-0.5 font-semibold">تذكير تلقائي عبر واتساب</p><p class="mt-0.5 font-semibold text-mint-300">أُرسل قبل ساعة</p></div>
+        </div>
+      </article>
+      <!-- 8 · social scheduling -->
+      <article class="glass p-6 flex flex-col">
+        <span data-icon="calendar" data-size="24" class="text-mint-300"></span>
+        <h3 class="t-h3 mt-4">جدولة منشورات التواصل</h3>
+        <p class="t-body mt-2">خطط لمنشوراتك وانشرها على حساباتك من تقويم محتوى واحد.</p>
+        <div class="mt-5 grid grid-cols-7 gap-1" aria-hidden="true"><span class="h-6 rounded-md app-raised"></span><span class="h-6 rounded-md bg-mint/70"></span><span class="h-6 rounded-md app-raised"></span><span class="h-6 rounded-md app-raised"></span><span class="h-6 rounded-md bg-ig/60"></span><span class="h-6 rounded-md app-raised"></span><span class="h-6 rounded-md bg-mint/70"></span></div>
+      </article>
+      <!-- 9 · analytics -->
+      <article class="glass p-6 flex flex-col">
+        <span data-icon="chart" data-size="24" class="text-mint-300"></span>
+        <h3 class="t-h3 mt-4">التحليلات والتقارير</h3>
+        <p class="t-body mt-2">تابع معدلات التسليم والقراءة والرد وأداء الفريق ونتائج الحملات.</p>
+        <div class="mt-5 space-y-2 text-[12px] text-[#9DAABD]" aria-hidden="true">
+          <p class="flex items-center gap-2"><span class="w-14 shrink-0">التسليم</span><span class="h-2 flex-1 rounded-full app-raised"><span class="block h-2 w-[92%] rounded-full bg-mint" data-bar></span></span></p>
+          <p class="flex items-center gap-2"><span class="w-14 shrink-0">القراءة</span><span class="h-2 flex-1 rounded-full app-raised"><span class="block h-2 w-[76%] rounded-full bg-mint/80" data-bar></span></span></p>
+          <p class="flex items-center gap-2"><span class="w-14 shrink-0">الرد</span><span class="h-2 flex-1 rounded-full app-raised"><span class="block h-2 w-[54%] rounded-full bg-mint/60" data-bar></span></span></p>
+        </div>
+      </article>
+    </div>
+    <p class="mt-4 t-small">الأشكال داخل البطاقات توضيحية — الأرقام الحقيقية من تقارير حسابك.</p>
+  </div>
+</section>
+
+<div class="seam" data-seam="band" aria-hidden="true"></div>
+
+<!-- ============ STEPS ============ -->
+<section aria-labelledby="st-title" class="solid">
+  <div class="mx-auto max-w-page px-4 md:px-8 py-20 md:py-28">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:items-end">
+      <div class="lg:col-span-7"><p class="t-label">ابدأ الآن</p><h2 id="st-title" class="t-h2 mt-5" data-split>جاهز خلال دقائق، لا&nbsp;أسابيع</h2></div>
+      <p class="lg:col-span-5 t-lead reveal">بدون برمجة وبدون إعدادات معقّدة — اربط قناتك وانطلق.</p>
+    </div>
+    <div class="relative mt-14">
+      <!-- A thread above the three steps, knotted over each one (draws right to left on scroll). -->
+      <svg class="pointer-events-none mb-5 hidden md:block h-[16px] w-full overflow-visible" viewBox="0 0 1200 16" preserveAspectRatio="none" aria-hidden="true">
+        <line x1="1200" y1="8" x2="0" y2="8" stroke="#12C99B" stroke-opacity=".45" stroke-width="2" vector-effect="non-scaling-stroke" data-step-line/>
+      </svg>
+      <div class="pointer-events-none absolute inset-x-0 top-0 hidden md:grid grid-cols-3 gap-4 lg:gap-5" aria-hidden="true"><span class="mx-auto h-4 w-4 rotate-45 rounded-[3px] bg-mint"></span><span class="mx-auto h-4 w-4 rotate-45 rounded-[3px] bg-mint"></span><span class="mx-auto h-4 w-4 rotate-45 rounded-[3px] bg-mint"></span></div>
+      <ol class="relative grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-5" data-bento>
+        <li class="glass p-6 md:p-7"><span class="num text-[56px] font-semibold leading-none text-transparent [-webkit-text-stroke:1.5px_#55DCB1]">01</span><h3 class="t-h3 mt-6">اربط قنواتك</h3><p class="t-body mt-2">اربط واتساب وماسنجر وإنستغرام عبر واجهات ميتا الرسمية بخطوات بسيطة.</p></li>
+        <li class="glass p-6 md:p-7"><span class="num text-[56px] font-semibold leading-none text-transparent [-webkit-text-stroke:1.5px_#55DCB1]">02</span><h3 class="t-h3 mt-6">استورد جهات اتصالك</h3><p class="t-body mt-2">ارفع ملف <span class="num">CSV</span> ونظّم جهات الاتصال بالوسوم والشرائح.</p></li>
+        <li class="glass p-6 md:p-7"><span class="num text-[56px] font-semibold leading-none text-mint">03</span><h3 class="t-h3 mt-6">أتمت وانمُ</h3><p class="t-body mt-2">أطلق حملاتك وفعّل الروبوت الذكي وشاهد المحادثات تتحول إلى مبيعات.</p></li>
+      </ol>
+    </div>
+    <a href="#" class="reveal mt-10 inline-flex h-14 px-7 items-center gap-2 rounded-btn bg-mint text-navy text-[16px] font-semibold">ابدأ مجاناً <span data-icon="arrow" data-size="18"></span></a>
+  </div>
+</section>
+
+<!-- ============ INTEGRATIONS ============ -->
+<section id="integrations" aria-labelledby="in-title" class="solid aura">
+  <div class="mx-auto max-w-page px-4 md:px-8 pb-20 md:pb-28 pt-4 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+    <div class="lg:col-span-5">
+      <p class="t-label">التكاملات</p>
+      <h2 id="in-title" class="t-h2 mt-5" data-split>يعمل مع الأدوات التي تستخدمها بالفعل</h2>
+      <p class="t-lead mt-5 reveal">تكاملات جاهزة وخطافات ويب وواجهة برمجية كاملة.</p>
+      <a href="#" class="reveal mt-7 inline-flex items-center gap-2 text-[15px] font-semibold text-mint-300 hover:text-white">عرض كل التكاملات <span data-icon="arrow" data-size="16"></span></a>
+    </div>
+    <div class="lg:col-span-7 min-w-0 space-y-5" data-bento>
+      <div><p class="t-small font-semibold">القنوات</p><div class="mt-2 grid grid-cols-2 sm:grid-cols-3 gap-3" lang="en"><span class="glass grid h-16 place-items-center rounded-[18px] text-[15px] font-semibold">WhatsApp</span><span class="glass grid h-16 place-items-center rounded-[18px] text-[15px] font-semibold">Messenger</span><span class="glass grid h-16 place-items-center rounded-[18px] text-[15px] font-semibold">Instagram</span></div></div>
+      <div><p class="t-small font-semibold">الذكاء الاصطناعي</p><div class="mt-2 grid grid-cols-2 sm:grid-cols-3 gap-3" lang="en"><span class="glass glass-violet grid h-16 place-items-center rounded-[18px] text-[15px] font-semibold">OpenAI</span><span class="glass glass-violet grid h-16 place-items-center rounded-[18px] text-[15px] font-semibold">Anthropic</span><span class="glass glass-violet grid h-16 place-items-center rounded-[18px] text-[15px] font-semibold">Google Gemini</span></div></div>
+      <div><p class="t-small font-semibold">المتاجر والمدفوعات والأدوات</p><div class="mt-2 grid grid-cols-2 sm:grid-cols-3 gap-3" lang="en"><span class="glass grid h-16 place-items-center rounded-[18px] text-[15px] font-semibold">Shopify</span><span class="glass grid h-16 place-items-center rounded-[18px] text-[15px] font-semibold">WooCommerce</span><span class="glass grid h-16 place-items-center rounded-[18px] text-[15px] font-semibold">Stripe</span><span class="glass grid h-16 place-items-center rounded-[18px] text-[15px] font-semibold">PayPal</span><span class="glass grid h-16 place-items-center rounded-[18px] text-[15px] font-semibold">Twilio</span><span class="glass grid h-16 place-items-center rounded-[18px] text-[15px] font-semibold">Google Sheets</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRUST — benefits + security ============ -->
+<section aria-labelledby="tr-title" class="solid">
+  <div class="mx-auto max-w-page px-4 md:px-8 py-20 md:py-28">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:items-end">
+      <div class="lg:col-span-7"><p class="t-label">لماذا كليك شات</p><h2 id="tr-title" class="t-h2 mt-5" data-split>مصمّم للفرق التي تريد نتائج</h2></div>
+      <p class="lg:col-span-5 t-lead reveal">قوي بما يكفي للشركات الكبيرة، وبسيط بما يكفي للجميع.</p>
+    </div>
+    <div class="mt-12 grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-5">
+      <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5" data-bento>
+        <article class="glass p-6"><span data-icon="shield" data-size="22" class="text-mint-300"></span><h3 class="t-h3 mt-4">رسمي ومتوافق</h3><p class="t-body mt-2">مبني على واجهات ميتا الرسمية للأعمال — دون حلول ملتوية تعرّض رقمك للحظر.</p></article>
+        <article class="glass p-6"><span data-icon="zap" data-size="22" class="text-mint-300"></span><h3 class="t-h3 mt-4">سرعة في الرد</h3><p class="t-body mt-2">ردود جاهزة وروبوت ذكي وتوزيع تلقائي يختصر زمن الرد على عملائك.</p></article>
+        <article class="glass p-6"><span data-icon="message" data-size="22" class="text-mint-300"></span><h3 class="t-h3 mt-4">تفاعل أعلى</h3><p class="t-body mt-2">رسائل المحادثة تُقرأ أكثر بكثير من البريد الإلكتروني — كن حيث يرد عملاؤك.</p></article>
+        <article class="glass p-6"><span data-icon="globe" data-size="22" class="text-mint-300"></span><h3 class="t-h3 mt-4">عربي أولاً</h3><p class="t-body mt-2">واجهة عربية كاملة تدعم الكتابة من اليمين لليسار، مع دعم الإنجليزية.</p></article>
+        <article class="glass p-6"><span data-icon="users" data-size="22" class="text-mint-300"></span><h3 class="t-h3 mt-4">تعاون الفريق</h3><p class="t-body mt-2">وزّع المحادثات، واترك ملاحظات داخلية، وتجنّب الردود المكررة.</p></article>
+        <article class="glass p-6"><span data-icon="workflow" data-size="22" class="text-mint-300"></span><h3 class="t-h3 mt-4">قابل للتوسع</h3><p class="t-body mt-2">تكاملات وواجهة برمجية وخطافات ويب تنمو مع أعمالك.</p></article>
+      </div>
+      <aside class="lg:col-span-4 glass p-6 md:p-7 reveal" style="--glow: rgba(18,201,155,.16)" aria-labelledby="sec-title">
+        <span class="grid h-12 w-12 place-items-center rounded-2xl bg-mint text-navy"><span data-icon="lock" data-size="22"></span></span>
+        <h3 id="sec-title" class="t-h3 mt-5">حماية بياناتك أولوية</h3>
+        <p class="t-body mt-1">أدوات أمان مدمجة تحمي حسابك وبيانات عملائك.</p>
+        <dl class="mt-6 divide-y divide-white/10">
+          <div class="py-3.5"><dt class="font-semibold text-[15px]">اتصال مشفّر</dt><dd class="t-small mt-1">كل البيانات تنتقل عبر اتصال مشفّر <span class="num">(HTTPS)</span>.</dd></div>
+          <div class="py-3.5"><dt class="font-semibold text-[15px]">المصادقة الثنائية</dt><dd class="t-small mt-1">فعّل التحقق بخطوتين لحماية حسابات فريقك.</dd></div>
+          <div class="py-3.5"><dt class="font-semibold text-[15px]">صلاحيات حسب الدور</dt><dd class="t-small mt-1">حدّد بدقة ما يمكن لكل عضو في الفريق رؤيته وتعديله.</dd></div>
+          <div class="pt-3.5"><dt class="font-semibold text-[15px]">سجل تدقيق</dt><dd class="t-small mt-1">سجل كامل للعمليات المهمة لمعرفة من فعل ماذا ومتى.</dd></div>
+        </dl>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<div class="seam" data-seam="thread" aria-hidden="true"></div>
+
+<!-- ============ PRICING — three compact plans; the recommended one is lit ============ -->
+<section id="pricing" aria-labelledby="price-title" class="solid aura">
+  <div class="mx-auto max-w-page px-4 md:px-8 py-20 md:py-28">
+    <div class="flex flex-col md:flex-row md:items-end gap-6">
+      <div>
+        <p class="t-label">الأسعار</p>
+        <h2 id="price-title" class="t-h2 mt-5" data-split>أسعار بسيطة وواضحة</h2>
+        <p class="t-lead mt-4 max-w-[30rem] reveal">اختر الباقة المناسبة لك، وغيّرها في أي وقت.</p>
+      </div>
+      <div class="reveal md:ms-auto flex flex-wrap items-center gap-3">
+        <div role="radiogroup" aria-label="مدة الاشتراك" class="glass inline-flex rounded-full p-1" data-billing>
+          <button type="button" role="radio" aria-checked="true" data-period="m" class="h-9 px-5 rounded-full text-[14px] font-semibold text-steel-300 transition-colors aria-checked:bg-mint aria-checked:text-navy">شهري</button>
+          <button type="button" role="radio" aria-checked="false" tabindex="-1" data-period="y" class="h-9 px-5 rounded-full text-[14px] font-semibold text-steel-300 transition-colors aria-checked:bg-mint aria-checked:text-navy">سنوي · وفّر أكثر</button>
+        </div>
+        <label for="cur" class="sr-only">العملة</label>
+        <select id="cur" class="h-11 rounded-full border border-white/15 bg-transparent px-4 text-[14px] font-semibold"><option class="text-navy">ر.س</option><option class="text-navy">USD</option></select>
+      </div>
+    </div>
+    <p class="mt-8 md:hidden t-small">اسحب لمقارنة الباقات</p>
+    <!-- Phones: a swipe row (Pro first). Desktop: three equal cards. -->
+    <ul class="plans mt-4 md:mt-12 -mx-4 px-4 md:mx-0 md:px-0 flex md:grid md:grid-cols-3 gap-4 lg:gap-5 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-3 md:pb-0" data-bento>
+      <li class="glass plan snap-center shrink-0 w-[84%] sm:w-[58%] md:w-auto p-6 md:p-7 flex flex-col">
+        <h3 class="t-h3" lang="en">Starter</h3>
+        <p class="t-small mt-1">مثالية للأفراد والمشاريع الصغيرة</p>
+        <p class="mt-6 font-display font-semibold text-[40px] leading-none">مجاناً</p>
+        <p class="t-small mt-2.5">ابدأ اليوم — دون بطاقة ائتمانية</p>
+        <a href="#" aria-label="اختر الباقة: Starter" class="glass mt-6 flex h-12 items-center justify-center rounded-btn font-semibold">اختر الباقة</a>
+        <ul class="mt-6 pt-6 border-t border-white/10 space-y-3 text-[15px] text-[#C3CDDB]">
+          <li class="flex items-center gap-2.5"><span data-icon="check" data-size="16" class="shrink-0 text-mint"></span><span>حتى <span class="num">2</span> أعضاء في الفريق</span></li>
+          <li class="flex items-center gap-2.5"><span data-icon="check" data-size="16" class="shrink-0 text-mint"></span><span><span class="num">5 GB</span> تخزين</span></li>
+          <li class="flex items-center gap-2.5"><span data-icon="check" data-size="16" class="shrink-0 text-mint"></span><span>دعم عبر البريد</span></li>
+        </ul>
+      </li>
+      <li class="glass plan plan-pro order-first md:order-none snap-center shrink-0 w-[84%] sm:w-[58%] md:w-auto p-6 md:p-7 flex flex-col" style="--glow: rgba(18,201,155,.24)">
+        <div class="flex items-center gap-2"><h3 class="t-h3" lang="en">Pro</h3><span class="ms-auto rounded-full bg-mint px-2.5 py-1 text-[12px] font-semibold text-navy">موصى بها</span></div>
+        <p class="t-small mt-1">للفرق النامية التي تحتاج قوة أكبر</p>
+        <p class="mt-6 flex items-baseline gap-2"><span class="font-display font-semibold text-[40px] leading-none"><span class="num">—</span> ر.س</span><span class="t-small" data-per>/ شهرياً</span></p>
+        <p class="t-small mt-2.5 text-mint-300">تجربة مجانية <span class="num">14</span> يوماً</p>
+        <a href="#" aria-label="ابدأ تجربة 14 يوماً: Pro" class="mt-6 flex h-12 items-center justify-center rounded-btn bg-mint font-semibold text-navy hover:shadow-[0_0_30px_rgba(18,201,155,.5)] transition-shadow">ابدأ تجربة <span class="num mx-1">14</span> يوماً</a>
+        <ul class="mt-6 pt-6 border-t border-white/10 space-y-3 text-[15px] text-[#C3CDDB]">
+          <li class="flex items-center gap-2.5"><span data-icon="check" data-size="16" class="shrink-0 text-mint"></span><span>حتى <span class="num">10</span> أعضاء في الفريق</span></li>
+          <li class="flex items-center gap-2.5"><span data-icon="check" data-size="16" class="shrink-0 text-mint"></span><span><span class="num">50 GB</span> تخزين</span></li>
+          <li class="flex items-center gap-2.5"><span data-icon="check" data-size="16" class="shrink-0 text-mint"></span><span>دعم بأولوية</span></li>
+          <li class="flex items-center gap-2.5"><span data-icon="check" data-size="16" class="shrink-0 text-mint"></span><span>تحليلات متقدمة</span></li>
+        </ul>
+      </li>
+      <li class="glass plan snap-center shrink-0 w-[84%] sm:w-[58%] md:w-auto p-6 md:p-7 flex flex-col">
+        <h3 class="t-h3" lang="en">Business</h3>
+        <p class="t-small mt-1">مزايا بمستوى المؤسسات للمنظمات الكبيرة</p>
+        <p class="mt-6 flex items-baseline gap-2"><span class="font-display font-semibold text-[40px] leading-none"><span class="num">—</span> ر.س</span><span class="t-small" data-per>/ شهرياً</span></p>
+        <p class="t-small mt-2.5">تجربة مجانية <span class="num">14</span> يوماً</p>
+        <a href="#" aria-label="اختر الباقة: Business" class="glass mt-6 flex h-12 items-center justify-center rounded-btn font-semibold">اختر الباقة</a>
+        <ul class="mt-6 pt-6 border-t border-white/10 space-y-3 text-[15px] text-[#C3CDDB]">
+          <li class="flex items-center gap-2.5"><span data-icon="check" data-size="16" class="shrink-0 text-mint"></span><span>أعضاء غير محدودين</span></li>
+          <li class="flex items-center gap-2.5"><span data-icon="check" data-size="16" class="shrink-0 text-mint"></span><span><span class="num">500 GB</span> تخزين</span></li>
+          <li class="flex items-center gap-2.5"><span data-icon="check" data-size="16" class="shrink-0 text-mint"></span><span>دعم مخصّص</span></li>
+          <li class="flex items-center gap-2.5"><span data-icon="check" data-size="16" class="shrink-0 text-mint"></span><span>هوية خاصة بعلامتك ونطاق خاص</span></li>
+          <li class="flex items-center gap-2.5"><span data-icon="check" data-size="16" class="shrink-0 text-mint"></span><span>اتفاقية مستوى الخدمة <span class="num">(SLA)</span></span></li>
+        </ul>
+      </li>
+    </ul>
+    <p class="mt-6 t-small">نموذج: أسعار الريال (بالرمز الرسمي) والباقة الموصى بها تُحدَّد لاحقاً. المزايا كما تظهر في الموقع الحالي.</p>
+  </div>
+</section>
+
+<div class="seam" data-seam="thread" aria-hidden="true"></div>
+
+<!-- ============ FAQ — ask the ClickChat bot ============ -->
+<section id="faq" aria-labelledby="faq-title" class="solid" data-faq>
+  <div class="mx-auto max-w-page px-4 md:px-8 py-20 md:py-28 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+    <div class="lg:col-span-5">
+      <p class="t-label">الأسئلة الشائعة</p>
+      <h2 id="faq-title" class="t-h2 mt-5" data-split>الأسئلة الأكثر تكراراً</h2>
+      <p class="t-lead mt-5 max-w-[28rem] reveal">كل ما تحتاج معرفته عن كليك شات. اسأل، ويجيبك مساعدنا الآلي كما سيجيب عملاءك.</p>
+      <div class="reveal mt-8 flex flex-wrap gap-x-6 gap-y-3 text-[15px] font-semibold">
+        <button type="button" class="inline-flex items-center gap-2 text-mint-300 hover:text-white" aria-expanded="false" data-faq-all hidden>عرض كل الإجابات</button>
+        <a href="#" class="inline-flex items-center gap-2 text-steel-300 hover:text-white"><span data-icon="message" data-size="16"></span>اسأل فريقنا على واتساب</a>
+      </div>
+    </div>
+    <div class="lg:col-span-7 min-w-0">
+      <dl class="glass px-6 divide-y divide-white/10" data-faq-src>
+        <div class="py-5"><dt class="t-h3 text-[18px]">ما القنوات التي يدعمها كليك شات؟</dt><dd class="t-body mt-2">واتساب للأعمال، وفيسبوك ماسنجر، ورسائل إنستغرام، والرسائل النصية، والبريد الإلكتروني — كلها في صندوق وارد واحد مشترك، دون تنقّل بين التطبيقات.</dd></div>
+        <div class="py-5"><dt class="t-h3 text-[18px]">هل أحتاج حساب واتساب للأعمال <span class="num">(API)</span>؟</dt><dd class="t-body mt-2">كليك شات مبني على واجهة واتساب السحابية الرسمية من ميتا. تربط رقمك عبر واجهات ميتا الرسمية بخطوات بسيطة — دون حلول ملتوية تعرّض رقمك للحظر.</dd></div>
+        <div class="py-5"><dt class="t-h3 text-[18px]">هل يمكنني التجربة قبل الدفع؟</dt><dd class="t-body mt-2">نعم. باقة <span lang="en">Starter</span> مجانية، وباقتا <span lang="en">Pro</span> و<span lang="en">Business</span> تشملان تجربة مجانية لمدة <span class="num">14</span> يوماً — بدون بطاقة ائتمانية.</dd></div>
+        <div class="py-5"><dt class="t-h3 text-[18px]">هل يفهم الروبوت الذكي طبيعة نشاطي؟</dt><dd class="t-body mt-2">نعم — درّب الروبوت على مستنداتك وأسئلتك الشائعة ليجيب عملاءك فوراً وبدقة وبأي لغة.</dd></div>
+        <div class="py-5"><dt class="t-h3 text-[18px]">هل يمكن لأكثر من موظف العمل على نفس الرقم؟</dt><dd class="t-body mt-2">نعم. صندوق الوارد يشاركه فريقك بالكامل: وزّع المحادثات، واترك ملاحظات داخلية، وتجنّب الردود المكررة — مع صلاحيات حسب الدور لكل عضو.</dd></div>
+      </dl>
+      <div class="reveal app overflow-hidden" data-faq-chat hidden>
+        <div class="flex items-center gap-3 px-5 py-4 border-b app-line">
+          <span class="relative shrink-0"><img src="../ClickChat-Brand-Identity/ClickChat-Brand-Identity/01-Logo/03-icon/SVG/clickchat-icon-reversed.svg" alt="" class="h-9 w-9"><span class="absolute -bottom-0.5 -end-0.5 h-3 w-3 rounded-full bg-mint ring-2 ring-[#0B1830]"></span></span>
+          <div class="min-w-0"><p class="font-display font-semibold">مساعد كليك شات</p><p class="text-[12px] text-[#8D9AAE]">ردود آلية بالذكاء الاصطناعي · <span class="num">24/7</span></p></div>
+          <span class="ms-auto shrink-0 inline-flex items-center gap-1.5 rounded-full bg-violet/20 text-[#DCDDFF] text-[12px] font-semibold px-2.5 py-1 ring-1 ring-violet-300/30"><span data-icon="sparkles" data-size="14"></span>رد آلي</span>
+        </div>
+        <div class="faq-log relative h-[350px] md:h-[390px] overflow-y-auto px-4 md:px-5 py-5" role="log" aria-live="polite" aria-label="المحادثة مع مساعد كليك شات" tabindex="0" data-faq-log>
+          <div class="relative space-y-3 text-[15px] leading-[1.75]" data-faq-msgs></div>
+        </div>
+        <div class="border-t app-line px-4 md:px-5 py-4">
+          <p class="mb-2.5 text-[12px] font-semibold text-[#8D9AAE]" id="faq-chips-label">اختر سؤالاً</p>
+          <div class="faq-chips -mx-4 px-4 md:mx-0 md:px-0 flex md:flex-wrap gap-2 overflow-x-auto" role="group" aria-labelledby="faq-chips-label" data-faq-chips></div>
+        </div>
+      </div>
+      <p class="mt-4 t-small">مسودة: الإجابات مأخوذة من نصوص الموقع الحالي، وتُراجع قبل النشر.</p>
+    </div>
+  </div>
+</section>
+
+<div class="seam flip" data-seam="band" aria-hidden="true"></div>
+
+<!-- ============ JOIN — the icon returns alone above the headline ============ -->
+<section id="join" aria-labelledby="join-title" class="relative z-10 min-h-[100svh] flex items-end" data-join>
+  <div class="mx-auto max-w-page px-4 md:px-8 w-full text-center relative pb-[12vh] pt-[52svh]">
+    <div class="pointer-events-none absolute inset-x-0 bottom-[6vh] mx-auto h-[380px] max-w-[860px] rounded-full bg-[#040B18]/70 blur-3xl" aria-hidden="true"></div>
+    <h2 id="join-title" class="relative t-display" data-split>جاهز لكسب <span class="hl">كل محادثة؟</span></h2>
+    <p class="relative t-lead mt-5 mx-auto max-w-[34rem]">ابدأ مجاناً اليوم — دون بطاقة ائتمانية، وفعّل قنواتك خلال دقائق.</p>
+    <div class="relative mt-10 flex flex-wrap justify-center gap-3">
+      <a href="#" class="inline-flex h-14 px-8 items-center gap-2 rounded-btn bg-mint text-navy text-[17px] font-semibold shadow-[0_0_48px_rgba(18,201,155,.4)]">ابدأ تجربتك المجانية <span data-icon="arrow" data-size="18"></span></a>
+      <a href="#" class="glass inline-flex h-14 px-7 items-center gap-2 rounded-btn font-semibold"><span data-icon="message" data-size="18"></span> تحدّث مع فريق المبيعات</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="solid border-t border-white/10">
+  <div class="mx-auto max-w-page px-4 md:px-8 py-14 grid grid-cols-2 md:grid-cols-5 gap-8 text-[15px]">
+    <div class="col-span-2"><img src="../ClickChat-Brand-Identity/ClickChat-Brand-Identity/01-Logo/01-horizontal-bilingual/SVG/clickchat-horizontal-reversed.svg" alt="ClickChat كليك شات" class="h-10 w-auto"><p class="mt-4 max-w-sm t-body">منصة سعودية تجمع واتساب وماسنجر وإنستغرام في صندوق وارد واحد، مع الذكاء الاصطناعي والأتمتة والحملات الجماعية.</p></div>
+    <nav aria-label="المنتج"><p class="font-semibold">المنتج</p><ul class="mt-3 space-y-2 text-steel-300"><li><a class="hover:text-white" href="#features">المزايا</a></li><li><a class="hover:text-white" href="#integrations">التكاملات</a></li><li><a class="hover:text-white" href="#pricing">الأسعار</a></li><li><a class="hover:text-white" href="#faq">الأسئلة الشائعة</a></li></ul></nav>
+    <nav aria-label="الشركة"><p class="font-semibold">الشركة</p><ul class="mt-3 space-y-2 text-steel-300"><li><a class="hover:text-white" href="#">من نحن</a></li><li><a class="hover:text-white" href="#">حالات الاستخدام</a></li><li><a class="hover:text-white" href="#">تواصل معنا</a></li></ul></nav>
+    <nav aria-label="قانوني"><p class="font-semibold">قانوني</p><ul class="mt-3 space-y-2 text-steel-300"><li><a class="hover:text-white" href="#">سياسة الخصوصية</a></li><li><a class="hover:text-white" href="#">الشروط والأحكام</a></li><li><a class="hover:text-white" href="#">سياسة ملفات الارتباط</a></li></ul></nav>
+  </div>
+  <div class="border-t border-white/10"><div class="mx-auto max-w-page px-4 md:px-8 py-5 flex flex-wrap gap-4 t-small"><span>© <span class="num">2026</span> ClickChat | كليك شات</span><span class="ms-auto">من <span lang="en">Click &amp; More</span></span></div></div>
+</footer>
+
+<nav class="proto-switch" aria-label="Prototype directions">
+  <a href="index.html">Overview</a>
+  <a href="direction-4-living-universe.html">4</a>
+  <a href="direction-4-1-living-universe.html" aria-current="page">4.1 · Living Universe</a>
+  <a href="direction-5-nobody-waits.html">5</a>
+</nav>
+
+<script src="assets/hero-icon-scene.js"></script>
+<script type="module">
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const SVGNS = 'http://www.w3.org/2000/svg';
+const el = (tag, attrs) => { const n = document.createElementNS(SVGNS, tag); for (const k in attrs) n.setAttribute(k, attrs[k]); return n; };
+
+/* ---------- 1. The 3D hero (loads in the background; the page never waits for it) ---------- */
+// Hero reveals: the headline lines wipe in, then the badge, lead, buttons and trust line rise.
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } }), { threshold: 0.3 });
+document.querySelectorAll('[data-hero] .wipe, [data-hero] .rise').forEach(n => io.observe(n));
+const canvas = document.getElementById('universe');
+const chips = [...document.querySelectorAll('[data-chips] .chip')], chipLayer = document.querySelector('[data-chips]');
+const hero = document.querySelector('[data-hero]'), join = document.querySelector('[data-join]');
+let universe = null, heroVisible = true, joinVisible = false;
+const uState = { final: 0 };
+async function startUniverse() {
+  const U = window.HeroIconScene;
+  if (!U || !U.supportsWebGL()) throw new Error('WebGL unavailable');
+  await U.load();
+  const u = U.createHero(canvas, { reduceMotion: reduce });
+  if (!u) throw new Error('renderer failed');
+  return u;
+}
+startUniverse().then(u => {
+  universe = u;
+  canvas.setAttribute('aria-describedby', 'universe-desc');
+  universe.setFinal(uState.final);
+  // A channel's chip shows while it sends a message, and follows its disc.
+  universe.onLaunch(i => { if (innerWidth >= 1024 && chips[i]) chips[i].classList.add('show'); });
+  universe.onLand(i => setTimeout(() => chips[i] && chips[i].classList.remove('show'), 350));
+  universe.onFrame(() => {
+    if (innerWidth < 1024) return;   // chips only where there is room around the icon
+    chipLayer.style.opacity = heroVisible ? 1 : 0;
+    if (!heroVisible) return;
+    chips.forEach((c, i) => { const p = universe.project(i); c.style.transform = `translate(${p.x}px, ${p.y - p.r - 8}px) translate(-50%, -100%)`; if (p.a < 0.9) c.classList.remove('show'); });
+  });
+  const sync = () => { universe.setActive(heroVisible || joinVisible); canvas.style.opacity = (heroVisible || joinVisible) ? 1 : 0; };
+  new IntersectionObserver(([e]) => { heroVisible = e.isIntersecting; sync(); }).observe(hero);
+  new IntersectionObserver(([e]) => { joinVisible = e.isIntersecting; sync(); }).observe(join);
+  document.addEventListener('visibilitychange', () => universe.setActive(!document.hidden && (heroVisible || joinVisible)));
+  addEventListener('pointermove', e => universe.pointer(e.clientX, e.clientY), { passive: true });
+  // The icon and its channels fit between the header and the hero text (measured in hero coordinates).
+  const heroText = hero.querySelector(':scope > div.relative');
+  const frameHero = () => { const h = hero.getBoundingClientRect(), t = heroText.getBoundingClientRect(); universe.setFrame(header.offsetHeight + 10, t.top - h.top - 18); };
+  frameHero(); document.fonts && document.fonts.ready.then(frameHero);
+  let fT = 0; addEventListener('resize', () => { clearTimeout(fT); fT = setTimeout(frameHero, 140); });
+  sync(); onScroll();
+  if (reduce) new IntersectionObserver(([e]) => universe.setFinal(e.isIntersecting ? 1 : 0), { threshold: 0.3 }).observe(join);
+  requestAnimationFrame(() => requestAnimationFrame(() => document.documentElement.classList.add('universe-live')));
+}).catch(() => { document.documentElement.classList.add('no-webgl'); canvas.remove(); });
+
+/* ---------- 2. Brand pattern builders ---------- */
+const SEAM_W = 2400;
+function buildBand(svg) {
+  const h = 46, step = 20;
+  for (let i = 0; i < SEAM_W / step; i++) {
+    const x = i * step, up = i % 2 === 0;
+    svg.appendChild(el('path', { d: up ? `M${x} ${h} L${x + step / 2} ${h * 0.35} L${x + step} ${h} Z` : `M${x} ${h * 0.35} L${x + step / 2} ${h} L${x + step} ${h * 0.35} Z`, fill: up ? '#1B2B48' : 'rgba(27,43,72,.45)', class: 'sadu-tri' }));
+    if (i % 4 === 2) svg.appendChild(el('path', { d: `M${x + step / 2} ${h * 0.05} L${x + step / 2 + 7} ${h * 0.2} L${x + step / 2} ${h * 0.35} L${x + step / 2 - 7} ${h * 0.2} Z`, fill: '#12C99B', class: 'sadu-dia' }));
+  }
+}
+function buildThread(svg) {
+  const mid = 9, step = 16, g = svg.appendChild(el('g', {}));
+  for (let i = 0; i < SEAM_W / step; i++) {
+    const x = i * step;
+    g.appendChild(el('path', { d: `M${x} ${mid} L${x + step / 2} ${mid - 6} L${x + step} ${mid} Z`, fill: '#1B2B48' }));
+    g.appendChild(el('path', { d: `M${x + step / 2} ${mid} L${x + step} ${mid + 6} L${x + step * 1.5} ${mid} Z`, fill: 'rgba(27,43,72,.6)' }));
+  }
+  svg.appendChild(el('line', { x1: 0, y1: mid, x2: SEAM_W, y2: mid, stroke: '#12C99B', 'stroke-opacity': .45, class: 'seam-line' }));
+  for (let k = -5; k <= 5; k++) { const cx = SEAM_W / 2 + k * 240; svg.appendChild(el('path', { d: `M${cx} ${mid - 7} L${cx + 5} ${mid} L${cx} ${mid + 7} L${cx - 5} ${mid} Z`, fill: '#12C99B', class: 'sadu-dia' })); }
+}
+document.querySelectorAll('[data-seam]').forEach(s => {
+  const band = s.dataset.seam === 'band';
+  const svg = s.appendChild(el('svg', { viewBox: `0 0 ${SEAM_W} ${band ? 46 : 18}`, preserveAspectRatio: 'xMidYMid slice', focusable: 'false' }));
+  (band ? buildBand : buildThread)(svg);
+  s.appendChild(document.createElement('span')).className = 'seam-light';
+});
+// Mini campaign field (feature card): coral outlines = sends, mint fills = replies.
+const mini = document.querySelector('[data-mini-field]'), miniTris = [];
+for (let r = 0; r < 2; r++) for (let c = 0; c < 9; c++) {
+  const x = 4 + c * 18, y = 4 + r * 26, up = (r + c) % 2 === 0;
+  const reply = (r * 9 + c) % 4 === 1;
+  const p = el('path', { d: up ? `M${x} ${y + 22} L${x + 9} ${y} L${x + 18} ${y + 22} Z` : `M${x} ${y} L${x + 9} ${y + 22} L${x + 18} ${y} Z`, fill: reply ? 'rgba(18,201,155,.85)' : 'rgba(255,106,77,.08)', stroke: reply ? '#55DCB1' : 'rgba(255,106,77,.6)', 'stroke-width': 1 });
+  mini.appendChild(p); miniTris.push(p);
+}
+window.renderIcons && renderIcons();
+
+/* Header backdrop (independent of GSAP). */
+const header = document.querySelector('[data-header]');
+function onScroll() {
+  header.classList.toggle('scrolled', scrollY > 120);
+  if (!universe) return;
+  // Hero: the scene rises with the page and the channels fly into the icon (no pinning; reduced motion: rise only).
+  const r = hero.getBoundingClientRect(), lift = Math.min(r.height, Math.max(0, -r.top));
+  universe.setScroll(reduce ? 0 : Math.min(1, lift / (r.height * 0.8)), lift);
+  // Closing section: the returned icon scrolls with that section, so its headline never runs into it.
+  universe.setLift(Math.min(3, Math.max(-1.5, -join.getBoundingClientRect().top / innerHeight)));
+}
+addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+/* Glass spotlight: follows the pointer inside the hovered card (desktop pointers only). */
+if (matchMedia('(pointer: fine)').matches) {
+  document.addEventListener('pointermove', e => {
+    const g = e.target.closest && e.target.closest('.glass'); if (!g) return;
+    const r = g.getBoundingClientRect();
+    g.style.setProperty('--mx', `${e.clientX - r.left}px`); g.style.setProperty('--my', `${e.clientY - r.top}px`);
+  }, { passive: true });
+}
+
+/* Pricing: billing period (radio group with arrow keys). Prices are placeholders; only the period label changes. */
+const periods = [...document.querySelectorAll('[data-billing] [role="radio"]')];
+const setPeriod = btn => {
+  periods.forEach(b => { const on = b === btn; b.setAttribute('aria-checked', on); b.tabIndex = on ? 0 : -1; });
+  document.querySelectorAll('[data-per]').forEach(s => { s.textContent = btn.dataset.period === 'y' ? '/ سنوياً' : '/ شهرياً'; });
+};
+periods.forEach(b => b.addEventListener('click', () => setPeriod(b)));
+document.querySelector('[data-billing]').addEventListener('keydown', e => {
+  if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) return;
+  e.preventDefault();
+  const next = periods[(periods.findIndex(b => b.getAttribute('aria-checked') === 'true') + 1) % periods.length];
+  setPeriod(next); next.focus();
+});
+
+/* FAQ: the same answers, asked to the ClickChat bot; "show all answers" switches to the plain list. */
+const faq = document.querySelector('[data-faq]'), faqSrc = faq.querySelector('[data-faq-src]');
+const faqItems = [...faqSrc.children].map(d => ({ q: d.querySelector('dt').innerHTML, a: d.querySelector('dd').innerHTML, len: d.querySelector('dd').textContent.length }));
+const faqChat = faq.querySelector('[data-faq-chat]'), faqLog = faq.querySelector('[data-faq-log]'), faqMsgs = faq.querySelector('[data-faq-msgs]'), faqChips = faq.querySelector('[data-faq-chips]'), faqAll = faq.querySelector('[data-faq-all]');
+faqSrc.hidden = true; faqChat.hidden = false; faqAll.hidden = false;
+faqAll.addEventListener('click', () => {
+  const list = faqSrc.hidden;
+  faqSrc.hidden = !list; faqChat.hidden = list;
+  faqAll.setAttribute('aria-expanded', list); faqAll.textContent = list ? 'العودة إلى المحادثة' : 'عرض كل الإجابات';
+});
+const logTo = top => faqLog.scrollTo({ top, behavior: reduce ? 'auto' : 'smooth' });
+function say(from, html) {
+  const b = document.createElement('div');
+  b.className = from === 'bot' ? 'msg tail-t b-team w-fit max-w-[88%] ms-auto px-4 py-3' : 'msg tail-c b-cust w-fit max-w-[88%] px-4 py-3';
+  b.innerHTML = `<span class="sr-only">${from === 'bot' ? 'مساعد كليك شات:' : 'سؤالك:'} </span>${html}`;
+  faqMsgs.appendChild(b); logTo(faqLog.scrollHeight); return b;
+}
+function botReply(html, ms) {
+  if (!ms) return Promise.resolve(say('bot', html));
+  const t = document.createElement('div');
+  t.className = 'msg typing tail-t b-team w-fit ms-auto px-4 py-3.5 flex gap-1.5'; t.setAttribute('aria-hidden', 'true');
+  t.innerHTML = '<span></span><span></span><span></span>';
+  faqMsgs.appendChild(t); logTo(faqLog.scrollHeight);
+  return new Promise(r => setTimeout(() => { t.remove(); r(say('bot', html)); }, ms));
+}
+let greeting = null, faqBusy = false;
+const answered = new Map();
+const greet = () => (greeting ??= botReply('أهلاً بك! أنا مساعد كليك شات. اختر سؤالاً من الأسفل وأجيبك فوراً.', reduce ? 0 : 900));
+faqItems.forEach((it, i) => {
+  const c = faqChips.appendChild(document.createElement('button'));
+  c.type = 'button';
+  c.className = 'faq-chip shrink-0 whitespace-nowrap rounded-full px-3.5 py-2 text-[14px] font-semibold text-mint-300 ring-1 ring-mint/40 hover:bg-mint/10 transition-colors';
+  c.innerHTML = it.q;
+  c.addEventListener('click', async () => {
+    if (answered.has(i)) { const b = answered.get(i); logTo(faqMsgs.offsetTop + b.offsetTop - 12); b.classList.remove('flash'); void b.offsetWidth; b.classList.add('flash'); return; }
+    if (faqBusy) return;
+    faqBusy = true;
+    await greet();
+    say('visitor', it.q);
+    answered.set(i, await botReply(it.a, reduce ? 0 : Math.min(1600, 600 + it.len * 7)));
+    c.dataset.asked = ''; faqBusy = false;
+  });
+});
+new IntersectionObserver((es, o) => { if (es[0].isIntersecting) { greet(); o.disconnect(); } }, { threshold: 0.35 }).observe(faqChat);
+
+/* AI chapter: the live «متجر العود» chat plays once as it comes into view (no pin). Each AI reply lights the sources it
+   learned from (threads on desktop) and the workflow step it reached. Reduced motion: the finished conversation at once. */
+const ai = document.querySelector('[data-ai]');
+const aiLog = ai.querySelector('[data-ai-log]'), aiItems = [...aiLog.querySelectorAll('[data-step]')];
+const aiFlow = [...ai.querySelectorAll('[data-flow] .flow-step')], aiReplay = ai.querySelector('[data-ai-replay]'), aiSvg = ai.querySelector('[data-threads]');
+const aiSrc = {}; ai.querySelectorAll('[data-src]').forEach(n => { aiSrc[n.dataset.src] = n; });
+const wide = matchMedia('(min-width: 1024px)');
+let aiRun = 0, aiLinks = [], threads = [];
+const pause = ms => new Promise(r => setTimeout(r, ms));
+const easeIO = p => p < 0.5 ? 4 * p ** 3 : 1 - (-2 * p + 2) ** 3 / 2;
+// The log keeps its finished height, so the panel never grows while the conversation plays.
+function reserveLog() { aiLog.style.minHeight = ''; aiLog.classList.add('all'); const h = aiLog.offsetHeight; aiLog.classList.remove('all'); aiLog.style.minHeight = h + 'px'; }
+// A thread runs from the source card's inner edge to the reply it fed (coordinates inside the chapter).
+function placeThread(t) {
+  const c = ai.getBoundingClientRect(), s = t.src.getBoundingClientRect(), d = t.dst.getBoundingClientRect();
+  const x1 = s.right - c.left, y1 = s.top + s.height / 2 - c.top, x2 = d.left - c.left, y2 = d.top + Math.min(d.height / 2, 24) - c.top, k = Math.max(30, (x2 - x1) * 0.55);
+  t.path.setAttribute('d', `M${x1} ${y1} C${x1 + k} ${y1} ${x2 - k} ${y2} ${x2} ${y2}`);
+  t.a.setAttribute('cx', x1); t.a.setAttribute('cy', y1); t.b.setAttribute('cx', x2); t.b.setAttribute('cy', y2);
+}
+function aiThreadsDraw() { threads.forEach(placeThread); }
+function addThread(key, dst, animate) {
+  if (!wide.matches) return;
+  const t = { src: aiSrc[key], dst, path: aiSvg.appendChild(el('path', { class: 'ai-thread' })), a: aiSvg.appendChild(el('circle', { r: 3.5, class: 'ai-anchor' })), b: aiSvg.appendChild(el('circle', { r: 3.5, class: 'ai-anchor' })) };
+  threads.push(t); placeThread(t);
+  if (!animate) return;
+  // The thread draws from the source to the reply, with one light running ahead of it.
+  const len = t.path.getTotalLength(), dur = 800, spark = aiSvg.appendChild(el('circle', { r: 4.5, class: 'ai-spark' }));
+  t.path.style.strokeDasharray = `${len}px`; t.b.style.opacity = 0;
+  t.path.animate([{ strokeDashoffset: `${len}px` }, { strokeDashoffset: '0px' }], { duration: dur, easing: 'cubic-bezier(.65,0,.35,1)' })
+    .finished.then(() => { t.path.style.strokeDasharray = ''; t.b.style.opacity = ''; }, () => {});
+  const t0 = performance.now();
+  requestAnimationFrame(function run(now) {
+    const p = Math.min(1, (now - t0) / dur), pt = t.path.getPointAtLength(t.path.getTotalLength() * easeIO(p));
+    spark.setAttribute('cx', pt.x); spark.setAttribute('cy', pt.y);
+    if (p < 1 && spark.isConnected) requestAnimationFrame(run); else spark.remove();
+  });
+}
+async function playAi(instant) {
+  const run = ++aiRun;
+  for (const it of aiItems) {
+    if (!it.classList.contains('on')) {
+      if (!instant) {
+        await pause(+(it.dataset.wait || 500));
+        if (it.dataset.typing && run === aiRun) {
+          const dots = aiLog.insertBefore(document.createElement('div'), it);
+          dots.className = 'msg typing self-end tail-t b-team px-4 py-3.5 flex gap-1.5'; dots.setAttribute('aria-hidden', 'true');
+          dots.innerHTML = '<span></span><span></span><span></span>';
+          await pause(+it.dataset.typing); dots.remove();
+        }
+      }
+      if (run !== aiRun) return;
+      it.classList.add('on');
+    }
+    if (it.dataset.flowI) aiFlow[+it.dataset.flowI].classList.add('lit');
+    (it.dataset.from || '').split(' ').filter(Boolean).forEach(k => { aiSrc[k].classList.add('lit'); aiLinks.push([k, it]); addThread(k, it, !instant); });
+  }
+  aiReplay.hidden = false;
+}
+function resetAi() {
+  aiRun++;
+  aiItems.forEach(it => { if (!it.hasAttribute('data-keep')) it.classList.remove('on'); });
+  aiLog.querySelectorAll('.typing').forEach(n => n.remove());
+  Object.values(aiSrc).forEach(n => n.classList.remove('lit')); aiFlow.forEach(n => n.classList.remove('lit'));
+  aiLinks = []; threads = []; aiSvg.replaceChildren();
+}
+aiReplay.addEventListener('click', () => { resetAi(); playAi(reduce); });
+reserveLog();
+document.fonts && document.fonts.ready.then(() => { reserveLog(); aiThreadsDraw(); });
+new IntersectionObserver((es, o) => { if (es[0].isIntersecting) { o.disconnect(); playAi(reduce); } }, { rootMargin: '0px 0px -30% 0px' }).observe(aiLog);
+let aiT = 0;
+addEventListener('resize', () => { clearTimeout(aiT); aiT = setTimeout(() => { reserveLog(); threads = []; aiSvg.replaceChildren(); aiLinks.forEach(([k, d]) => addThread(k, d, false)); }, 150); });
+
+/* ---------- 3. Motion (content is visible without JS; GSAP only adds motion) ---------- */
+const { gsap } = window;
+if (gsap && !reduce) {
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Arabic is never split into letters (cursive joining) — words only.
+  function splitWords(root) {
+    [...root.childNodes].forEach(n => {
+      if (n.nodeType === 3) {
+        const frag = document.createDocumentFragment();
+        n.textContent.split(/(\s+)/).forEach(part => {
+          if (!part) return;
+          if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+          const w = document.createElement('span'); w.className = 'word'; const inner = document.createElement('span'); inner.textContent = part; w.appendChild(inner); frag.appendChild(w);
+        });
+        n.replaceWith(frag);
+      } else if (n.nodeType === 1 && n.tagName !== 'BR') splitWords(n);
+    });
+  }
+  document.querySelectorAll('[data-split]').forEach(splitWords);
+
+  const mm = gsap.matchMedia();
+  mm.add({ desktop: '(min-width: 1024px)', small: '(max-width: 1023px)' }, ctx => {
+    const { desktop } = ctx.conditions;
+
+    // Chapter — scattered messages fold into one inbox (pinned on desktop); the problem list turns into the solution list.
+    const rowsEls = gsap.utils.toArray('[data-rows] .row');
+    const R = gsap.utils.random;
+    const sc = rowsEls.map((_, i) => ({ x: R(-200, 200), y: (i - 2.5) * R(28, 56), z: R(-420, 80), rx: R(-22, 22), ry: R(-28, 28), rz: R(-7, 7) }));
+    const lists = document.querySelector('[data-lists]');
+    if (desktop) lists.classList.add('lists-swap');
+    const inboxTl = gsap.timeline({ scrollTrigger: desktop
+      ? { trigger: '[data-inbox]', start: 'top top', end: '+=130%', scrub: 1, pin: true }
+      : { trigger: '[data-inbox-panel]', start: 'top 85%', end: 'top 30%', scrub: 1 } });
+    inboxTl.from('[data-inbox-panel]', { backgroundColor: 'rgba(21,23,27,0)', boxShadow: '0 0 0 0 rgba(0,0,0,0)', duration: 0.6 }, 0.4)
+      .from('[data-panel-chrome]', { opacity: 0, y: -20, duration: 0.4 }, 0.6)
+      .from(rowsEls, { duration: 1, ease: 'power2.inOut', stagger: 0.08, x: i => sc[i].x, y: i => sc[i].y, z: i => sc[i].z, rotationX: i => sc[i].rx, rotationY: i => sc[i].ry, rotationZ: i => sc[i].rz, scale: 0.72, opacity: i => sc[i].z < -200 ? 0.55 : 0.9, filter: i => sc[i].z < -200 ? 'blur(3px)' : 'blur(0px)', borderRadius: 16, boxShadow: '0 20px 50px -10px rgba(0,0,0,.6)' }, 0);
+    if (desktop) inboxTl.to('[data-list-before]', { autoAlpha: 0, y: -10, duration: 0.25 }, 0.55).from('[data-list-after]', { autoAlpha: 0, y: 12, duration: 0.3 }, 0.62);
+
+    // Chapter — the AI chat rises from a tilt (facing what it learned from) and settles flat; its threads follow.
+    if (desktop) gsap.fromTo('[data-ai-device]', { rotationY: -16, rotationX: 10 }, { rotationY: 0, rotationX: 0, ease: 'none', onUpdate: aiThreadsDraw,
+      scrollTrigger: { trigger: '[data-ai-device]', start: 'top bottom', end: 'center 55%', scrub: 0.8 } });
+
+    // Join — the icon comes back alone, above the headline.
+    ScrollTrigger.create({ trigger: join, start: 'top bottom', end: 'center center', scrub: true, onUpdate: s => { uState.final = s.progress; if (universe) universe.setFinal(s.progress); } });
+
+    // Text arrives with each section (created after the pins so positions include pin spacing):
+    // the label pill settles in, the heading rises word by word, then the supporting lines.
+    gsap.utils.toArray('main .t-label').forEach(e => gsap.from(e, { opacity: 0, scale: 0.92, y: 8, duration: 0.6, ease: 'power3.out', scrollTrigger: { trigger: e, start: 'top 88%' } }));
+    document.querySelectorAll('[data-split]').forEach(h => gsap.from(h.querySelectorAll('.word > span'), { yPercent: 135, duration: 0.95, ease: 'power4.out', stagger: 0.06, delay: 0.1, scrollTrigger: { trigger: h, start: 'top 86%' } }));
+    gsap.utils.toArray('.reveal').forEach(r => gsap.from(r, { y: 22, opacity: 0, duration: 0.8, ease: 'power3.out', scrollTrigger: { trigger: r, start: 'top 88%', toggleActions: 'play none none reverse' } }));
+    // Bento cards rise in a quick stagger; the analytics bars fill; the steps thread draws.
+    gsap.utils.toArray('[data-bento]').forEach(g => gsap.from(g.children, { y: 34, opacity: 0, duration: 0.8, ease: 'power3.out', stagger: 0.07, scrollTrigger: { trigger: g, start: 'top 85%' } }));
+    gsap.from('[data-bar]', { scaleX: 0, transformOrigin: 'right center', duration: 1, ease: 'power3.out', stagger: 0.12, scrollTrigger: { trigger: '[data-bar]', start: 'top 90%' } });
+    gsap.from(miniTris, { scale: 0, transformOrigin: '50% 50%', duration: 0.4, ease: 'back.out(2)', stagger: { each: 0.03, from: 'end' }, scrollTrigger: { trigger: mini, start: 'top 92%' } });
+    const stepLine = document.querySelector('[data-step-line]');
+    if (stepLine) gsap.fromTo(stepLine, { strokeDasharray: 1200, strokeDashoffset: 1200 }, { strokeDashoffset: 0, ease: 'none', scrollTrigger: { trigger: stepLine, start: 'top 85%', end: 'top 50%', scrub: 0.8 } });
+
+    // Sadu seams weave in, then one mint light runs along each (right to left).
+    gsap.utils.toArray('[data-seam]').forEach(s => {
+      const band = s.dataset.seam === 'band', st = { trigger: s, start: 'top 98%', end: 'top 64%', scrub: 0.8 };
+      if (band) gsap.from(s.querySelectorAll('.sadu-tri'), { scaleY: 0, transformOrigin: '50% 100%', stagger: { each: 0.01, from: 'end' }, ease: 'back.out(2)', scrollTrigger: st });
+      else {
+        gsap.fromTo(s.querySelector('svg'), { clipPath: 'inset(0% 50% 0% 50%)' }, { clipPath: 'inset(0% 0% 0% 0%)', ease: 'power2.out', scrollTrigger: st });
+        gsap.from(s.querySelector('.seam-line'), { scaleX: 0, transformOrigin: '50% 50%', ease: 'power2.out', scrollTrigger: st });
+      }
+      gsap.from(s.querySelectorAll('.sadu-dia'), { scale: 0, rotate: 90, transformOrigin: '50% 50%', stagger: { each: 0.03, from: 'center' }, scrollTrigger: { ...st, start: 'top 92%' } });
+      const lightEl = s.querySelector('.seam-light');
+      gsap.timeline({ scrollTrigger: { trigger: s, start: 'top 70%', toggleActions: 'play none none reset', invalidateOnRefresh: true } })
+        .to(lightEl, { opacity: 1, duration: 0.25 }, 0.15)
+        .to(lightEl, { x: () => -(s.offsetWidth + 240), duration: 1.9, ease: 'power1.inOut' }, 0.15)
+        .to(lightEl, { opacity: 0, duration: 0.4 }, 1.65);
+    });
+
+    return () => lists.classList.remove('lists-swap');
+  });
+  addEventListener('load', () => ScrollTrigger.refresh());
+}
+</script>
+</body>
+</html>

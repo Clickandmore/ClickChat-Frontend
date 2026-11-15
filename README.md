@@ -67,3 +67,13 @@ ClickChat-Brand-Identity/      logos (SVG), favicon and patterns from the brand 
 prototypes/assets/             fonts, base styles, icons, sector photos, integration logos
 prototypes/experiments/navy-canvas/   the prototype
 ```
+
+## Direction 4.1 "Living Universe" (this branch)
+
+A single-page home in the "Living Universe" direction: a 3D ClickChat icon hero (three.js), a pinned unified-inbox chapter, and the «روبوتات دردشة ذكية» chapter where the «متجر العود» AI chat plays once in view, with threads from its training sources («مستنداتك» · «أسئلتك الشائعة» · «معلومات منتجاتك») and the «أتمتة بدون برمجة» steps lighting up. Open:
+
+```
+prototypes/direction-4-1-living-universe.html
+```
+
+Tailwind, three.js and GSAP load from CDNs, so open it with an internet connection. The links in its direction switcher to the other directions (4, 5, the overview) are not in this repository.
