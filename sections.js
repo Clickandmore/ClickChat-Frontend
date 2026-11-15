@@ -255,7 +255,7 @@
     ];
     const SLUG = { store: 'ecommerce', clinic: 'clinics', cafe: 'restaurants', realestate: 'real-estate', cars: 'car-showrooms', salon: 'salons', education: 'education', recruitment: 'recruitment' };
     track.innerHTML = S.map(s => '<li><a href="industry-' + SLUG[s[2]] + '.html" class="ph">' +
-      '<img src="../../assets/photos/' + s[2] + '.jpg"' + (s[8] ? ' class="dim"' : '') + ' alt="" width="1200" height="800" loading="lazy" decoding="async" style="object-position:' + s[3] + ' 0">' +
+      '<img src="assets/photos/' + s[2] + '.jpg"' + (s[8] ? ' class="dim"' : '') + ' alt="" width="1200" height="800" loading="lazy" decoding="async" style="object-position:' + s[3] + ' 0">' +
       '<span class="ph-tag"><span data-icon="' + s[4] + '" data-size="15"></span>' + s[5] + '</span>' +
       '<span class="ph-cap"><span class="ph-q" aria-hidden="true">' + s[6] + '</span><span class="ph-r" aria-hidden="true"><span data-icon="check" data-size="13"></span>' + s[7] + '</span>' +
       '<b>' + s[0] + '</b><small>' + s[1] + '</small><span class="ph-go" aria-hidden="true"><span data-icon="arrow" data-size="18"></span></span></span></a></li>').join('');

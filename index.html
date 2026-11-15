@@ -1,15 +1,567 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-v="b">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ClickChat كليك شات</title>
-<!-- Short entry link: forwards to the Navy Canvas home page. -->
-<meta http-equiv="refresh" content="0; url=prototypes/experiments/navy-canvas/">
-<link rel="canonical" href="prototypes/experiments/navy-canvas/">
-<script>location.replace('prototypes/experiments/navy-canvas/' + location.search + location.hash);</script>
+<title>Navy Canvas · experiment | ClickChat كليك شات</title>
+<meta name="description" content="Navy Canvas: phone hero with a three-scene scroll story, metrics and the sections of the home page. Live-site copy; product UI is illustrative.">
+<link rel="icon" type="image/svg+xml" href="ClickChat-Brand-Identity/ClickChat-Brand-Identity/02-App-Icons-and-Favicons/favicon.svg">
+<script>
+  /* hero variant: index.html = B, index.html?v=c (or c.html) = C */
+  (function () {
+    var d = document.documentElement, v = /[?&]v=c\b/.test(location.search) ? 'c' : 'b';
+    d.setAttribute('data-v', v);
+    // (the 'mlap' phone-layout class belonged to the laptop hero and is no longer set)
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) { d.classList.add('anim'); if (!/[?&]still\b/.test(location.search)) d.classList.add('pa-anim'); }   // pa-anim drives the phone hero
+  })();
+</script>
+<link rel="stylesheet" href="assets/brand-fonts.css">
+<link rel="stylesheet" href="assets/base.css">
+<link rel="stylesheet" href="navy-canvas.css">
+<link rel="stylesheet" href="sections.css">
+<link rel="stylesheet" href="hero-phone.css">
 </head>
 <body>
-<p><a href="prototypes/experiments/navy-canvas/">ClickChat كليك شات</a></p>
+<a class="skip-link" href="#main">تخطَّ إلى المحتوى</a>
+
+<!-- Header: the live site's menu -->
+<div class="nc-phone nc-hd">
+<header class="hd" data-header>
+  <div class="hd-in">
+    <a href="#top" class="hd-logo" aria-label="ClickChat كليك شات — الرئيسية"><img src="ClickChat-Brand-Identity/ClickChat-Brand-Identity/01-Logo/01-horizontal-bilingual/SVG/clickchat-horizontal-reversed.svg" alt="ClickChat كليك شات"></a>
+    <nav aria-label="الرئيسية" data-nav>
+      <a href="index.html#features">المزايا</a><a href="solutions.html">حلولنا</a><a href="use-cases.html">حالات الاستخدام</a><a href="integrations.html">التكاملات</a><a href="pricing.html">الأسعار</a><a href="faq.html">الأسئلة الشائعة</a><a href="contact.html">تواصل معنا</a>
+    </nav>
+    <div class="hd-act">
+      <a href="#" class="hd-lang" lang="en"><span data-icon="globe" data-size="16"></span>AR</a>
+      <a href="#" class="hd-login">تسجيل الدخول</a>
+      <a href="#" class="btn btn-mint btn-sm">ابدأ الآن</a>
+    </div>
+  </div>
+</header>
+</div>
+
+<main id="main">
+<!-- ============ HERO: one phone, five channels, and a three-scene scroll story (styles: hero-phone.css · script: hero-phone.js).
+     The phone picture is generated (Figma AI) and cut out of its backdrop; screen contents are illustrative. ============ -->
+<div class="nc-phone">
+<div class="pa-pin" data-pin>
+<section class="pa on-navy" id="top" aria-labelledby="hero-title" data-hero>
+  <div class="pa-set" aria-hidden="true" data-set><i></i><i></i></div>
+  <div class="p-copy"><p class="pill" data-in="fade"><b>✦</b>مدعوم بالذكاء الاصطناعي ومتوافق مع واجهات ميتا الرسمية</p><h1 id="hero-title" class="t-hero pa-title"><span class="ln"><span class="in" data-in="line">كل محادثات عملائك</span></span> <span class="ln"><span class="in mark" data-in="line" data-mark>في مكان واحد</span></span></h1><p class="t-lead" data-in="fade">اجمع واتساب وماسنجر وإنستغرام في صندوق وارد واحد، ورُدّ تلقائياً بالذكاء الاصطناعي، وأطلق حملاتك الجماعية، وحوّل المحادثات إلى مبيعات — من منصة واحدة.</p><div class="cta-row" data-in="fade"><a href="#" class="btn btn-mint">ابدأ مجاناً <span data-icon="arrow" data-size="18"></span></a><a href="#" class="btn btn-line">تصفح الباقات</a></div><ul class="trust" data-in="fade"><li><span data-icon="check" data-size="15"></span>بدون بطاقة ائتمانية</li><li><span data-icon="check" data-size="15"></span>تجربة مجانية حتى 14 يوماً</li><li><span data-icon="check" data-size="15"></span>واجهات ميتا الرسمية</li></ul></div>
+  <div class="pa-shot" data-shot>
+    <p class="sr-only">صورة توضيحية لواجهة صندوق الوارد في ClickChat: قائمة محادثات من واتساب وإنستغرام وماسنجر، ومحادثة مفتوحة فيها رد آلي بالذكاء الاصطناعي، ومحادثة مسندة إلى أحد أعضاء الفريق.</p>
+    <img src="img/phone-cutout.png" alt="" width="1536" height="1024">
+    <div class="pa-plane" data-plane><div data-screen></div><div class="pa-off" data-off></div></div>
+    <div class="pa-sweep" data-sweep aria-hidden="true"></div>
+    <svg class="pa-wires" aria-hidden="true" data-wires></svg>
+    <ul class="pa-cards" aria-hidden="true" data-cards>
+      <li data-ch="wa" style="--c:var(--wa)"><span class="lg" data-lg="wa"></span><div><b>واتساب للأعمال</b><span data-msg>السلام عليكم، عندكم توصيل اليوم؟</span></div></li>
+      <li data-ch="fb" style="--c:var(--fb)"><span class="lg" data-lg="fb"></span><div><b>فيسبوك ماسنجر</b><span data-msg>متى يتوفر العرض؟</span></div></li>
+      <li data-ch="sms" style="--c:var(--sms)"><span class="lg" data-lg="sms"></span><div><b>الرسائل النصية</b><span data-msg>وصلني تنبيه الطلب، شكراً</span></div></li>
+      <li data-ch="mail" style="--c:var(--mail)"><span class="lg" data-lg="mail"></span><div><b>البريد الإلكتروني</b><span data-msg>أرغب بمعرفة طرق الدفع المتاحة</span></div></li>
+      <li data-ch="ig" style="--c:var(--ig)"><span class="lg" data-lg="ig"></span><div><b>رسائل إنستغرام</b><span data-msg>كم سعر عطر العود الملكي؟</span></div></li>
+    </ul>
+  </div>
+  <!-- scroll story: two more scenes. The phone travels to a new place for each and its screen changes. -->
+  <div class="pa-slide s1" data-slide="1">
+    <p class="pa-eye is-ai"><span data-icon="sparkles" data-size="15"></span>الذكاء الاصطناعي</p>
+    <h2 class="pa-h2">روبوتات دردشة ذكية</h2>
+    <p class="t-lead">درّب الروبوت على مستنداتك وأسئلتك الشائعة ليجيب عملاءك فوراً وبدقة وبأي لغة.</p>
+    <p class="pa-sub"><b>سرعة في الرد</b>ردود جاهزة وروبوت ذكي وتوزيع تلقائي يختصر زمن الرد على عملائك.</p>
+  </div>
+  <div class="pa-slide s2a" data-slide="2">
+    <p class="pa-eye is-camp"><span data-icon="megaphone" data-size="15"></span>الحملات</p>
+    <h2 class="pa-h2">حملات جماعية</h2>
+    <p class="t-lead">أرسل حملات واتساب ورسائل نصية مخصّصة لآلاف جهات الاتصال مع جدولة ذكية.</p>
+  </div>
+  <div class="pa-slide s2b" data-slide="2">
+    <p class="pa-eye"><span data-icon="chart" data-size="15"></span>التحليلات والتقارير</p>
+    <p class="t-lead">تابع معدلات التسليم والقراءة والرد وأداء الفريق ونتائج الحملات.</p>
+  </div>
+  <ol class="pa-dots" aria-hidden="true" data-dots><li class="on"></li><li></li><li></li></ol>
+  <p class="p-note">عرض توضيحي ببيانات افتراضية</p>
+</section>
+</div>
+</div>
+
+<!-- ============ METRICS (live) ============ -->
+<section class="metrics" aria-label="أرقام">
+  <dl class="wrap" data-metrics>
+    <div><dt>قنوات تواصل في صندوق واحد</dt><dd><span data-rv class="num">+5</span></dd></div>
+    <div><dt>ردود آلية بالذكاء الاصطناعي</dt><dd><span data-rv class="num">24/7</span></dd></div>
+    <div><dt>تجربة مجانية</dt><dd><span data-rv><span class="num">14</span> يوماً</span></dd></div>
+    <div><dt>واجهات ميتا الرسمية</dt><dd class="mint"><span data-rv class="num">100%</span></dd></div>
+  </dl>
+</section>
+
+<!-- ============ CHANNELS → ONE INBOX (live: قنوات متعددة) ============ -->
+<section class="channels" id="channels" aria-labelledby="ch-title">
+  <div class="wrap">
+    <div class="ch-head" data-head>
+      <p class="eyebrow" data-rv>قنوات متعددة</p>
+      <h2 id="ch-title" class="t-h2"><span class="ln"><span class="in" data-rv="line">كن حيث يوجد</span></span> <span class="ln"><span class="in" data-rv="line">عملاؤك بالفعل</span></span></h2>
+      <p class="t-lead" data-rv>اربط كل قنوات التواصل بصندوق وارد واحد مشترك — دون تنقّل بين التطبيقات.</p>
+    </div>
+
+    <div class="ch-grid" data-chgrid>
+      <svg class="ch-lines" aria-hidden="true" data-chlines></svg>
+      <ol class="ch-index" data-chindex>
+        <li><button type="button" class="ch-item" data-ch="wa" aria-pressed="false"><span class="ch-n">01</span><span class="lg c-wa" data-lg="wa"></span><b>واتساب للأعمال</b><p>واجهة واتساب السحابية الرسمية: القوالب والحملات والردود الآلية على مدار الساعة.</p><i data-count>12</i></button></li>
+        <li><button type="button" class="ch-item" data-ch="fb" aria-pressed="false"><span class="ch-n">02</span><span class="lg c-fb" data-lg="fb"></span><b>فيسبوك ماسنجر</b><p>رُدّ على رسائل صفحتك وتعليقاتها من نفس صندوق الوارد.</p><i data-count>4</i></button></li>
+        <li><button type="button" class="ch-item" data-ch="ig" aria-pressed="false"><span class="ch-n">03</span><span class="lg c-ig" data-lg="ig"></span><b>رسائل إنستغرام</b><p>أدر الرسائل المباشرة والتعليقات والإشارات لحظة بلحظة.</p><i data-count>7</i></button></li>
+        <li><button type="button" class="ch-item" data-ch="sms" aria-pressed="false"><span class="ch-n">04</span><span class="lg c-sms" data-lg="sms"></span><b>الرسائل النصية</b><p>أرسل التنبيهات والحملات النصية لعملائك فوراً.</p><i data-count>5</i></button></li>
+        <li><button type="button" class="ch-item" data-ch="mail" aria-pressed="false"><span class="ch-n">05</span><span class="lg c-mail" data-lg="mail"></span><b>البريد الإلكتروني</b><p>أرسل رسائل التسويق والإشعارات من نفس سجل العميل.</p><i data-count>3</i></button></li>
+      </ol>
+      <div class="slab" data-slab>
+        <div class="dots" aria-hidden="true" data-chdots><i></i><i></i><i></i></div>
+        <div class="app ui">
+          <div class="ui-bar">
+            <img src="ClickChat-Brand-Identity/ClickChat-Brand-Identity/01-Logo/03-icon/SVG/clickchat-icon-color.svg" alt="">
+            <span>صندوق الوارد</span><span class="ui-tag" data-filter-label>كل القنوات</span><span class="ui-live">مباشر</span>
+          </div>
+          <ul class="ui-list" data-inbox="channels" aria-live="off"></ul>
+          <div class="app-foot"><span data-icon="users" data-size="15"></span>توزيع المحادثات والملاحظات الداخلية والردود الجاهزة</div>
+        </div>
+        <p class="t-small">عرض توضيحي ببيانات افتراضية. اختر قناة لترى رسائلها فقط.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROBLEM → SOLUTION (live) ============ -->
+<section class="fix" id="why" aria-labelledby="fix-title">
+  <div class="wrap">
+    <div class="fix-grid" data-fix>
+      <div class="fix-slab" aria-hidden="true"></div>
+      <div class="fix-row head">
+        <h2 id="fix-title" class="t-h2 fix-q">هل يبدو هذا مألوفاً؟</h2><i></i>
+        <div class="fix-a"><h3 class="t-h2">ClickChat يحل ذلك كله</h3><p>منصة واحدة لالتقاط كل محادثة وأتمتتها وإتمامها.</p></div>
+      </div>
+      <ol>
+        <li class="fix-row" data-row><p class="pb"><span data-icon="x" data-size="16"></span><span class="tx">محادثات مبعثرة بين واتساب وماسنجر وإنستغرام والبريد</span></p><i class="fw" aria-hidden="true"></i><p class="sl"><span data-icon="check" data-size="16"></span>صندوق وارد موحّد لكل القنوات يشاركه فريقك بالكامل</p></li>
+        <li class="fix-row" data-row><p class="pb"><span data-icon="x" data-size="16"></span><span class="tx">عملاء محتملون يضيعون بينما تنتظر رسائلهم الرد لساعات</span></p><i class="fw" aria-hidden="true"></i><p class="sl"><span data-icon="check" data-size="16"></span>روبوتات ذكية وأتمتة ترد على مدار الساعة</p></li>
+        <li class="fix-row" data-row><p class="pb"><span data-icon="x" data-size="16"></span><span class="tx">صعوبة إرسال العروض أو أتمتة المتابعة على نطاق واسع</span></p><i class="fw" aria-hidden="true"></i><p class="sl"><span data-icon="check" data-size="16"></span>حملات جماعية مع جدولة ذكية وتقسيم للجمهور</p></li>
+        <li class="fix-row" data-row><p class="pb"><span data-icon="x" data-size="16"></span><span class="tx">لا رؤية واضحة لأداء الفريق ولا لما يحقق النتائج</span></p><i class="fw" aria-hidden="true"></i><p class="sl"><span data-icon="check" data-size="16"></span>تقارير فورية للتسليم وزمن الاستجابة وأداء الفريق</p></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ AI (live: روبوتات دردشة ذكية + أتمتة بدون برمجة) ============ -->
+<section class="ai" id="ai" aria-labelledby="ai-title">
+  <div class="wrap two">
+    <div class="sec-copy" data-head>
+      <p class="eyebrow violet" data-rv>المزايا</p>
+      <h2 id="ai-title" class="t-h2"><span class="ln"><span class="in" data-rv="line">روبوتات دردشة</span></span> <span class="ln"><span class="in" data-rv="line">ذكية</span></span></h2>
+      <p class="t-lead" data-rv>درّب الروبوت على مستنداتك وأسئلتك الشائعة ليجيب عملاءك فوراً وبدقة وبأي لغة.</p>
+      <div class="sub" data-rv>
+        <h3><span data-icon="workflow" data-size="20"></span>أتمتة بدون برمجة</h3>
+        <p>ابنِ مسارات عمل مرئية توجّه الرسائل وتصنّفها وترد عليها تلقائياً.</p>
+      </div>
+    </div>
+    <div class="ai-console" data-ai>
+      <div class="ai-top">
+        <span class="ai-badge"><span data-icon="sparkles" data-size="14"></span>الروبوت الذكي</span>
+        <div class="seg" role="group" aria-label="نوع الرسالة">
+          <button type="button" aria-pressed="true" data-sc="0">استفسار</button><button type="button" aria-pressed="false" data-sc="1">شكوى</button>
+        </div>
+      </div>
+      <ol class="ai-flow">
+        <i class="ai-rail" aria-hidden="true"><i data-rail></i></i>
+        <li data-st><span class="ai-k"><b class="num">01</b>رسالة العميل</span><p class="ai-msg"><span data-msg>السلام عليكم، عندكم توصيل اليوم؟</span><i class="scan" data-scan aria-hidden="true"></i></p></li>
+        <li data-st><span class="ai-k"><b class="num">02</b>تصنّفها</span><span class="ai-tag" data-tag>استفسار عن التوصيل</span></li>
+        <li data-st><span class="ai-k"><b class="num">03</b>توجّه الرسائل</span><div class="ai-routes"><span class="on" data-route="bot"><span data-icon="bot" data-size="15"></span>الروبوت الذكي</span><span data-route="human"><span data-icon="users" data-size="15"></span>موظف من الفريق</span></div></li>
+        <li data-st><span class="ai-k"><b class="num">04</b><span data-k4>ترد عليها تلقائياً</span></span><p class="ai-reply" data-reply>وعليكم السلام 🌿 نعم! اطلب قبل الساعة 4 ويوصلك اليوم.</p></li>
+      </ol>
+      <p class="t-small">عرض توضيحي. الاستفسار من محادثة «متجر العود» في الموقع الحالي.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CAMPAIGNS (live: حملات جماعية) ============ -->
+<section class="camp on-navy" id="campaigns" aria-labelledby="camp-title">
+  <i class="band" aria-hidden="true"></i>
+  <div class="wrap">
+    <div class="sec-copy wide" data-head>
+      <p class="eyebrow coral" data-rv>المزايا</p>
+      <h2 id="camp-title" class="t-h2"><span class="ln"><span class="in" data-rv="line">حملات جماعية</span></span></h2>
+      <p class="t-lead" data-rv>أرسل حملات واتساب ورسائل نصية مخصّصة لآلاف جهات الاتصال مع جدولة ذكية.</p>
+    </div>
+    <div class="camp-grid" data-camp>
+      <article class="compose ui" aria-label="حملة جديدة (عرض توضيحي)">
+        <div class="ui-bar"><span class="tagc">حملة</span><span>حملة جديدة</span></div>
+        <dl>
+          <div><dt>القناة</dt><dd><span class="lg c-wa" data-lg="wa"></span>واتساب · قالب معتمد</dd></div>
+          <div><dt>الجمهور</dt><dd><span class="ui-tag">شريحة: العملاء الدائمون</span></dd></div>
+          <div><dt>الإرسال</dt><dd>جدولة ذكية</dd></div>
+        </dl>
+        <p class="bub t">عرض نهاية الأسبوع من متجر العود 🌿 عطر العود الملكي متوفر الآن.</p>
+        <span class="send">جدولة الحملة</span>
+      </article>
+      <div class="sheetx">
+        <dl class="ss-stats">
+          <div class="k1"><dt>أُرسلت</dt><dd><span class="num"><span data-ss="0">0</span>%</span></dd></div>
+          <div class="k2"><dt>معدل التسليم</dt><dd><span class="num"><span data-ss="1">0</span>%</span></dd></div>
+          <div class="k3"><dt>معدل القراءة</dt><dd><span class="num"><span data-ss="2">0</span>%</span></dd></div>
+          <div class="k4"><dt>معدل الرد</dt><dd><span class="num"><span data-ss="3">0</span>%</span></dd></div>
+        </dl>
+        <div class="cells" data-cells aria-hidden="true"></div>
+        <p class="t-small">كل مربّع جهة اتصال. بيانات توضيحية.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURES (live: كل ما تحتاجه للتفوق في كل قناة) — the four features without their own chapter ============ -->
+<section class="more" id="features" aria-labelledby="mo-title">
+  <div class="wrap">
+    <div class="sec-copy wide split" data-head>
+      <div><p class="eyebrow" data-rv>المزايا</p>
+      <h2 id="mo-title" class="t-h2"><span class="ln"><span class="in" data-rv="line">كل ما تحتاجه</span></span> <span class="ln"><span class="in" data-rv="line">للتفوق في كل قناة</span></span></h2></div>
+      <p class="t-lead" data-rv>من صندوق وارد موحّد إلى روبوتات الدردشة الذكية والحملات الجماعية — منصة واحدة لرحلة العميل كاملة.</p>
+    </div>
+    <div class="reel" data-reel>
+      <article class="pn dark on">
+        <button type="button" class="pn-tab" aria-expanded="true"><span class="num">01</span><span data-icon="users" data-size="24"></span><b>إدارة علاقات العملاء</b></button>
+        <div class="pn-body">
+          <div class="pn-txt"><span class="pn-ic" data-icon="users" data-size="24"></span><h3>إدارة علاقات العملاء</h3><p>سجل كامل لكل عميل مع المحادثات والحقول المخصّصة والوسوم والشرائح.</p></div>
+          <div class="mini" aria-hidden="true">
+            <div class="mi-head"><span class="av">ن<span class="lg c-wa" data-lg="wa"></span></span><div><b>نورة</b><small>واتساب للأعمال</small></div><span class="who on">عميل دائم</span></div>
+            <dl><div><dt>المدينة</dt><dd>الرياض</dd></div><div><dt>آخر طلب</dt><dd>عطر العود الملكي</dd></div><div><dt>الشريحة</dt><dd><span class="ui-tag">العملاء الدائمون</span></dd></div></dl>
+            <p class="tags"><span>توصيل مسائي</span><span>عطور</span><span>+ وسم</span></p>
+          </div>
+        </div>
+      </article>
+      <article class="pn violet">
+        <button type="button" class="pn-tab" aria-expanded="false"><span class="num">02</span><span data-icon="target" data-size="24"></span><b>استقطاب العملاء المحتملين</b></button>
+        <div class="pn-body">
+          <div class="pn-txt"><span class="pn-ic" data-icon="target" data-size="24"></span><h3>استقطاب العملاء المحتملين</h3><p>اجمع العملاء المحتملين وأهّلهم تلقائياً ولا تفوّت أي فرصة.</p></div>
+          <div class="mini" aria-hidden="true">
+            <div class="mi-bar"><b>عملاء محتملون</b><span class="ui-live">مباشر</span></div>
+            <ul class="leads">
+              <li><span class="av">خ</span><div><b>خالد</b><i><u style="width:90%"></u></i></div><em class="ok">مؤهّل</em></li>
+              <li><span class="av">ر</span><div><b>ريم</b><i><u style="width:58%"></u></i></div><em class="mid">قيد التأهيل</em></li>
+              <li><span class="av">ف</span><div><b>فهد</b><i><u style="width:22%"></u></i></div><em>جديد</em></li>
+            </ul>
+          </div>
+        </div>
+      </article>
+      <article class="pn mint">
+        <button type="button" class="pn-tab" aria-expanded="false"><span class="num">03</span><span data-icon="cart" data-size="24"></span><b>ربط المتاجر الإلكترونية</b></button>
+        <div class="pn-body">
+          <div class="pn-txt"><span class="pn-ic" data-icon="cart" data-size="24"></span><h3>ربط المتاجر الإلكترونية</h3><p>اربط متجرك على شوبيفاي أو ووكومرس لمزامنة الطلبات وتذكير السلات المتروكة.</p></div>
+          <div class="mini" aria-hidden="true">
+            <div class="mi-bar"><span class="shop" data-lg="shopify"></span><span class="shop" data-lg="woo"></span><b>الطلبات</b><span class="who on">تمت المزامنة</span></div>
+            <ul class="orders">
+              <li><b>طلب <span class="num">#1042</span></b><span>عطر العود الملكي</span><em class="ok">مدفوع</em></li>
+              <li><b>سلة متروكة</b><span>نورة · منتجان</span><em class="mid">تذكير</em></li>
+            </ul>
+            <p class="bub t">سلّتك بانتظارك 🛒 أكملي طلبك الآن.</p>
+          </div>
+        </div>
+      </article>
+      <article class="pn coral">
+        <button type="button" class="pn-tab" aria-expanded="false"><span class="num">04</span><span data-icon="calendar" data-size="24"></span><b>جدولة منشورات التواصل</b></button>
+        <div class="pn-body">
+          <div class="pn-txt"><span class="pn-ic" data-icon="calendar" data-size="24"></span><h3>جدولة منشورات التواصل</h3><p>خطّط لمنشوراتك وانشرها على حساباتك من تقويم محتوى واحد.</p></div>
+          <div class="mini" aria-hidden="true">
+            <div class="mi-bar"><b>تقويم المحتوى</b><span class="ui-tag">هذا الأسبوع</span></div>
+            <ol class="cal">
+              <li><small>الأحد</small><span class="c-ig"><i class="lg" data-lg="ig"></i><span class="num">9:00</span></span></li>
+              <li><small>الاثنين</small></li>
+              <li><small>الثلاثاء</small><span class="c-fb"><i class="lg" data-lg="fb"></i><span class="num">12:30</span></span><span class="c-ig"><i class="lg" data-lg="ig"></i><span class="num">18:00</span></span></li>
+              <li><small>الأربعاء</small></li>
+              <li><small>الخميس</small><span class="c-fb"><i class="lg" data-lg="fb"></i><span class="num">20:00</span></span></li>
+            </ol>
+          </div>
+        </div>
+      </article>
+    </div>
+    <p class="t-small" style="margin-top:14px">الشاشات المصغّرة عروض توضيحية ببيانات افتراضية.</p>
+  </div>
+</section>
+
+<!-- ============ SOLUTIONS (from Direction 3 — Signal: sectors slider; photos are mood images, exchanges are illustrative) ============ -->
+<section class="solu on-navy" id="solutions" aria-labelledby="so-title">
+  <i class="band" aria-hidden="true"></i>
+  <div class="wrap">
+    <div class="solu-head" data-head>
+      <div><p class="eyebrow light" data-rv>الحلول</p>
+      <h2 id="so-title" class="t-h2"><span class="ln"><span class="in" data-rv="line">يناسب طريقة</span></span> <span class="ln"><span class="in" data-rv="line">عمل قطاعك</span></span></h2></div>
+      <div class="solu-nav" data-rv>
+        <a href="solutions.html" class="link">كل الحلول <span data-icon="arrow" data-size="16"></span></a>
+        <div role="group" aria-label="تنقّل بين القطاعات">
+          <button type="button" class="sx-btn" data-slide="-1" aria-label="السابق" aria-controls="sx-track"><span class="flip" data-icon="arrow" data-size="18"></span></button>
+          <button type="button" class="sx-btn" data-slide="1" aria-label="التالي" aria-controls="sx-track"><span data-icon="arrow" data-size="18"></span></button>
+        </div>
+      </div>
+    </div>
+    <ul id="sx-track" class="sx-track" data-sectors tabindex="0" aria-label="القطاعات"></ul>
+    <div class="sx-prog" aria-hidden="true"><i data-sxprog></i></div>
+    <p class="t-small" style="margin-top:16px;color:rgba(255,255,255,.45)">المحادثات في الصور توضيحية.</p>
+  </div>
+</section>
+
+<!-- ============ WHY CLICKCHAT (live: لماذا ClickChat — six benefits) ============ -->
+<section class="why" id="benefits" aria-labelledby="wy-title">
+  <div class="wrap">
+    <div class="sec-copy wide split" data-head>
+      <div><p class="eyebrow" data-rv>لماذا ClickChat</p>
+      <h2 id="wy-title" class="t-h2"><span class="ln"><span class="in" data-rv="line">مصمّم للفرق</span></span> <span class="ln"><span class="in" data-rv="line">التي تريد نتائج</span></span></h2></div>
+      <p class="t-lead" data-rv>قوي بما يكفي للشركات الكبيرة، وبسيط بما يكفي للجميع.</p>
+    </div>
+    <div class="bento" data-bento>
+      <article class="bt team">
+        <div class="cl-txt">
+          <span class="bt-ic" data-icon="users" data-size="22"></span><h3>تعاون الفريق</h3><p>وزّع المحادثات، واترك ملاحظات داخلية، وتجنّب الردود المكررة.</p>
+          <ol class="cl-steps" aria-hidden="true" data-clsteps><li>وزّع المحادثات</li><li>اترك ملاحظات داخلية</li><li>تجنّب الردود المكررة</li></ol>
+        </div>
+        <div class="cl-stage" aria-hidden="true">
+          <div class="cl-team"><span class="av on">أ</span><span class="av on">س</span><span class="av on">م</span><small><span class="num">3</span> متصلون الآن</small></div>
+          <div class="collab" data-collab data-step="4">
+            <div class="cl-head"><span class="av">ن<span class="lg c-wa" data-lg="wa"></span></span><div><b>نورة</b><small>واتساب للأعمال</small></div>
+              <span class="cl-assign"><span class="a0">غير مُسندة</span><span class="a1"><i>س</i>مُسندة إلى سارة</span></span></div>
+            <div class="cl-body">
+              <p class="bub c">السلام عليكم، عندكم توصيل اليوم؟</p>
+              <div class="cl-note" data-s="2"><b>ملاحظة داخلية · أحمد</b>العميلة تفضّل التوصيل مساءً.</div>
+              <p class="cl-lock" data-s="3"><span data-icon="lock" data-size="13"></span>سارة ترد الآن — الرد مقفل لبقية الفريق</p>
+              <p class="bub t" data-s="4">نعم، يوصلك اليوم مساءً 🌿</p>
+            </div>
+          </div>
+        </div>
+      </article>
+      <article class="bt official">
+        <span class="bt-ic" data-icon="shield" data-size="22"></span>
+        <h3>رسمي ومتوافق</h3><p>مبني على واجهات ميتا الرسمية للأعمال — دون حلول ملتوية تعرّض رقمك للحظر.</p>
+        <div class="verified" aria-hidden="true"><span class="vf-av">م</span><div><b>متجر العود</b><small>حساب أعمال موثّق ✓</small></div><i></i></div>
+      </article>
+      <article class="bt s3">
+        <span class="bt-ic" data-icon="zap" data-size="22"></span>
+        <h3>سرعة في الرد</h3><p>ردود جاهزة وروبوت ذكي وتوزيع تلقائي يختصر زمن الرد على عملائك.</p>
+        <div class="speed" aria-hidden="true"><span>ردود جاهزة</span><span>روبوت ذكي</span><span>توزيع تلقائي</span><i><u></u></i></div>
+      </article>
+      <article class="bt s3">
+        <span class="bt-ic" data-icon="message" data-size="22"></span>
+        <h3>تفاعل أعلى</h3><p>رسائل المحادثة تُقرأ أكثر بكثير من البريد الإلكتروني — كن حيث يرد عملاؤك.</p>
+        <div class="versus" aria-hidden="true" data-grow><small>رسائل المحادثة</small><i><u style="--w:92%"></u></i><small>البريد الإلكتروني</small><i class="dim"><u style="--w:26%"></u></i></div>
+      </article>
+      <article class="bt s3 lilac">
+        <span class="bt-ic" data-icon="globe" data-size="22"></span>
+        <h3>عربي أولاً</h3><p>واجهة عربية كاملة تدعم الكتابة من اليمين لليسار، مع دعم الإنجليزية.</p>
+        <div class="rtl" aria-hidden="true"><div class="rtl-k"><b>ع</b><b lang="en">A</b></div><div class="rtl-l"><i style="--w:78%"></i><i style="--w:56%"></i><i style="--w:66%"></i></div></div>
+      </article>
+      <article class="bt s3 dark">
+        <span class="bt-ic" data-icon="workflow" data-size="22"></span>
+        <h3>قابل للتوسع</h3><p>تكاملات وواجهة برمجية وخطافات ويب تنمو مع أعمالك.</p>
+        <div class="grow" aria-hidden="true" data-grow><u style="--h:28%"></u><u style="--h:42%"></u><u style="--h:58%"></u><u style="--h:76%"></u><u style="--h:100%"></u></div>
+      </article>
+    </div>
+    <p class="t-small" style="margin-top:14px">الرسوم داخل البطاقات توضيحية.</p>
+  </div>
+</section>
+
+<!-- ============ STEPS (live: ابدأ الآن) ============ -->
+<section class="steps" id="start" aria-labelledby="go-title">
+  <div class="wrap">
+    <div class="sec-copy wide split" data-head>
+      <div><p class="eyebrow" data-rv>ابدأ الآن</p>
+      <h2 id="go-title" class="t-h2"><span class="ln"><span class="in" data-rv="line">جاهز خلال دقائق،</span></span> <span class="ln"><span class="in" data-rv="line">لا أسابيع</span></span></h2></div>
+      <div><p class="t-lead" data-rv>بدون برمجة وبدون إعدادات معقّدة — اربط قناتك وانطلق.</p>
+      <a href="#" class="btn btn-mint" data-rv style="margin-top:20px">ابدأ مجاناً <span data-icon="arrow" data-size="18"></span></a></div>
+    </div>
+    <ol class="step3" data-steps>
+      <i class="s3-line" aria-hidden="true"><i data-stfill></i></i>
+      <li><b class="num" aria-hidden="true">1</b><h3>اربط قنواتك</h3><p>اربط واتساب وماسنجر وإنستغرام عبر واجهات ميتا الرسمية بخطوات بسيطة.</p></li>
+      <li><b class="num" aria-hidden="true">2</b><h3>استورد جهات اتصالك</h3><p>ارفع ملف CSV ونظّم جهات الاتصال بالوسوم والشرائح.</p></li>
+      <li><b class="num" aria-hidden="true">3</b><h3>أتمت وانمُ</h3><p>أطلق حملاتك وفعّل الروبوت الذكي وشاهد المحادثات تتحول إلى مبيعات.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ INTEGRATIONS (live) ============ -->
+<section class="integ" id="integrations" aria-labelledby="int-title">
+  <div class="wrap">
+    <div class="sec-copy wide split" data-head>
+      <h2 id="int-title" class="t-h2"><span class="ln"><span class="in" data-rv="line">يعمل مع الأدوات</span></span> <span class="ln"><span class="in" data-rv="line">التي تستخدمها بالفعل</span></span></h2>
+      <div><p class="t-lead" data-rv>تكاملات جاهزة وخطافات ويب وواجهة برمجية كاملة.</p>
+      <a href="#" class="link" data-rv>عرض كل التكاملات <span data-icon="arrow" data-size="16"></span></a></div>
+    </div>
+    <ul class="sockets" data-sockets>
+      <li><span class="lg2" data-lg="wa"></span><b lang="en">WhatsApp</b><em>قنوات</em></li>
+      <li><span class="lg2" data-lg="fb"></span><b lang="en">Messenger</b><em>قنوات</em></li>
+      <li><span class="lg2" data-lg="ig"></span><b lang="en">Instagram</b><em>قنوات</em></li>
+      <li><span class="lg2" data-lg="openai"></span><b lang="en">OpenAI</b><em>ذكاء اصطناعي</em></li>
+      <li><span class="lg2" data-lg="anthropic"></span><b lang="en">Anthropic</b><em>ذكاء اصطناعي</em></li>
+      <li><span class="lg2" data-lg="gemini"></span><b lang="en">Google Gemini</b><em>ذكاء اصطناعي</em></li>
+      <li><span class="lg2" data-lg="shopify"></span><b lang="en">Shopify</b><em>متاجر</em></li>
+      <li><span class="lg2" data-lg="woo"></span><b lang="en">WooCommerce</b><em>متاجر</em></li>
+      <li><span class="lg2" data-lg="stripe"></span><b lang="en">Stripe</b><em>مدفوعات</em></li>
+      <li><span class="lg2" data-lg="paypal"></span><b lang="en">PayPal</b><em>مدفوعات</em></li>
+      <li><span class="lg2" data-lg="twilio"></span><b lang="en">Twilio</b><em>رسائل نصية</em></li>
+      <li><span class="lg2" data-lg="sheets"></span><b lang="en">Google Sheets</b><em>بيانات</em></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ ANALYTICS (live: التحليلات والتقارير) ============ -->
+<section class="stats on-navy" id="analytics" aria-labelledby="an-title">
+  <i class="band" aria-hidden="true"></i>
+  <div class="wrap">
+    <div class="sec-copy wide" data-head>
+      <p class="eyebrow light" data-rv>المزايا</p>
+      <h2 id="an-title" class="t-h2"><span class="ln"><span class="in" data-rv="line">التحليلات والتقارير</span></span></h2>
+      <p class="t-lead" data-rv>تابع معدلات التسليم والقراءة والرد وأداء الفريق ونتائج الحملات.</p>
+    </div>
+    <div class="st-grid" data-stats>
+      <div class="st-tabs" role="group" aria-label="المؤشر">
+        <button type="button" aria-pressed="true" data-series="0"><span class="st-n num"><span data-to="98">98</span>%</span><span>معدل التسليم</span></button>
+        <button type="button" aria-pressed="false" data-series="1"><span class="st-n num"><span data-to="81">81</span>%</span><span>معدل القراءة</span></button>
+        <button type="button" aria-pressed="false" data-series="2"><span class="st-n num"><span data-to="23">23</span>%</span><span>معدل الرد</span></button>
+      </div>
+      <div class="st-chart">
+        <svg viewBox="0 0 800 300" preserveAspectRatio="none" aria-hidden="true">
+          <g class="st-rules"><line x1="0" y1="60" x2="800" y2="60"/><line x1="0" y1="140" x2="800" y2="140"/><line x1="0" y1="220" x2="800" y2="220"/></g>
+          <path data-area class="st-area"/><path data-line class="st-line"/>
+        </svg>
+        <p class="t-small"><span>آخر 7 أيام</span><span>بيانات توضيحية</span></p>
+      </div>
+      <div class="st-team">
+        <h3>أداء الفريق · زمن الاستجابة</h3>
+        <ul>
+          <li><span>أحمد</span><i><b data-w="82"></b></i><em>2 د</em></li>
+          <li><span>سارة</span><i><b data-w="64"></b></i><em>4 د</em></li>
+          <li><span>منى</span><i><b data-w="48"></b></i><em>6 د</em></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECURITY (live: الأمان) ============ -->
+<section class="secu" id="security" aria-labelledby="se-title">
+  <div class="wrap two top">
+    <div>
+      <div class="sec-copy" data-head>
+        <p class="eyebrow" data-rv>الأمان</p>
+        <h2 id="se-title" class="t-h2"><span class="ln"><span class="in" data-rv="line">حماية بياناتك</span></span> <span class="ln"><span class="in" data-rv="line">أولوية</span></span></h2>
+        <p class="t-lead" data-rv>أدوات أمان مدمجة تحمي حسابك وبيانات عملائك.</p>
+      </div>
+      <div class="audit" aria-hidden="true">
+        <div class="audit-bar"><span data-icon="file" data-size="15"></span>سجل تدقيق<span class="ui-live">مباشر</span></div>
+        <ul data-audit></ul>
+        <p>عرض توضيحي ببيانات افتراضية</p>
+      </div>
+    </div>
+    <ul class="sec-list" data-seclist>
+      <li><span class="si" data-icon="lock" data-size="22"></span><div><h3>اتصال مشفّر</h3><p>كل البيانات تنتقل عبر اتصال مشفّر (HTTPS).</p></div></li>
+      <li><span class="si" data-icon="shield" data-size="22"></span><div><h3>المصادقة الثنائية</h3><p>فعّل التحقق بخطوتين لحماية حسابات فريقك.</p></div></li>
+      <li><span class="si" data-icon="usercheck" data-size="22"></span><div><h3>صلاحيات حسب الدور</h3><p>حدّد بدقة ما يمكن لكل عضو في الفريق رؤيته وتعديله.</p></div></li>
+      <li><span class="si" data-icon="file" data-size="22"></span><div><h3>سجل تدقيق</h3><p>سجل كامل للعمليات المهمة لمعرفة من فعل ماذا ومتى.</p></div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ PRICING (live plans, as shown on clickchat.sa on 2026-11-14) ============ -->
+<section class="pricing" id="pricing" aria-labelledby="pr-title">
+  <div class="wrap">
+    <div class="pr-stage on-navy" data-prstage>
+      <div class="pr-copy" data-head>
+        <p class="eyebrow light" data-rv>الأسعار</p>
+        <h2 id="pr-title" class="t-h2"><span class="ln"><span class="in" data-rv="line">أسعار بسيطة</span></span> <span class="ln"><span class="in" data-rv="line">وواضحة</span></span></h2>
+        <p class="t-lead" data-rv>اختر الباقة المناسبة لك، وغيّرها في أي وقت.</p>
+        <div class="seg" role="group" aria-label="دورة الفوترة" data-rv data-bill>
+          <button type="button" aria-pressed="true" data-b="m">شهري</button><button type="button" aria-pressed="false" data-b="y">سنوي · وفّر أكثر</button>
+        </div>
+        <div class="pr-pick" role="group" aria-label="الباقات" data-pick data-rv>
+          <button type="button" aria-pressed="false" data-p="0"><b lang="en">Starter</b><span>مجاناً</span></button>
+          <button type="button" aria-pressed="false" data-p="1"><b lang="en">Pro</b><span class="num" data-m="$29" data-y="$290">$29</span></button>
+          <button type="button" aria-pressed="true" data-p="2"><b lang="en">Business</b><em>الأكثر طلباً</em><span class="num" data-m="$99" data-y="$990">$99</span></button>
+          <button type="button" aria-pressed="false" data-p="3"><b>الإحترافية</b><em>الأكثر طلباً</em><span><span class="num">500</span> ر.س.</span></button>
+        </div>
+      </div>
+      <div class="deck" data-deck>
+        <article class="pcard" data-card="0">
+          <header><h3 lang="en">Starter</h3></header>
+          <p class="pc-desc" lang="en">Perfect for individuals and small projects.</p>
+          <div class="pc-price"><strong>مجاناً</strong></div>
+          <ul class="pc-feat" lang="en"><li>Up to 2 team members</li><li>5 GB storage</li><li>Email support</li></ul>
+          <a href="#" class="btn btn-line">اختر الباقة</a>
+        </article>
+        <article class="pcard" data-card="1">
+          <header><h3 lang="en">Pro</h3></header>
+          <p class="pc-desc" lang="en">For growing teams that need more power.</p>
+          <div class="pc-price"><strong class="num" data-m="$29" data-y="$290">$29</strong><span data-per>/شهرياً</span><span class="trial">تجربة مجانية 14 يوماً</span></div>
+          <ul class="pc-feat" lang="en"><li>Up to 10 team members</li><li>50 GB storage</li><li>Priority support</li><li>Advanced analytics</li></ul>
+          <a href="#" class="btn btn-line">اختر الباقة</a>
+        </article>
+        <article class="pcard" data-card="2">
+          <header><h3 lang="en">Business</h3><em>الأكثر طلباً</em></header>
+          <p class="pc-desc" lang="en">Enterprise-grade features for large organisations.</p>
+          <div class="pc-price"><strong class="num" data-m="$99" data-y="$990">$99</strong><span data-per>/شهرياً</span><span class="trial">تجربة مجانية 14 يوماً</span></div>
+          <ul class="pc-feat" lang="en"><li>Unlimited team members</li><li>500 GB storage</li><li>Dedicated support</li><li>White-label branding</li><li>Custom domain</li><li>SLA</li></ul>
+          <a href="#" class="btn btn-mint">ابدأ الآن <span data-icon="arrow" data-size="18"></span></a>
+        </article>
+        <article class="pcard" data-card="3">
+          <header><h3>الإحترافية</h3><em>الأكثر طلباً</em></header>
+          <p class="pc-desc">للفرق المتوسطة التي تدير عدة أرقام</p>
+          <div class="pc-price"><strong><span class="num">500</span> ر.س.</strong><span>/شهرياً</span><span class="trial">تجربة مجانية 5 أيام</span></div>
+          <ul class="pc-feat"></ul>
+          <a href="#" class="btn btn-mint">ابدأ الآن <span data-icon="arrow" data-size="18"></span></a>
+        </article>
+      </div>
+    </div>
+    <p class="t-small pr-note">الباقات منقولة كما تظهر في الموقع الحالي.</p>
+  </div>
+</section>
+
+<!-- ============ FAQ (live) ============ -->
+<section class="faq" id="faq" aria-labelledby="fq-title">
+  <div class="wrap two top">
+    <div class="sec-copy" data-head>
+      <p class="eyebrow" data-rv>الأسئلة الشائعة</p>
+      <h2 id="fq-title" class="t-h2"><span class="ln"><span class="in" data-rv="line">الأسئلة الأكثر</span></span> <span class="ln"><span class="in" data-rv="line">تكراراً</span></span></h2>
+      <p class="t-lead" data-rv>كل ما تحتاج معرفته عن ClickChat.</p>
+    </div>
+    <div class="qa" data-qa>
+      <div class="q open"><h3><button type="button" aria-expanded="true" aria-controls="qa1"><span class="num">01</span><span>ما القنوات التي يدعمها ClickChat؟</span><i class="pm" aria-hidden="true"></i></button></h3><div class="a" id="qa1"><div><p>واتساب للأعمال وفيسبوك ماسنجر ورسائل إنستغرام في صندوق وارد واحد، إضافة إلى الرسائل النصية والبريد الإلكتروني للحملات.</p></div></div></div>
+      <div class="q"><h3><button type="button" aria-expanded="false" aria-controls="qa2"><span class="num">02</span><span>هل أحتاج حساب واتساب للأعمال (API)؟</span><i class="pm" aria-hidden="true"></i></button></h3><div class="a" id="qa2"><div><p>نعم، يعمل ClickChat عبر واجهة واتساب السحابية الرسمية من ميتا، ونرشدك خطوة بخطوة لربط رقمك.</p></div></div></div>
+      <div class="q"><h3><button type="button" aria-expanded="false" aria-controls="qa3"><span class="num">03</span><span>هل يمكنني التجربة قبل الدفع؟</span><i class="pm" aria-hidden="true"></i></button></h3><div class="a" id="qa3"><div><p>نعم، تتوفر تجربة مجانية حتى 14 يوماً حسب الباقة، دون الحاجة إلى بطاقة ائتمانية.</p></div></div></div>
+      <div class="q"><h3><button type="button" aria-expanded="false" aria-controls="qa4"><span class="num">04</span><span>هل يفهم الروبوت الذكي طبيعة نشاطي؟</span><i class="pm" aria-hidden="true"></i></button></h3><div class="a" id="qa4"><div><p>نعم، درّبه على مستنداتك وأسئلتك الشائعة ومعلومات منتجاتك ليقدّم إجابات دقيقة خاصة بنشاطك.</p></div></div></div>
+      <div class="q"><h3><button type="button" aria-expanded="false" aria-controls="qa5"><span class="num">05</span><span>هل يمكن لأكثر من موظف العمل على نفس الرقم؟</span><i class="pm" aria-hidden="true"></i></button></h3><div class="a" id="qa5"><div><p>نعم، يعمل فريقك بالكامل على صندوق وارد مشترك مع توزيع المحادثات وصلاحيات لكل عضو.</p></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA (live) ============ -->
+<section class="cta on-navy" aria-labelledby="join-title" data-cta>
+  <i class="band" aria-hidden="true"></i>
+  <svg class="geo" viewBox="0 0 1000 420" aria-hidden="true" data-ctageo><path d="M60 10H940a50 50 0 0 1 50 50V300a50 50 0 0 1-50 50H220l-90 60v-60H60a50 50 0 0 1-50-50V60a50 50 0 0 1 50-50Z"/></svg>
+  <div class="wrap" style="position:relative">
+    <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+    <h2 id="join-title" class="t-hero"><span class="ln"><span class="in" data-rv="line">جاهز لكسب</span></span> <span class="ln"><span class="in mark" data-rv="line">كل محادثة؟</span></span></h2>
+    <p class="t-lead" data-rv>ابدأ مجاناً اليوم — دون بطاقة ائتمانية، وفعّل قنواتك خلال دقائق.</p>
+    <div class="cta-row" data-rv>
+      <a href="#" class="btn btn-mint">ابدأ تجربتك المجانية <span data-icon="arrow" data-size="18"></span></a>
+      <a href="#" class="btn btn-line">تحدّث مع فريق المبيعات</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot"><div class="wrap"><span>© <span class="num">2026</span> ClickChat. جميع الحقوق محفوظة.</span><span style="margin-inline-start:auto">من <span lang="en">Click &amp; More</span></span></div></footer>
+
+<nav class="proto-switch" aria-label="Prototype">
+  <a href="index.html" aria-current="page">Navy Canvas</a>
+</nav>
+
+<script src="assets/icons.js"></script>
+<script src="logos.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="navy-canvas.js"></script>
+<script src="sections.js"></script>
+<script src="menu.js"></script>
+<script src="hero-phone.js"></script>
 </body>
 </html>

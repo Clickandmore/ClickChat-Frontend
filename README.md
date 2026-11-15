@@ -6,17 +6,15 @@ This is a design prototype, not production code. The live site is https://clickc
 
 ## Open it
 
-No build step and no server are needed. Open this file in a browser:
+Live: https://clickandmore.github.io/ClickChat-Frontend/ (GitHub Pages, served from the root of `main`; every push to `main` updates it).
 
-```
-prototypes/experiments/navy-canvas/index.html
-```
+Locally, no build step and no server are needed. Open `index.html` in a browser.
 
 GSAP is loaded from a CDN, so the animations need an internet connection. Without it the pages still render in their final state.
 
 ## Pages
 
-| Page | File (inside `prototypes/experiments/navy-canvas/`) |
+| Page | File |
 | --- | --- |
 | Home (hero B, the chosen direction) | `index.html` |
 | Home with the alternative hero C | `c.html` |
@@ -41,7 +39,6 @@ GSAP is loaded from a CDN, so the animations need an internet connection. Withou
 The inner pages and the 11 sector pages are **generated**. Edit the generator, not the HTML:
 
 ```
-cd prototypes/experiments/navy-canvas
 py tools/build-pages.py              # rebuilds the six menu pages and the eleven sector pages
 node tools/fetch-industries.mjs      # re-captures the sector page text from clickchat.sa into tools/data/industries.json
 node tools/responsive-audit.mjs <baseUrl> <outDir>   # checks every page at six widths (needs Microsoft Edge)
@@ -60,10 +57,10 @@ About, legal and sign-in pages; the English version.
 
 ## Folder layout
 
-The prototype loads shared files by relative path, so the repository keeps the original layout:
-
 ```
+*.html, *.css, *.js, img/      the site (repository root)
+assets/                        fonts, base styles, icons, sector photos, integration logos
 ClickChat-Brand-Identity/      logos (SVG), favicon and patterns from the brand kit
-prototypes/assets/             fonts, base styles, icons, sector photos, integration logos
-prototypes/experiments/navy-canvas/   the prototype
+tools/, screenshots/           page generator, audit scripts, reference captures
+prototypes/experiments/navy-canvas/   redirects only, so the old long links still open the right page
 ```

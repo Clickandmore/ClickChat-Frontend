@@ -1,27 +1,36 @@
-# This repository publishes the Navy Canvas marketing-site prototype only.
-# Everything in the working folder is ignored unless it is listed below (the prototype and the shared files it loads).
+# This repository publishes the Navy Canvas marketing site (served from the root on GitHub Pages).
+# Everything in the working folder is ignored unless it is listed below.
 /*
 !/.gitignore
 !/README.md
-!/index.html
+!/MOTION-STORYBOARD.md
 
-# the prototype
+# the site
+!/*.html
+!/*.css
+!/*.js
+!/img/
+!/tools/
+!/screenshots/
+
+# shared files the site loads: fonts, base styles, icons, sector photos (JPG only), channel logos
+!/assets/
+/assets/*
+!/assets/brand-fonts.css
+!/assets/base.css
+!/assets/icons.js
+!/assets/logos/
+!/assets/photos/
+/assets/photos/*.png
+
+# old long links: redirect pages only
 !/prototypes/
 /prototypes/*
 !/prototypes/experiments/
 /prototypes/experiments/*
 !/prototypes/experiments/navy-canvas/
-/prototypes/experiments/navy-canvas/_backup/
-
-# shared files the prototype loads: fonts, base styles, icons, sector photos (JPG only), channel logos
-!/prototypes/assets/
-/prototypes/assets/*
-!/prototypes/assets/brand-fonts.css
-!/prototypes/assets/base.css
-!/prototypes/assets/icons.js
-!/prototypes/assets/logos/
-!/prototypes/assets/photos/
-/prototypes/assets/photos/*.png
+/prototypes/experiments/navy-canvas/*
+!/prototypes/experiments/navy-canvas/*.html
 
 # brand kit: only the SVG logos, the favicon and the patterns the pages reference
 !/ClickChat-Brand-Identity/

@@ -24,7 +24,7 @@
     const QUAD = [[.4141, .0915], [.5954, .1170], [.5943, .8489], [.4141, .8718]];
     const shot = $('[data-shot]'), plane = $('[data-plane]'), cards = $$('[data-cards] li'), wiresSvg = $('[data-wires]');
     /* ---- the screen: the illustrated inbox from the Navy Canvas hero (same markup and styles), drawn at 640 x 406 ---- */
-    const UW = 210, UH = 575, KIT = '../../../ClickChat-Brand-Identity/ClickChat-Brand-Identity/';
+    const UW = 210, UH = 575, KIT = 'ClickChat-Brand-Identity/ClickChat-Brand-Identity/';
     const LOGO = Object.assign({
       sms: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>',
       mail: '<rect x="2" y="4" width="20" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="m22 7-10 6L2 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>',

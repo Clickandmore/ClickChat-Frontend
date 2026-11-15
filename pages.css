@@ -17,7 +17,7 @@ html.anim .phero [data-in] { visibility: hidden; }
 .chapter.white { background: #fff; } .chapter.mist { background: var(--mist); }
 .chapter.navy { background: var(--navy-d); color: #fff; }
 .chapter.rise { background: var(--navy-d); color: #fff; border-radius: clamp(32px, 5vw, 64px) clamp(32px, 5vw, 64px) 0 0; margin-top: -2px; }
-.chapter.rise::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: url("../../../ClickChat-Brand-Identity/ClickChat-Brand-Identity/04-Patterns/chat-bubbles-pattern-dark.svg") 0 0 / 120px 120px; -webkit-mask-image: linear-gradient(180deg, #000, transparent 420px); mask-image: linear-gradient(180deg, #000, transparent 420px); pointer-events: none; }
+.chapter.rise::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: url("ClickChat-Brand-Identity/ClickChat-Brand-Identity/04-Patterns/chat-bubbles-pattern-dark.svg") 0 0 / 120px 120px; -webkit-mask-image: linear-gradient(180deg, #000, transparent 420px); mask-image: linear-gradient(180deg, #000, transparent 420px); pointer-events: none; }
 .chapter > .wrap { position: relative; }
 .ch-title { font: 600 clamp(26px, 3vw, 42px)/1.3 "IBM Plex Sans Arabic", sans-serif; }
 .ch-sub { margin-top: 10px; max-width: 40rem; }
@@ -109,7 +109,7 @@ html.anim .phero [data-in] { visibility: hidden; }
 .form .btn { margin-top: 24px; }
 .form-ok { display: none; margin-top: 18px; padding: 14px 18px; border-radius: 14px; background: var(--mint-soft); color: var(--mint-600); font-weight: 600; } .form.sent .form-ok { display: block; }
 .ct-side { position: relative; isolation: isolate; overflow: hidden; border-radius: 32px; background: var(--navy-d); color: #fff; padding: clamp(24px, 3.4vw, 44px); box-shadow: var(--sh-slab); }
-.ct-side::before { content: ""; position: absolute; inset: 0; z-index: -1; background: url("../../../ClickChat-Brand-Identity/ClickChat-Brand-Identity/04-Patterns/chat-bubbles-pattern-dark.svg") 0 0 / 120px 120px; -webkit-mask-image: linear-gradient(200deg, #000, transparent 70%); mask-image: linear-gradient(200deg, #000, transparent 70%); }
+.ct-side::before { content: ""; position: absolute; inset: 0; z-index: -1; background: url("ClickChat-Brand-Identity/ClickChat-Brand-Identity/04-Patterns/chat-bubbles-pattern-dark.svg") 0 0 / 120px 120px; -webkit-mask-image: linear-gradient(200deg, #000, transparent 70%); mask-image: linear-gradient(200deg, #000, transparent 70%); }
 .ct-side::after { content: ""; position: absolute; z-index: -1; left: -30%; bottom: -40%; width: 90%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(closest-side, rgba(18, 201, 155, .24), transparent); }
 .ct-side > p:first-child { font-size: 14px; font-weight: 600; color: var(--mint-300); }
 .ct-side h2 { margin-top: 26px; font: 600 clamp(22px, 2.2vw, 28px)/1.4 "IBM Plex Sans Arabic", sans-serif; }
@@ -126,7 +126,7 @@ html.anim .phero [data-in] { visibility: hidden; }
 .phero.ind .ph { min-height: clamp(340px, 36vw, 500px); box-shadow: var(--sh-3); }
 .phero.ind .ph-q, .phero.ind .ph-r { font-size: 15px; } .phero.ind .ph-r { align-items: flex-start; } .phero.ind .ph-r > span:first-child { margin-top: 5px; }
 .ind-panel { position: relative; isolation: isolate; overflow: hidden; min-height: clamp(340px, 34vw, 460px); display: flex; flex-direction: column; border-radius: 32px; background: var(--navy-d); color: #fff; padding: clamp(26px, 3.4vw, 44px); box-shadow: var(--sh-slab); }
-.ind-panel::before { content: ""; position: absolute; inset: 0; z-index: -1; background: url("../../../ClickChat-Brand-Identity/ClickChat-Brand-Identity/04-Patterns/chat-bubbles-pattern-dark.svg") 0 0 / 120px 120px; -webkit-mask-image: linear-gradient(200deg, #000, transparent 70%); mask-image: linear-gradient(200deg, #000, transparent 70%); }
+.ind-panel::before { content: ""; position: absolute; inset: 0; z-index: -1; background: url("ClickChat-Brand-Identity/ClickChat-Brand-Identity/04-Patterns/chat-bubbles-pattern-dark.svg") 0 0 / 120px 120px; -webkit-mask-image: linear-gradient(200deg, #000, transparent 70%); mask-image: linear-gradient(200deg, #000, transparent 70%); }
 .ind-panel::after { content: ""; position: absolute; z-index: -1; left: -25%; bottom: -40%; width: 85%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(closest-side, rgba(18, 201, 155, .26), transparent); }
 .bt-ic.big { width: 68px; height: 68px; border-radius: 22px; background: var(--mint); color: var(--navy); }
 .ind-panel ul { display: grid; gap: 10px; margin-top: 30px; }

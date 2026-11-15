@@ -1,10 +1,10 @@
 # Builds the Navy Canvas inner pages (static HTML) from shared parts, so header, footer and closing CTA stay identical.
-# Run:  py tools/build-pages.py      (from the navy-canvas folder; no dependencies)
+# Run:  py tools/build-pages.py      (from the repository root; no dependencies)
 # All Arabic copy is the live site's text, captured from clickchat.sa on 2026-11-14. Sector exchanges and photos are illustrative.
 import io, os, re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BRAND = '../../../ClickChat-Brand-Identity/ClickChat-Brand-Identity'
+BRAND = 'ClickChat-Brand-Identity/ClickChat-Brand-Identity'
 rd = lambda p: io.open(os.path.join(ROOT, p), encoding='utf-8').read()
 def wr(p, s): io.open(os.path.join(ROOT, p), 'w', encoding='utf-8', newline='\n').write(s)
 
@@ -62,8 +62,8 @@ def page(key, file, title, desc, body, extra_js=''):
 <meta name="description" content="%s">
 <link rel="icon" type="image/svg+xml" href="%s/02-App-Icons-and-Favicons/favicon.svg">
 <script>if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('anim');</script>
-<link rel="stylesheet" href="../../assets/brand-fonts.css">
-<link rel="stylesheet" href="../../assets/base.css">
+<link rel="stylesheet" href="assets/brand-fonts.css">
+<link rel="stylesheet" href="assets/base.css">
 <link rel="stylesheet" href="navy-canvas.css">
 <link rel="stylesheet" href="sections.css">
 <link rel="stylesheet" href="pages.css">
@@ -89,12 +89,11 @@ def page(key, file, title, desc, body, extra_js=''):
 <footer class="foot"><div class="wrap"><span>© <span class="num">2026</span> ClickChat. جميع الحقوق محفوظة.</span><span style="margin-inline-start:auto">من <span lang="en">Click &amp; More</span></span></div></footer>
 
 <nav class="proto-switch" aria-label="Prototype">
-  <a href="../../index.html">Overview</a>
   <a href="index.html">Navy Canvas · Home</a>
   <a href="%s" aria-current="page">%s</a>
 </nav>
 
-<script src="../../assets/icons.js"></script>
+<script src="assets/icons.js"></script>
 <script src="logos.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -121,7 +120,7 @@ SLUG_BY_PHOTO = {'cafe': 'restaurants', 'clinic': 'clinics', 'realestate': 'real
 def photo(s, caption=True, tag='a href="#"'):
     close = tag.split(' ')[0]
     cap = ('<b>%s</b><small>%s</small><span class="ph-go" aria-hidden="true"><span data-icon="arrow" data-size="18"></span></span>' % (s[0], s[1])) if caption else ''
-    return ('<%s class="ph"><img src="../../assets/photos/%s.jpg"%s alt="" width="1200" height="800" loading="lazy" decoding="async" style="object-position:%s 0">'
+    return ('<%s class="ph"><img src="assets/photos/%s.jpg"%s alt="" width="1200" height="800" loading="lazy" decoding="async" style="object-position:%s 0">'
             '<span class="ph-tag"><span data-icon="%s" data-size="15"></span>%s</span>'
             '<span class="ph-cap"><span class="ph-q" aria-hidden="true">%s</span><span class="ph-r" aria-hidden="true"><span data-icon="check" data-size="13"></span>%s</span>%s</span></%s>'
             % (tag, s[2], ' class="dim"' if s[8] else '', s[3], s[4], s[5], s[6], s[7], cap, close))
@@ -460,7 +459,7 @@ def ex_media(i, slug):
     q, r = (fx(t['customer']), fx(t['reply'])) if t else (s[6], s[7])
     chips = ''.join('<li style="--k:%d">%s%s</li>' % (k, ic(u['icon'], 15), fx(u['title'])) for k, u in enumerate(b['use_cases']['items']))
     return ('<a href="industry-%s.html" class="ex-m%s" data-ex-m>'
-            '<img src="../../assets/photos/%s.jpg"%s alt="" width="1200" height="800" decoding="async" style="object-position:%s 0">'
+            '<img src="assets/photos/%s.jpg"%s alt="" width="1200" height="800" decoding="async" style="object-position:%s 0">'
             '<span class="ph-tag"><span data-icon="%s" data-size="15"></span>%s</span>'
             '<ul class="ex-chips" aria-hidden="true">%s</ul>'
             '<span class="ex-cap"><span class="ph-q" aria-hidden="true">%s</span><span class="ph-r" aria-hidden="true"><span data-icon="check" data-size="13"></span>%s</span>'
@@ -486,7 +485,7 @@ body = '''<section class="phero sol" aria-labelledby="page-title">
       <p class="t-lead" data-in style="margin-top:18px;max-width:34rem">اختر قطاعك أو فريقك لترى كيف يساعدك ClickChat في الرد على العملاء وتنظيم العمل.</p>
     </div>
     <div class="fan" aria-hidden="true" data-in>
-      <img src="../../assets/photos/clinic.jpg" alt="" width="1200" height="800"><img src="../../assets/photos/store.jpg" alt="" width="1200" height="800"><img src="../../assets/photos/cafe.jpg" alt="" width="1200" height="800">
+      <img src="assets/photos/clinic.jpg" alt="" width="1200" height="800"><img src="assets/photos/store.jpg" alt="" width="1200" height="800"><img src="assets/photos/cafe.jpg" alt="" width="1200" height="800">
     </div>
   </div>
 </section>

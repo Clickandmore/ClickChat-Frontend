@@ -2,10 +2,10 @@
 
 /* ---------- brand kit patterns ---------- */
 /* chat-bubbles pattern (04-Patterns) as the texture of the navy surfaces */
-.sheet::after, .slab::after { background-image: url("../../../ClickChat-Brand-Identity/ClickChat-Brand-Identity/04-Patterns/chat-bubbles-pattern-dark.svg"); background-size: 120px 120px; }
-.cta::before { content: ""; position: absolute; inset: 0; background: url("../../../ClickChat-Brand-Identity/ClickChat-Brand-Identity/04-Patterns/chat-bubbles-pattern-dark.svg") 0 0 / 120px 120px; -webkit-mask-image: radial-gradient(ellipse at center, transparent 30%, #000 100%); mask-image: radial-gradient(ellipse at center, transparent 30%, #000 100%); }
+.sheet::after, .slab::after { background-image: url("ClickChat-Brand-Identity/ClickChat-Brand-Identity/04-Patterns/chat-bubbles-pattern-dark.svg"); background-size: 120px 120px; }
+.cta::before { content: ""; position: absolute; inset: 0; background: url("ClickChat-Brand-Identity/ClickChat-Brand-Identity/04-Patterns/chat-bubbles-pattern-dark.svg") 0 0 / 120px 120px; -webkit-mask-image: radial-gradient(ellipse at center, transparent 30%, #000 100%); mask-image: radial-gradient(ellipse at center, transparent 30%, #000 100%); }
 /* Sadu band (04-Patterns, same geometry and colours) on the top edge of each navy chapter; it slides with the scroll */
-.band { position: absolute; inset: 0 0 auto 0; height: 24px; transform: scaleY(-1); background: url("../../../ClickChat-Brand-Identity/ClickChat-Brand-Identity/04-Patterns/sadu-band-white-mint.svg") 0 0 / 48px 24px repeat-x; }
+.band { position: absolute; inset: 0 0 auto 0; height: 24px; transform: scaleY(-1); background: url("ClickChat-Brand-Identity/ClickChat-Brand-Identity/04-Patterns/sadu-band-white-mint.svg") 0 0 / 48px 24px repeat-x; }
 
 /* ---------- shared ---------- */
 section.ai, .camp, .team, .integ, .stats, .pricing { position: relative; padding-block: clamp(76px, 9vw, 140px); overflow: hidden; }
@@ -152,7 +152,7 @@ section.ai { background: var(--violet-soft); }
 /* ---------- Pricing: the plan deck on a navy stage ---------- */
 .pricing { background: var(--mist); }
 .pr-stage { position: relative; isolation: isolate; overflow: hidden; display: grid; gap: 40px; border-radius: 28px; background: var(--navy-d); padding: 30px 22px 34px; }
-.pr-stage::before { content: ""; position: absolute; inset: 0; z-index: -1; background: url("../../../ClickChat-Brand-Identity/ClickChat-Brand-Identity/04-Patterns/chat-bubbles-pattern-dark.svg") 0 0 / 120px 120px; -webkit-mask-image: linear-gradient(120deg, #000, transparent 65%); mask-image: linear-gradient(120deg, #000, transparent 65%); }
+.pr-stage::before { content: ""; position: absolute; inset: 0; z-index: -1; background: url("ClickChat-Brand-Identity/ClickChat-Brand-Identity/04-Patterns/chat-bubbles-pattern-dark.svg") 0 0 / 120px 120px; -webkit-mask-image: linear-gradient(120deg, #000, transparent 65%); mask-image: linear-gradient(120deg, #000, transparent 65%); }
 .pr-stage::after { content: ""; position: absolute; z-index: -1; left: -10%; bottom: -30%; width: 70%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(closest-side, rgba(18, 201, 155, .2), transparent); }
 .pr-copy .t-h2 { margin-top: 18px; } .pr-copy .t-lead { margin-top: 14px; } .pr-copy .seg { margin-top: 22px; }
 .pr-pick { display: grid; margin-top: 26px; border-top: 1px solid var(--navy-line); }
@@ -215,7 +215,7 @@ section.ai { background: var(--violet-soft); }
 .fw { display: none; }
 @media (min-width: 1024px) {
   .fix-slab { display: block; position: absolute; left: 0; top: -44px; bottom: -44px; width: calc(50% - 48px); border-radius: 32px; background: var(--navy-d); }
-  .fix-slab::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: url("../../../ClickChat-Brand-Identity/ClickChat-Brand-Identity/04-Patterns/chat-bubbles-pattern-dark.svg") 0 0 / 120px 120px; -webkit-mask-image: linear-gradient(200deg, #000, transparent 60%); mask-image: linear-gradient(200deg, #000, transparent 60%); }
+  .fix-slab::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: url("ClickChat-Brand-Identity/ClickChat-Brand-Identity/04-Patterns/chat-bubbles-pattern-dark.svg") 0 0 / 120px 120px; -webkit-mask-image: linear-gradient(200deg, #000, transparent 60%); mask-image: linear-gradient(200deg, #000, transparent 60%); }
   .fix-row { position: relative; grid-template-columns: minmax(0, 1fr) 96px minmax(0, 1fr); align-items: center; gap: 0; padding-block: 26px; }
   .fix-row > :last-child { padding-inline: 44px; }
   .fix-a .t-h2, .fix-a p { color: #fff; } .fix-a p { color: rgba(255, 255, 255, .7); }
@@ -339,7 +339,7 @@ section.ai { background: var(--violet-soft); }
 .bt.dark p, .bt.official p { color: rgba(255, 255, 255, .7); }
 .bt.dark .bt-ic, .bt.official .bt-ic { background: var(--mint); color: var(--navy); }
 .bt.lilac { background: var(--violet-soft); box-shadow: 0 1px 2px rgba(46, 45, 85, .05), 0 6px 14px -4px rgba(46, 45, 85, .08), 0 18px 36px -14px rgba(46, 45, 85, .14); }
-.bt.official::before { content: ""; position: absolute; inset: 0; z-index: -1; background: url("../../../ClickChat-Brand-Identity/ClickChat-Brand-Identity/04-Patterns/chat-bubbles-pattern-dark.svg") 0 0 / 120px 120px; -webkit-mask-image: linear-gradient(160deg, transparent 35%, #000); mask-image: linear-gradient(160deg, transparent 35%, #000); }
+.bt.official::before { content: ""; position: absolute; inset: 0; z-index: -1; background: url("ClickChat-Brand-Identity/ClickChat-Brand-Identity/04-Patterns/chat-bubbles-pattern-dark.svg") 0 0 / 120px 120px; -webkit-mask-image: linear-gradient(160deg, transparent 35%, #000); mask-image: linear-gradient(160deg, transparent 35%, #000); }
 .bt.official::after { content: ""; position: absolute; z-index: -1; left: -30%; bottom: -45%; width: 90%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(closest-side, rgba(18, 201, 155, .28), transparent); }
 .bt.team { gap: 24px; }
 .bt.team .board { grid-template-columns: repeat(2, 1fr); }
@@ -400,7 +400,7 @@ section.ai { background: var(--violet-soft); }
 .cl-steps li.on { background: var(--navy); color: #fff; box-shadow: none; translate: -6px 0; }
 .cl-steps li.on::before { background: var(--mint); color: var(--navy); }
 .cl-stage { position: relative; border-radius: 24px; background: var(--mint-soft); padding: clamp(18px, 2.4vw, 34px); padding-top: 54px !important; }
-.cl-stage::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: url("../../../ClickChat-Brand-Identity/ClickChat-Brand-Identity/04-Patterns/chat-bubbles-pattern-light.svg") 0 0 / 120px 120px; opacity: .7; }
+.cl-stage::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: url("ClickChat-Brand-Identity/ClickChat-Brand-Identity/04-Patterns/chat-bubbles-pattern-light.svg") 0 0 / 120px 120px; opacity: .7; }
 .cl-team { position: absolute; top: 14px; inset-inline-end: 22px; z-index: 2; display: flex; align-items: center; direction: rtl; padding: 5px 6px 5px 12px; border-radius: 99px; background: #fff; box-shadow: var(--ring), var(--sh-2); }
 .cl-team .av { width: 28px; height: 28px; margin-inline-start: -7px; font-size: 12px; background: var(--navy); color: #fff; box-shadow: 0 0 0 2px #fff; }
 .cl-team .av:first-child { margin-inline-start: 0; }
@@ -502,7 +502,7 @@ section.ai { background: var(--violet-soft); }
 .mega-in { display: grid; grid-template-columns: minmax(0, 1fr) 340px; overflow: hidden; margin-inline: auto; max-width: 1180px; border-radius: 28px; background: #fff; color: var(--navy); box-shadow: var(--ring), 0 2px 4px rgba(11, 27, 58, .05), 0 18px 36px -12px rgba(11, 27, 58, .16), 0 48px 96px -32px rgba(11, 27, 58, .30); }
 .mg-col { padding: 26px 22px 22px; }
 .mg-col.side { position: relative; isolation: isolate; display: flex; flex-direction: column; background: var(--navy-d); color: #fff; }
-.mg-col.side::before { content: ""; position: absolute; inset: 0; z-index: -1; background: url("../../../ClickChat-Brand-Identity/ClickChat-Brand-Identity/04-Patterns/chat-bubbles-pattern-dark.svg") 0 0 / 120px 120px; -webkit-mask-image: linear-gradient(200deg, #000, transparent 70%); mask-image: linear-gradient(200deg, #000, transparent 70%); }
+.mg-col.side::before { content: ""; position: absolute; inset: 0; z-index: -1; background: url("ClickChat-Brand-Identity/ClickChat-Brand-Identity/04-Patterns/chat-bubbles-pattern-dark.svg") 0 0 / 120px 120px; -webkit-mask-image: linear-gradient(200deg, #000, transparent 70%); mask-image: linear-gradient(200deg, #000, transparent 70%); }
 .mg-t { display: flex; align-items: center; gap: 10px; padding-inline: 12px; margin-bottom: 10px; font-size: 13px; font-weight: 600; color: var(--mint-600); }
 .mg-t::before { content: ""; width: 22px; height: 2px; background: var(--mint); }
 .mg-col.side .mg-t { color: var(--mint-300); }
@@ -532,7 +532,7 @@ section.ai { background: var(--violet-soft); }
 .hd-burger i:first-child { translate: 0 -4px; } .hd-burger i:last-child { translate: 0 4px; }
 .mnav-open .hd-burger i:first-child { translate: 0 0; rotate: 45deg; } .mnav-open .hd-burger i:last-child { translate: 0 0; rotate: -45deg; }
 .mnav { position: fixed; inset: 0; z-index: 80; isolation: isolate; display: flex; flex-direction: column; overflow-y: auto; overscroll-behavior: contain; background: var(--navy-d); color: #fff; padding: 0 22px 22px; visibility: hidden; clip-path: inset(0 0 100% 0); transition: clip-path .6s var(--ease), visibility 0s .6s; }
-.mnav::before { content: ""; position: fixed; inset: 0; z-index: -1; background: url("../../../ClickChat-Brand-Identity/ClickChat-Brand-Identity/04-Patterns/chat-bubbles-pattern-dark.svg") 0 0 / 120px 120px; -webkit-mask-image: linear-gradient(200deg, #000, transparent 65%); mask-image: linear-gradient(200deg, #000, transparent 65%); pointer-events: none; }
+.mnav::before { content: ""; position: fixed; inset: 0; z-index: -1; background: url("ClickChat-Brand-Identity/ClickChat-Brand-Identity/04-Patterns/chat-bubbles-pattern-dark.svg") 0 0 / 120px 120px; -webkit-mask-image: linear-gradient(200deg, #000, transparent 65%); mask-image: linear-gradient(200deg, #000, transparent 65%); pointer-events: none; }
 .mnav-open .mnav { visibility: visible; clip-path: inset(0 0 0 0); transition: clip-path .6s var(--ease), visibility 0s; }
 .mn-top { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; height: 72px; flex: none; background: var(--navy-d); margin-inline: -22px; padding-inline: 22px; }
 .mn-top img { height: 38px; width: auto; }
