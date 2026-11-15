@@ -1,0 +1,1182 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>الرئيسية | ClickChat كليك شات — Direction 3 · Signal</title>
+<meta name="description" content="ClickChat منصة سعودية تجمع واتساب وماسنجر وإنستغرام في صندوق وارد واحد، مع روبوتات دردشة بالذكاء الاصطناعي وأتمتة بدون برمجة وحملات جماعية ونظام لإدارة العملاء.">
+<link rel="icon" href="assets/brand/favicon.svg">
+<link rel="stylesheet" href="assets/brand-fonts.css">
+<link rel="stylesheet" href="assets/base.css">
+<script src="assets/icons.js" defer></script>
+<script src="assets/d3-routes.js" defer></script>
+<style>
+  :root { --focus: #12C99B; --mint: 18,201,155; }
+  html { overflow-x: clip; }   /* decorative glows are wider than a phone; never let them widen the page */
+  body { background: #040B18; color: #F5F8FB; overflow-x: hidden; }
+  /* touch targets: text links and the logo get a 44px hit area on phones and tablets */
+  header a.shrink-0 { display: inline-flex; align-items: center; min-height: 44px; }
+  @media (max-width: 1023px) { main a.inline-flex.items-center:not([class*="h-"]), .crumbs a, footer li a { min-height: 44px; display: inline-flex; align-items: center; } footer ul.space-y-2 > li + li { margin-top: 0; } }
+  /* Film grain over the whole page (reference: NCK, Themofeen). */
+  body::after { content: ""; position: fixed; inset: 0; z-index: 45; pointer-events: none; opacity: .08; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+
+  /* Matte panel with a lit edge. Light source: top-start (top-right in RTL). */
+  .edge { position: relative; background: linear-gradient(200deg, rgba(255,255,255,.055), rgba(255,255,255,.02) 55%), #0B1830; border-radius: 16px; }
+  .edge::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none;
+    background: linear-gradient(225deg, rgba(var(--mint),.5), rgba(255,255,255,.08) 36%, rgba(255,255,255,.04));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
+    transition: background .2s cubic-bezier(.2,0,0,1); }
+  .edge.lit::before, a.edge:hover::before, button.edge:hover::before, .edge.hov:hover::before, .edge:focus-within::before {
+    background: linear-gradient(225deg, rgba(var(--mint),1), rgba(var(--mint),.3) 45%, rgba(255,255,255,.07)); }
+  .edge.violet::before { background: linear-gradient(225deg, rgba(108,92,231,.95), rgba(108,92,231,.25) 45%, rgba(255,255,255,.06)); }
+  .edge.coral::before { background: linear-gradient(225deg, rgba(255,106,77,.9), rgba(255,106,77,.22) 45%, rgba(255,255,255,.06)); }
+  .glass { background: rgba(5,13,30,.72); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .glass { background: #0E1B35; } }
+
+  .glow { position: absolute; border-radius: 999px; filter: blur(90px); pointer-events: none; }
+  .drift { animation: drift 10s ease-in-out infinite alternate; }
+  @keyframes drift { from { transform: translate3d(-3%, 0, 0) scale(1); } to { transform: translate3d(3%, -4%, 0) scale(1.08); } }
+  .paused, .paused * { animation-play-state: paused !important; }
+
+  /* Eyebrow pill */
+  .eyebrow { display: inline-flex; align-items: center; gap: 8px; border: 1px solid rgba(255,255,255,.1); border-radius: 999px; padding: 6px 12px; font-size: 13px; color: #B7C2D2; background: rgba(255,255,255,.03); }
+  .eyebrow::before { content: ""; width: 6px; height: 6px; border-radius: 99px; background: #12C99B; box-shadow: 0 0 10px #12C99B; }
+
+  /* Hero horizon: the product rises over a lit planet edge (reference: Funded Firm, Quantix). */
+  .horizon { position: absolute; left: 50%; top: 46%; width: 2200px; height: 2200px; margin-left: -1100px; border-radius: 50%;
+    background: radial-gradient(closest-side, #040B18 0, #040B18 80%, #071729 100%);
+    border-top: 1.5px solid rgba(85,220,177,.7);
+    box-shadow: 0 -24px 90px -8px rgba(var(--mint),.42), 0 -2px 18px rgba(85,220,177,.5), inset 0 60px 120px -60px rgba(var(--mint),.28); }
+
+  /* Signal beams: a pulse travels from each channel into the inbox. */
+  .beam-line { position: relative; flex: 1; height: 1px; min-width: 40px; background: repeating-linear-gradient(90deg, rgba(255,255,255,.2) 0 3px, transparent 3px 9px); }
+  .pulse { position: absolute; top: -3px; width: 7px; height: 7px; border-radius: 99px; background: var(--c); box-shadow: 0 0 12px 2px var(--c); opacity: 0; }
+  .from-start .pulse { animation: toEnd var(--d, 3s) linear var(--w, 0s) infinite; }
+  .from-end .pulse { animation: toStart var(--d, 3s) linear var(--w, 0s) infinite; }
+  @keyframes toEnd { 0% { right: 0; opacity: 0; } 12%, 88% { opacity: 1; } 100% { right: 100%; opacity: 0; } }
+  @keyframes toStart { 0% { left: 0; opacity: 0; } 12%, 88% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
+
+  /* Message arrival (kit: bubble scales 92% → 100%). */
+  .js .msg { opacity: 0; transform: scale(.92); transform-origin: bottom; transition: opacity .25s cubic-bezier(.2,0,0,1), transform .25s cubic-bezier(.2,0,0,1); }
+  .js .msg.in { opacity: 1; transform: none; }
+  .typing i { display: inline-block; width: 6px; height: 6px; border-radius: 99px; background: currentColor; opacity: .35; animation: typing 1.2s infinite; }
+  .typing i:nth-child(2) { animation-delay: .15s; } .typing i:nth-child(3) { animation-delay: .3s; }
+  @keyframes typing { 0%, 60%, 100% { opacity: .35; transform: none; } 30% { opacity: 1; transform: translateY(-3px); } }
+  .row-new { animation: rowNew 2.4s ease-out 1; }
+  @keyframes rowNew { 0% { background: rgba(var(--mint),.22); } 100% { background: transparent; } }
+
+  /* Scroll reveal: content is visible by default; JS only adds polish. */
+  .js-reveal [data-reveal] { opacity: 0; transform: translateY(18px); transition: opacity .5s cubic-bezier(.2,0,0,1), transform .5s cubic-bezier(.2,0,0,1); transition-delay: var(--rd, 0s); }
+  .js-reveal [data-reveal].in { opacity: 1; transform: none; }
+
+  /* Steps beam */
+  .beam-fill { width: 0; transition: width 1.1s cubic-bezier(.2,0,0,1); }
+  .beam.on .beam-fill { width: 100%; }
+  .beam .stop { transition: background .3s, box-shadow .3s, color .3s; }
+  .beam.on .stop { background: #12C99B; color: #0B1B3A; box-shadow: 0 0 0 6px rgba(var(--mint),.14), 0 0 28px rgba(var(--mint),.6); }
+  .beam.on li:nth-child(2) .stop { transition-delay: .4s; } .beam.on li:nth-child(3) .stop { transition-delay: .8s; }
+
+  /* Bars in the analytics card grow once. */
+  .bar { transform-origin: bottom; }
+  .js-reveal [data-reveal] .bar { transform: scaleY(.15); transition: transform .8s cubic-bezier(.2,0,0,1); transition-delay: calc(var(--i) * 60ms + .2s); }
+  .js-reveal [data-reveal].in .bar { transform: none; }
+
+  .sadu-light { background-image: url("assets/brand/sadu-band-white-mint.svg"); background-size: 48px 24px; height: 24px; opacity: .16; }
+  details > summary { list-style: none; cursor: pointer; } details > summary::-webkit-details-marker { display: none; }
+  details[open] .chev { transform: rotate(180deg); } .chev { transition: transform .2s; }
+  .mega { opacity: 0; visibility: hidden; transform: translateY(-6px); transition: opacity .18s, transform .18s, visibility .18s; }
+  .mega.open { opacity: 1; visibility: visible; transform: none; }
+  .mobile-bar { transform: translateY(120%); transition: transform .25s cubic-bezier(.2,0,0,1); } .mobile-bar.show { transform: translateY(0); }
+  .seg button[aria-checked="true"] { background: #12C99B; color: #0B1B3A; }
+  [data-icon] { align-items: center; justify-content: center; }
+
+  /* ---- Sadu seams (from Direction 4): the brand band, woven in on scroll, with a message of light running along it ---- */
+  .seam { position: relative; overflow: hidden; background: #040B18; }
+  .seam svg { display: block; width: 100%; }
+  .seam[data-seam="band"] svg { height: 46px; }
+  .seam[data-seam="thread"] { padding-block: 14px; }
+  .seam[data-seam="thread"] svg { height: 18px; }
+  .seam.flip svg { transform: scaleY(-1); }
+  .seam path { transform-box: fill-box; }
+  .sadu-tri { transform-origin: 50% 100%; transition: transform .55s cubic-bezier(.34,1.56,.64,1); transition-delay: calc(var(--i) * 7ms); }
+  .sadu-dia { transform-origin: 50% 50%; transition: transform .5s cubic-bezier(.2,0,0,1); transition-delay: calc(var(--i) * 30ms + .35s); }
+  .seam-line { transform-box: fill-box; transform-origin: 100% 50%; transition: transform 1.1s cubic-bezier(.2,0,0,1); }
+  .js-reveal .seam:not(.in) .sadu-tri { transform: scaleY(0); }
+  .js-reveal .seam:not(.in) .sadu-dia { transform: scale(0) rotate(90deg); }
+  .js-reveal .seam:not(.in) .seam-line { transform: scaleX(0); }
+  .seam.in .sadu-dia { animation: twinkle 3.2s ease-in-out infinite; animation-delay: calc(var(--i) * -.41s); }
+  @keyframes twinkle { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+  .seam-light { position: absolute; top: 0; bottom: 0; right: -260px; width: 260px; pointer-events: none; opacity: 0;
+    background: radial-gradient(closest-side, rgba(var(--mint),.75), rgba(var(--mint),0)); mix-blend-mode: screen; }
+  .seam.in .seam-light { animation: seamrun 7s cubic-bezier(.4,0,.2,1) .6s infinite; }
+  @keyframes seamrun { 0% { right: -260px; opacity: 0; } 8%, 58% { opacity: 1; } 68%, 100% { right: 100%; opacity: 0; } }
+
+  /* ---- Feature card: an illustration stage on top, copy below (reference: Quantix / Arthea bento cards) ---- */
+  .bento { --g: var(--mint); position: relative; isolation: isolate; display: flex; flex-direction: column; overflow: hidden; border-radius: 24px; background: #09152D;
+    transition: translate .3s cubic-bezier(.2,0,0,1), box-shadow .3s cubic-bezier(.2,0,0,1); }
+  .bento::before { content: ""; position: absolute; inset: 0; z-index: 2; border-radius: inherit; padding: 1px; pointer-events: none;
+    background: linear-gradient(215deg, rgba(var(--g),.6), rgba(255,255,255,.09) 30%, rgba(255,255,255,.04) 68%, rgba(var(--g),.28));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+  .bento::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: linear-gradient(215deg, rgba(var(--g),.13), transparent 36%); }
+  .bento:hover, .bento:focus-within { translate: 0 -5px; box-shadow: 0 28px 60px -28px rgba(var(--g),.55); }
+  .bento:hover::before, .bento:focus-within::before, .bento.lit::before { background: linear-gradient(215deg, rgb(var(--g)), rgba(var(--g),.3) 34%, rgba(255,255,255,.06) 68%, rgba(var(--g),.5)); }
+  .bento .viz { position: relative; min-height: 184px; display: grid; place-items: center; padding: 24px; border-bottom: 1px solid rgba(255,255,255,.06);
+    background: radial-gradient(62% 90% at 50% 112%, rgba(var(--g),.26), transparent 70%); }
+  .bento .viz::before { content: ""; position: absolute; inset: 0; pointer-events: none; background-image: radial-gradient(rgba(255,255,255,.16) 1px, transparent 1.3px); background-size: 18px 18px;
+    -webkit-mask-image: radial-gradient(75% 95% at 50% 70%, #000, transparent); mask-image: radial-gradient(75% 95% at 50% 70%, #000, transparent); }
+  .bento .body { padding: 24px 26px 28px; }
+  .bento .kicker { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: #B7C2D2; }
+  .bento .kicker b { font-family: Inter, sans-serif; font-weight: 700; letter-spacing: .04em; color: rgb(var(--g)); }
+  .bento .kicker::after { content: ""; flex: 1; height: 1px; background: linear-gradient(to left, rgba(255,255,255,.14), transparent); }
+  .mini { border-radius: 12px; padding: 10px 12px; background: rgba(14,26,52,.92); box-shadow: inset 0 0 0 1px rgba(255,255,255,.09), 0 10px 24px -12px rgba(0,0,0,.8); }
+  .day { height: 30px; border-radius: 8px; background: rgba(255,255,255,.05); display: grid; place-items: center; }
+  .day i { width: 6px; height: 6px; border-radius: 99px; }
+  .day.on { background: rgba(255,255,255,.1); }
+  .day.now { background: rgba(var(--mint),.18); box-shadow: inset 0 0 0 1px rgb(var(--mint)), 0 0 18px -4px rgb(var(--mint)); }
+  @media (min-width: 768px) {
+    .bento.wide { flex-direction: row; }
+    .bento.wide .body { flex: 1; padding: 34px; }
+    .bento.wide .viz { flex: 1.1; border-bottom: 0; border-inline-start: 1px solid rgba(255,255,255,.06); background: radial-gradient(70% 80% at 0% 100%, rgba(var(--g),.24), transparent 70%); }
+  }
+
+  /* ---- Feature showcase: accordion list + one product stage ---- */
+  .feat-list { display: grid; gap: 6px; }
+  .feat { --g: var(--mint); position: relative; border-radius: 18px; transition: background .25s cubic-bezier(.2,0,0,1); }
+  .feat::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none; opacity: 0; transition: opacity .25s;
+    background: linear-gradient(215deg, rgb(var(--g)), rgba(var(--g),.25) 40%, rgba(255,255,255,.06));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+  .feat.on { background: linear-gradient(215deg, rgba(var(--g),.1), transparent 45%), #09152D; }
+  .feat.on::before { opacity: 1; }
+  .feat-btn { position: relative; width: 100%; display: flex; align-items: center; gap: 16px; padding: 15px 20px; text-align: start; border-radius: 18px; }
+  .feat-btn .num { font: 700 13px/1 Inter, sans-serif; letter-spacing: .04em; color: #5B6B82; transition: color .2s; }
+  .feat-btn .ttl { flex: 1; font-family: "Readex Pro", sans-serif; font-weight: 600; font-size: 18px; color: #B7C2D2; transition: color .2s; }
+  .feat-btn .ic { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 12px; color: #8290A4; background: rgba(255,255,255,.05); transition: color .2s, background .2s, box-shadow .2s; }
+  .feat-btn:hover .ttl, .feat.on .ttl { color: #fff; }
+  .feat.on .num { color: rgb(var(--g)); }
+  .feat.on .ic { color: rgb(var(--g)); background: rgba(var(--g),.16); box-shadow: 0 0 24px -6px rgb(var(--g)); }
+  .feat.on .ttl { font-size: 20px; font-weight: 700; }
+  .feat-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s cubic-bezier(.2,0,0,1); }
+  .feat-panel > div { overflow: hidden; min-height: 0; position: relative; }
+  .feat.on .feat-panel { grid-template-rows: 1fr; }
+  .feat-desc { padding: 0 20px 20px; padding-inline-start: 49px; font-size: 16px; line-height: 1.8; color: #B7C2D2; }
+  .feat-viz { position: relative; margin: 0 14px 18px; padding: 26px 16px; border-radius: 14px; display: block; background: radial-gradient(70% 90% at 50% 110%, rgba(var(--g),.22), transparent 70%), rgba(255,255,255,.025); box-shadow: inset 0 0 0 1px rgba(255,255,255,.06); }
+  .feat-viz > * { margin-inline: auto; }
+  .prog { display: block; height: 2px; margin: 0 20px 14px; border-radius: 2px; background: rgba(255,255,255,.08); overflow: hidden; opacity: 0; }
+  .prog i { display: block; height: 100%; width: 0; background: rgb(var(--g)); box-shadow: 0 0 8px rgb(var(--g)); }
+  .auto .prog { opacity: 1; }
+  .auto .feat.on .prog i { animation: featprog 6s linear forwards; }
+  .auto:hover .prog i, .auto:focus-within .prog i { animation-play-state: paused; }
+  @keyframes featprog { to { width: 100%; } }
+
+  .stage { --g: var(--mint); position: sticky; top: 104px; isolation: isolate; overflow: hidden; min-height: 660px; place-items: center; border-radius: 28px; background: #09152D; }
+  .stage::before { content: ""; position: absolute; inset: 0; z-index: 2; border-radius: inherit; padding: 1px; pointer-events: none;
+    background: linear-gradient(215deg, rgb(var(--g)), rgba(var(--g),.25) 30%, rgba(255,255,255,.05) 65%, rgba(var(--g),.45));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+  .stage::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background: radial-gradient(60% 55% at 50% 108%, rgba(var(--g),.36), transparent 70%), linear-gradient(215deg, rgba(var(--g),.12), transparent 40%),
+      radial-gradient(rgba(255,255,255,.13) 1px, transparent 1.3px) 0 0 / 20px 20px; }
+  .stage-inner { display: grid; place-items: center; width: 100%; padding: 0 24px; scale: 1.32; animation: stagein .35s cubic-bezier(.2,0,0,1) both; }
+  @keyframes stagein { from { opacity: 0; transform: translateY(14px) scale(.94); } to { opacity: 1; transform: none; } }
+  .stage-k { position: absolute; top: 26px; inset-inline-start: 30px; display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; color: #F5F8FB; }
+  .stage-k .ic { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 10px; color: rgb(var(--g)); background: rgba(var(--g),.16); }
+  .stage-note { position: absolute; bottom: 22px; inset-inline-start: 30px; font-size: 12px; color: #8290A4; }
+  .stage .ghost { position: absolute; bottom: -34px; left: 18px; font: 800 190px/1 Inter, sans-serif; letter-spacing: -.04em; color: rgb(var(--g)); opacity: .07; pointer-events: none; }
+  .brk { position: absolute; width: 18px; height: 18px; border: 1.5px solid rgba(var(--g),.7); pointer-events: none; }
+  .brk.tl { top: 16px; left: 16px; border-right: 0; border-bottom: 0; border-top-left-radius: 8px; }
+  .brk.tr { top: 16px; right: 16px; border-left: 0; border-bottom: 0; border-top-right-radius: 8px; }
+  .brk.bl { bottom: 16px; left: 16px; border-right: 0; border-top: 0; border-bottom-left-radius: 8px; }
+  .brk.br { bottom: 16px; right: 16px; border-left: 0; border-top: 0; border-bottom-right-radius: 8px; }
+
+  /* ---- Frosted card over solid shapes (reference: glassmorphism card over green cubes) ---- */
+  .frost { position: relative; border-radius: 22px; border: 1px solid rgba(255,255,255,.16); background: rgba(5,12,28,.58);
+    -webkit-backdrop-filter: blur(22px) saturate(150%); backdrop-filter: blur(22px) saturate(150%); box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 24px 48px -24px rgba(0,0,0,.6); }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .frost { background: #0E1B35; } }
+  .cube { position: absolute; width: 150px; height: 150px; border-radius: 20px; pointer-events: none;
+    background: linear-gradient(135deg, #2BE3B1, #0C7A5B 55%, #063A2C); box-shadow: inset -22px -22px 44px rgba(0,0,0,.4), inset 10px 10px 24px rgba(255,255,255,.18);
+    rotate: var(--r, 24deg); animation: bob var(--t, 7s) ease-in-out infinite alternate; }
+  @keyframes bob { to { translate: 0 -16px; rotate: calc(var(--r, 24deg) + 8deg); } }
+  .seg button { transition: background .15s, color .15s; }
+
+  /* ---- Headline entrance: whole words rise out of a blur, one after another (never single letters: Arabic joins) ---- */
+  .w { display: inline-block; }
+  .js-reveal .split .w { opacity: 0; transform: translateY(.5em); filter: blur(10px);
+    transition: opacity .6s cubic-bezier(.2,0,0,1), transform .7s cubic-bezier(.2,0,0,1), filter .6s cubic-bezier(.2,0,0,1); transition-delay: calc(var(--k) * 85ms + var(--sd, 0s)); }
+  .js-reveal .split.go .w { opacity: 1; transform: none; filter: none; }
+  /* the mint words carry a slow sweep of light */
+  .w.hl { color: transparent; -webkit-background-clip: text; background-clip: text;
+    background-image: linear-gradient(100deg, #12C99B 0 42%, #C9FFEE 50%, #12C99B 58% 100%); background-size: 250% 100%; background-position: 100% 0;
+    animation: shine 5.5s ease-in-out infinite; animation-delay: calc(var(--k) * .14s + 1.4s); }
+  @keyframes shine { 0%, 55% { background-position: 100% 0; } 100% { background-position: 0 0; } }
+  [data-count], [data-plans] { font-variant-numeric: tabular-nums; }
+
+  /* ---- Hero laptop: on large screens the inbox is scaled to sit exactly inside the photographed display ---- */
+  .hz-grid, .hz-rays, .horizon { position: absolute; pointer-events: none; }
+  .hz-grid { inset: 0; background-image: linear-gradient(rgba(255,255,255,.085) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.085) 1px, transparent 1px); background-size: 56px 56px; background-position: 50% 72px;
+    -webkit-mask-image: radial-gradient(ellipse 75% 70% at 50% 0%, #000 10%, transparent 75%); mask-image: radial-gradient(ellipse 75% 70% at 50% 0%, #000 10%, transparent 75%); }
+  .hz-rays { inset: 0; background: conic-gradient(from 90deg at 50% 0%, transparent 0deg, rgba(18,201,155,.07) 22deg, transparent 40deg, rgba(18,201,155,.09) 64deg, transparent 80deg, rgba(18,201,155,.11) 90deg, transparent 102deg, rgba(18,201,155,.08) 122deg, transparent 146deg, rgba(18,201,155,.06) 162deg, transparent 180deg);
+    -webkit-mask-image: radial-gradient(ellipse 65% 85% at 50% 0%, #000, transparent 72%); mask-image: radial-gradient(ellipse 65% 85% at 50% 0%, #000, transparent 72%); }
+  /* the light comes from above: the lower rim of a very wide ellipse hangs just under the header, a thin bright edge with light spilling down */
+  .horizon { left: -25%; width: 150%; height: 1100px; margin: 0; top: auto; bottom: calc(100% - 150px); border-radius: 50%;
+    background: radial-gradient(ellipse 60% 30% at 50% 100%, rgba(18,201,155,.34), rgba(18,201,155,.08) 45%, transparent 75%), #040B18;
+    box-shadow: 0 1.5px 0 rgba(190,255,235,.85), 0 10px 28px rgba(18,201,155,.55), 0 50px 130px rgba(18,201,155,.30), 0 140px 260px rgba(18,201,155,.14); }
+  @media (max-height: 820px) { .horizon { bottom: calc(100% - 100px); } [data-hero] > .relative { top: 14px; } }
+  @media (max-width: 1023px) { .horizon { left: -60%; width: 220%; bottom: calc(100% - 100px); } }
+  .laptop { position: relative; }
+  .laptop-img, .chan-row, .lap-only { display: none; }
+  @media (min-width: 1024px) {
+    /* the hero fills the first screen; its content is centred in the space under the header */
+    [data-hero] { min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; }
+    [data-hero] > .relative { width: 100%; top: 30px; }
+    .laptop { margin-inline: auto -20px; width: 100%; margin-top: 28px; aspect-ratio: 1316 / 890; }
+    .laptop-img { display: block; position: absolute; inset: 0; width: 100%; height: 100%; mix-blend-mode: lighten; pointer-events: none; }
+    .laptop-screen { position: absolute; inset: 0; direction: ltr; }
+    /* the inbox is laid out flat at 840 x 525 (list, thread, customer record) and a perspective matrix, computed in script from the four
+       measured corners of the display, lays it onto the tilted screen */
+    .laptop-fit { position: absolute; left: 0; top: 0; width: 840px; height: 549px; direction: rtl; transform-origin: 0 0; transform: var(--m, none); }
+    .laptop .inbox { height: 100%; display: flex; flex-direction: column; border: 0; border-radius: 14px 14px 0 0; box-shadow: none; background: #050E20; -webkit-backdrop-filter: none; backdrop-filter: none; }
+    .laptop .inbox::before { display: none; }
+    .laptop .inbox > .grid { flex: 1; min-height: 0; grid-template-columns: 222px minmax(0, 1fr) 196px; }
+    .laptop .inbox > .grid > * { display: block; min-height: 0; overflow: hidden; }
+    .laptop .inbox > .grid > :nth-child(2) { display: flex; }
+    .laptop li.lap-only { display: flex; } .laptop p.lap-only, .laptop div.lap-only { display: block; }
+    .laptop [data-thread] { padding: 10px 12px; }
+    /* channels sit along the top edge of the lid; each drops a line into the laptop with a pulse travelling down it */
+    .chan-row { display: block; position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+    .chan-row li { position: absolute; display: flex; flex-direction: column; align-items: center; translate: -50% -100%; }
+    .beam-v { position: relative; width: 1px; height: 40px; background: repeating-linear-gradient(180deg, rgba(255,255,255,.24) 0 3px, transparent 3px 9px); }
+    .beam-v .pulse { top: 0; left: -3px; animation: toDown var(--d, 3s) linear var(--w, 0s) infinite; }
+  }
+  @media (min-width: 1280px) { .laptop { width: 100%; max-width: 800px; margin-inline-end: -24px; } .chan-row li > span:first-child { font-size: 12px; padding-inline-end: 9px; gap: 5px; } }
+  @media (min-width: 1700px) { .laptop { max-width: 860px; margin-inline-end: -26px; } }
+  /* on narrower desktops the lid is too short for five labelled chips: show the icons only */
+  @media (min-width: 1024px) and (max-width: 1279px) { .chan-row li > span:first-child { font-size: 0; gap: 0; padding: 5px; } }
+  @keyframes toDown { 0% { top: 0; opacity: 0; } 12%, 88% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+
+  /* ---- Sector cards: the photograph fills the card; a tag, a short exchange and the caption sit on top of it ---- */
+  .photo { position: relative; display: flex; flex-direction: column; justify-content: flex-end; min-height: 540px; overflow: hidden; isolation: isolate; border-radius: 24px; background: #09152D; }
+  .photo img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; transition: scale .7s cubic-bezier(.2,0,0,1); }
+  .photo::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(to top, #050E20 8%, rgba(5,14,32,.86) 34%, rgba(5,14,32,.25) 58%, transparent 74%); }
+  .photo::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; box-shadow: inset 0 0 0 1.5px rgba(190,215,235,.3), inset 0 1.5px 0 rgba(255,255,255,.28); transition: box-shadow .25s; }
+  .photo .tag { position: absolute; top: 16px; inset-inline-start: 16px; display: inline-flex; align-items: center; gap: 7px; padding: 7px 12px; border-radius: 99px; font-size: 13px; font-weight: 600; color: #fff;
+    background: rgba(5,13,30,.55); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: inset 0 0 0 1px rgba(255,255,255,.16); }
+  .photo .tag svg { color: #12C99B; }
+  .photo .cap { position: relative; display: flex; flex-direction: column; align-items: flex-start; padding: 22px 22px 24px; }
+  .bub { max-width: 82%; padding: 9px 13px; font-size: 13.5px; line-height: 1.6; color: #F5F8FB; -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+  .bub.in { border-radius: 14px 14px 14px 4px; background: rgba(255,255,255,.13); box-shadow: inset 0 0 0 1px rgba(255,255,255,.16); }
+  [dir="rtl"] .bub.in { border-radius: 14px 14px 4px 14px; }
+  .bub.out { align-self: flex-end; margin-top: 8px; display: inline-flex; align-items: center; gap: 7px; border-radius: 14px 14px 4px 14px; color: #EafFF8; background: rgba(18,201,155,.2); box-shadow: inset 0 0 0 1px rgba(18,201,155,.55); }
+  [dir="rtl"] .bub.out { border-radius: 14px 14px 14px 4px; }
+  .bub.out svg { flex: none; color: #12C99B; }
+  .js-reveal [data-reveal] .bub { opacity: 0; scale: .92; translate: 0 8px; transform-origin: bottom; transition: opacity .25s cubic-bezier(.2,0,0,1), scale .25s cubic-bezier(.2,0,0,1), translate .25s cubic-bezier(.2,0,0,1); transition-delay: calc(var(--rd, 0s) + .5s); }
+  .js-reveal [data-reveal] .bub.out { transition-delay: calc(var(--rd, 0s) + 1.1s); }
+  .js-reveal [data-reveal].in .bub { opacity: 1; scale: 1; translate: 0 0; }
+  .photo .go { position: absolute; bottom: 22px; inset-inline-end: 22px; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 99px; color: #fff; box-shadow: inset 0 0 0 1px rgba(255,255,255,.25); transition: background .2s, color .2s, box-shadow .2s; }
+  .photo .cap > .block { padding-inline-end: 56px; }
+  .photo:hover img, .photo:focus-visible img { scale: 1.05; }
+  .photo:hover::after, .photo:focus-visible::after { box-shadow: inset 0 0 0 1.5px rgba(var(--mint),.9); }
+  .photo:hover .go, .photo:focus-visible .go { background: #12C99B; color: #0B1B3A; box-shadow: none; }
+  @media (max-width: 767px) { .photo { min-height: 460px; } }
+  /* Sector slider: a snap-scrolling row, three cards in view on desktop, two on tablet, one and a peek on phones */
+  .slider { display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; overscroll-behavior-x: contain; scrollbar-width: none; border-radius: 24px; }
+  .slider::-webkit-scrollbar { display: none; }
+  .slider > li { flex: 0 0 86%; scroll-snap-align: start; }
+  @media (min-width: 640px) { .slider > li { flex-basis: calc((100% - 20px) / 2); } }
+  @media (min-width: 1024px) { .slider > li { flex-basis: calc((100% - 40px) / 3); } }
+  .slider img.dim { filter: brightness(.8) saturate(.88) contrast(1.04); }
+  .slide-btn { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 99px; color: #fff; box-shadow: inset 0 0 0 1px rgba(255,255,255,.25); transition: background .2s, color .2s, box-shadow .2s, opacity .2s; }
+  .slide-btn:hover:not(:disabled) { background: #12C99B; color: #0B1B3A; box-shadow: none; }
+  .slide-btn:disabled { opacity: .35; cursor: default; }
+  .slide-btn .flip { display: grid; scale: -1 1; }
+  @media (prefers-reduced-motion: reduce) { .slider { scroll-behavior: auto; } }
+  @media (prefers-reduced-motion: reduce) { .photo img { transition: none; } .photo:hover img { scale: 1; } }
+
+  /* ---- Audit fixes (ui-ux-pro-max checklist) ---- */
+  /* contrast: the dim grey was about 3.5:1 on navy; small text needs 4.5:1 */
+  body .text-steel-500 { color: #8290A4; }
+  .feat-btn .num { color: #8290A4; }
+  /* headings break into even lines, paragraphs avoid a single stranded last word */
+  h1, h2, h3 { text-wrap: balance; } p { text-wrap: pretty; }
+  /* in-page links land below the sticky header */
+  section[id] { scroll-margin-top: 88px; }
+  /* press feedback on every button-like control, without moving the layout */
+  a[class*="rounded-btn"], .seg button, .feat-btn, .marq-toggle { transition-property: scale, box-shadow, background-color, color; transition-duration: .12s; transition-timing-function: cubic-bezier(.2,0,0,1); }
+  a[class*="rounded-btn"]:active, .seg button:active, .marq-toggle:active { scale: .97; }
+  .feat-btn:active { scale: .99; }
+  /* moving content needs a visible stop control */
+  .marq-toggle { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; color: #B7C2D2; }
+  .marq-toggle:hover { color: #fff; background: rgba(255,255,255,.06); }
+  .marq-toggle .play, .marq-toggle[aria-pressed="true"] .pause { display: none; }
+  .marq-toggle[aria-pressed="true"] .play { display: block; }
+  @media (prefers-reduced-motion: reduce) { .marq-toggle { display: none; } }
+
+  /* ---- Integrations: one row moving in one direction ---- */
+  .marq { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent); mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent); }
+  .marq-track { display: flex; width: max-content; padding-block: 4px; }
+  .chip { --g: var(--mint); flex: none; display: inline-flex; align-items: center; gap: 8px; margin-right: 10px; padding: 5px 12px 5px 5px; border-radius: 10px; font-size: 13px; font-weight: 500; color: #D5DCE6;
+    background: rgba(255,255,255,.04); box-shadow: inset 0 0 0 1px rgba(255,255,255,.09); transition: box-shadow .2s, color .2s; }
+  .chip b { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 8px; background: rgba(255,255,255,.07); }
+  .chip:hover { color: #fff; box-shadow: inset 0 0 0 1px rgba(255,255,255,.3); }
+  @media (prefers-reduced-motion: no-preference) {
+    .marq-track { animation: marq 32s linear infinite; }
+    .marq:hover .marq-track { animation-play-state: paused; }
+  }
+  @media (prefers-reduced-motion: reduce) { .marq { overflow-x: auto; -webkit-mask-image: none; mask-image: none; } }
+  @keyframes marq { to { transform: translateX(-50%); } }
+
+  /* ---- Problem → solution: scattered conversations on one side, the same ones gathered on the other ---- */
+  .ps-viz { position: relative; height: 204px; margin-bottom: 28px; }
+  .sc { position: absolute; left: var(--l); top: var(--t); rotate: var(--r); display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; font-size: 13px; color: #8290A4; }
+  .sc b { display: grid; place-items: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 99px; font: 600 11px/1 Inter, sans-serif; color: #B7C2D2; background: rgba(255,255,255,.1); }
+  @media (prefers-reduced-motion: no-preference) { .sc { animation: adrift var(--d, 6s) ease-in-out infinite alternate; } }
+  @keyframes adrift { to { translate: 6px -9px; } }
+  .ps-row { display: flex; align-items: center; gap: 10px; height: 36px; padding: 0 12px; border-radius: 10px; font-size: 13px; color: #fff;
+    background: rgba(255,255,255,.05); box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+    transition: transform .7s cubic-bezier(.34,1.56,.64,1), opacity .4s cubic-bezier(.2,0,0,1); transition-delay: calc(var(--i) * 110ms + .35s); }
+  .js-reveal [data-reveal]:not(.in) .ps-row { transform: translate(var(--x), var(--y)) rotate(var(--r)); opacity: 0; }
+
+</style>
+<link rel="stylesheet" href="assets/d3-tailwind.css">
+</head>
+<body class="pb-20 md:pb-0">
+<a class="skip-link" href="#main">تخطَّ إلى المحتوى</a>
+
+<!-- HEADER — flow from the live site: المزايا · الحلول ▾ · التكاملات · الأسعار · تواصل معنا · لغة · دخول · CTA -->
+<header id="top" class="fixed inset-x-0 top-0 z-50 glass border-b border-white/5">
+  <div class="mx-auto max-w-[1680px] px-4 md:px-8 xl:px-12 2xl:px-16 h-[72px] flex items-center gap-6">
+    <a href="#top" class="shrink-0" aria-label="ClickChat كليك شات — الرئيسية"><img src="assets/brand/clickchat-horizontal-reversed.svg" alt="ClickChat كليك شات" class="h-9 w-auto"></a>
+    <nav aria-label="الرئيسية" class="hidden lg:flex items-center gap-1 text-[15px] font-medium text-steel-300">
+      <a class="h-10 px-3 inline-flex items-center rounded-btn hover:text-white hover:bg-white/5" href="#features">المزايا</a>
+      <button type="button" class="h-10 px-3 inline-flex items-center gap-1 rounded-btn hover:text-white hover:bg-white/5" aria-expanded="false" aria-controls="mega" data-mega-btn>الحلول <span class="chev" data-icon="chevron" data-size="16"></span></button>
+      <a class="h-10 px-3 inline-flex items-center rounded-btn hover:text-white hover:bg-white/5" href="#integrations" data-route="/integrations">التكاملات</a>
+      <a class="h-10 px-3 inline-flex items-center rounded-btn hover:text-white hover:bg-white/5" href="#pricing">الأسعار</a>
+      <a class="h-10 px-3 inline-flex items-center rounded-btn hover:text-white hover:bg-white/5" href="#" data-route="/contact">تواصل معنا</a>
+    </nav>
+    <div class="ms-auto flex items-center gap-2">
+      <a href="#" lang="en" aria-label="Switch to English" class="hidden sm:inline-flex h-10 px-3 items-center gap-1.5 text-sm font-medium text-steel-300 hover:text-white"><span data-icon="globe" data-size="16"></span>EN</a>
+      <a href="#" data-route="/login" class="hidden md:inline-flex h-10 px-3 items-center text-[15px] font-medium text-white hover:text-mint">تسجيل الدخول</a>
+      <a href="#" data-route="/register" class="inline-flex h-11 px-5 items-center rounded-btn bg-mint text-navy text-[15px] font-semibold transition-shadow hover:shadow-[0_0_24px_rgba(18,201,155,.5)]">ابدأ مجاناً</a>
+      <button type="button" aria-label="فتح القائمة" aria-expanded="false" aria-controls="drawer" class="lg:hidden inline-flex h-11 w-11 items-center justify-center rounded-btn text-white" data-drawer-btn><span data-icon="menu"></span></button>
+    </div>
+  </div>
+
+  <!-- Solutions mega menu: 8 sectors + 3 teams (same list and routes as the live site) -->
+  <div id="mega" class="mega absolute inset-x-0 top-full hidden lg:block" data-mega>
+    <div class="mx-auto max-w-page px-8 pt-3">
+      <div class="edge lit rounded-sheet p-7 grid grid-cols-[1fr_300px] gap-8 shadow-[0_32px_80px_-20px_rgba(0,0,0,.8)]" style="background:#081428">
+        <div>
+          <p class="text-[13px] font-semibold text-mint">حسب القطاع</p>
+          <ul class="mt-3 grid grid-cols-2 gap-1" data-sectors></ul>
+        </div>
+        <div class="border-s border-white/10 ps-8 flex flex-col">
+          <p class="text-[13px] font-semibold text-mint">حسب فريق العمل</p>
+          <ul class="mt-3 grid gap-1" data-teams></ul>
+          <div class="mt-auto pt-5 flex flex-col gap-2 text-[14px] font-semibold">
+            <a href="#" data-route="/industries" class="inline-flex items-center gap-2 text-white hover:text-mint">كل الحلول <span data-icon="arrow" data-size="16"></span></a>
+            <a href="#" data-route="/use-cases" class="inline-flex items-center gap-2 text-steel-300 hover:text-white">حالات الاستخدام <span data-icon="arrow" data-size="16"></span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile drawer -->
+  <div id="drawer" class="lg:hidden hidden border-t border-white/10 bg-[#050E20] max-h-[calc(100dvh-72px)] overflow-y-auto" data-drawer>
+    <nav aria-label="القائمة" class="px-4 py-4 grid gap-1 text-[16px] font-medium">
+      <a class="h-12 px-3 flex items-center rounded-btn hover:bg-white/5" href="#features">المزايا</a>
+      <details class="rounded-btn">
+        <summary class="h-12 px-3 flex items-center justify-between rounded-btn hover:bg-white/5">الحلول <span class="chev" data-icon="chevron" data-size="18"></span></summary>
+        <ul class="pb-2 ps-3 grid gap-0.5 text-[15px] text-steel-300" data-drawer-solutions></ul>
+      </details>
+      <a class="h-12 px-3 flex items-center rounded-btn hover:bg-white/5" href="#integrations">التكاملات</a>
+      <a class="h-12 px-3 flex items-center rounded-btn hover:bg-white/5" href="#pricing">الأسعار</a>
+      <a class="h-12 px-3 flex items-center rounded-btn hover:bg-white/5" href="#faq">الأسئلة الشائعة</a>
+      <a class="h-12 px-3 flex items-center rounded-btn hover:bg-white/5" href="#" data-route="/contact">تواصل معنا</a>
+      <div class="mt-3 pt-4 border-t border-white/10 grid grid-cols-2 gap-2">
+        <a href="#" data-route="/login" class="edge h-12 inline-flex items-center justify-center rounded-btn font-semibold">تسجيل الدخول</a>
+        <a href="#" data-route="/register" class="h-12 inline-flex items-center justify-center rounded-btn bg-mint text-navy font-semibold">ابدأ مجاناً</a>
+      </div>
+      <div class="mt-2 flex gap-2 text-[14px]"><span class="rounded-full bg-white/10 px-4 py-2 text-white">العربية</span><a href="#" lang="en" class="rounded-full border border-white/10 px-4 py-2 text-steel-300">English</a></div>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <!-- ============ HERO: every channel signal lands in one inbox ============ -->
+  <section aria-labelledby="hero-title" class="relative overflow-hidden pt-[124px] md:pt-[148px] lg:pt-[108px]" data-hero>
+    <canvas class="absolute inset-0 w-full h-full" aria-hidden="true" data-dust></canvas>
+    <div class="glow drift w-[760px] h-[380px] top-[80px]" style="left: calc(50% - 380px); background: rgba(18,201,155,.16)" aria-hidden="true"></div>
+    <!-- Atmosphere: a fine grid fading from the top, soft rays falling from above, and a lit arc hanging under the header -->
+    <div class="hz-grid" aria-hidden="true"></div>
+    <div class="hz-rays" aria-hidden="true"></div>
+    <div class="horizon" aria-hidden="true"></div>
+
+    <div class="relative mx-auto max-w-[1680px] px-4 md:px-8 xl:px-12 2xl:px-16 lg:grid lg:grid-cols-[minmax(0,10fr)_minmax(0,14fr)] lg:items-center lg:gap-10 lg:pb-20">
+    <div class="relative text-center lg:text-start">
+      <p class="eyebrow" data-reveal>مدعوم بالذكاء الاصطناعي ومتوافق مع واجهات ميتا الرسمية</p>
+      <h1 id="hero-title" style="--sd:.15s" class="mt-6 font-display font-bold text-white text-[40px] leading-[1.25] sm:text-[58px] lg:text-[40px] xl:text-[52px] lg:leading-[1.25]">كل محادثات عملائك<br><span class="text-mint" style="text-shadow: 0 0 44px rgba(18,201,155,.45)">في مكان واحد</span></h1>
+      <p class="mt-6 mx-auto lg:mx-0 max-w-[40rem] text-[17px] md:text-[18px] leading-[1.8] text-steel-300" data-reveal style="--rd:.65s">اجمع واتساب وماسنجر وإنستغرام في صندوق وارد واحد، ورُدّ تلقائياً بالذكاء الاصطناعي، وأطلق حملاتك الجماعية، وحوّل المحادثات إلى مبيعات — من منصة واحدة.</p>
+      <div class="mt-9 flex flex-wrap justify-center lg:justify-start gap-3" data-reveal style="--rd:.8s">
+        <a href="#" data-route="/register" class="inline-flex h-[52px] px-7 items-center gap-2 rounded-btn bg-mint text-navy font-semibold shadow-[0_0_0_1px_rgba(255,255,255,.2)_inset] transition-shadow hover:shadow-[0_0_36px_rgba(18,201,155,.55)]">ابدأ مجاناً <span data-icon="arrow" data-size="18"></span></a>
+        <a href="#pricing" class="edge inline-flex h-[52px] px-6 items-center rounded-btn text-white font-semibold">تصفح الباقات</a>
+      </div>
+      <ul class="mt-6 flex flex-wrap justify-center lg:justify-start gap-x-6 gap-y-2 text-[14px] text-steel-300" data-reveal style="--rd:.95s">
+        <li class="inline-flex items-center gap-1.5"><span class="text-mint" data-icon="check" data-size="16"></span>بدون بطاقة ائتمانية</li>
+        <li class="inline-flex items-center gap-1.5"><span class="text-mint" data-icon="check" data-size="16"></span>تجربة مجانية حتى <span class="ltr">14</span> يوماً</li>
+        <li class="inline-flex items-center gap-1.5"><span class="text-mint" data-icon="check" data-size="16"></span>واجهات ميتا الرسمية</li>
+      </ul>
+    </div>
+
+    <!-- The stage -->
+    <div class="relative mt-14 md:mt-16 lg:mt-0 pb-16 md:pb-24 lg:pb-0">
+      <div class="glow w-[640px] h-[380px] top-[60px]" style="left:calc(50% - 320px); background:rgba(18,201,155,.16)" aria-hidden="true"></div>
+      <div class="relative">
+        <!-- channels on phones -->
+        <ul class="lg:hidden mb-4 flex flex-wrap justify-center gap-2 text-[13px] font-semibold" aria-label="القنوات المدعومة">
+          <li class="edge rounded-full px-3 py-1.5 inline-flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-wa"></span>واتساب</li>
+          <li class="edge rounded-full px-3 py-1.5 inline-flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-ig"></span>إنستغرام</li>
+          <li class="edge rounded-full px-3 py-1.5 inline-flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-fb"></span>ماسنجر</li>
+          <li class="edge rounded-full px-3 py-1.5 inline-flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-mint"></span>الرسائل النصية</li>
+          <li class="edge rounded-full px-3 py-1.5 inline-flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-steel-300"></span>البريد</li>
+        </ul>
+
+        <!-- A photographed laptop, front view (generated image, blank screen); on large screens the live inbox below is projected onto its display, corner to corner -->
+        <div class="laptop" data-laptop>
+          <img class="laptop-img" src="assets/photos/laptop.jpg" alt="" width="1316" height="890" decoding="async">
+        <ul class="chan-row text-[12.5px] font-semibold" aria-hidden="true">
+            <li style="--c:#25D366; --d:3s; --w:0s"><span class="edge rounded-full ps-1.5 pe-3 py-1.5 inline-flex items-center gap-1.5 whitespace-nowrap"><span class="grid place-items-center h-6 w-6 rounded-full bg-wa/15 text-wa" data-icon="message" data-size="13"></span>واتساب</span><span class="beam-v"><span class="pulse"></span></span></li>
+            <li style="--c:#E4405F; --d:3.6s; --w:0.9s"><span class="edge rounded-full ps-1.5 pe-3 py-1.5 inline-flex items-center gap-1.5 whitespace-nowrap"><span class="grid place-items-center h-6 w-6 rounded-full bg-ig/15 text-ig" data-icon="instagram" data-size="13"></span>إنستغرام</span><span class="beam-v"><span class="pulse"></span></span></li>
+            <li style="--c:#0084FF; --d:3.3s; --w:1.7s"><span class="edge rounded-full ps-1.5 pe-3 py-1.5 inline-flex items-center gap-1.5 whitespace-nowrap"><span class="grid place-items-center h-6 w-6 rounded-full bg-fb/15 text-fb" data-icon="send" data-size="13"></span>ماسنجر</span><span class="beam-v"><span class="pulse"></span></span></li>
+            <li style="--c:#12C99B; --d:3.4s; --w:0.4s"><span class="edge rounded-full ps-1.5 pe-3 py-1.5 inline-flex items-center gap-1.5 whitespace-nowrap"><span class="grid place-items-center h-6 w-6 rounded-full bg-mint/15 text-mint" data-icon="square" data-size="13"></span>رسائل نصية</span><span class="beam-v"><span class="pulse"></span></span></li>
+            <li style="--c:#B7C2D2; --d:4s; --w:1.4s"><span class="edge rounded-full ps-1.5 pe-3 py-1.5 inline-flex items-center gap-1.5 whitespace-nowrap"><span class="grid place-items-center h-6 w-6 rounded-full bg-white/10 text-steel-300" data-icon="mail" data-size="13"></span>البريد</span><span class="beam-v"><span class="pulse"></span></span></li>
+        </ul>
+          <div class="laptop-screen" data-laptop-screen><div class="laptop-fit" data-laptop-fit>
+          <!-- The inbox: product UI at real sizes, demo data -->
+          <div class="inbox edge lit glass rounded-sheet shadow-[0_40px_120px_-30px_rgba(0,0,0,.9),0_0_80px_-20px_rgba(18,201,155,.35)] overflow-hidden text-start" role="img" aria-label="لقطة توضيحية من صندوق الوارد الموحّد: محادثات من واتساب وإنستغرام وماسنجر في قائمة واحدة، مع رد آلي بالذكاء الاصطناعي">
+            <div class="h-12 px-4 flex items-center gap-3 border-b border-white/[.07] text-[13px]">
+              <span class="inline-flex items-center gap-2 font-semibold text-white"><span class="text-mint" data-icon="inbox" data-size="16"></span>صندوق الوارد</span>
+              <span class="rounded-full bg-mint/15 text-mint font-semibold px-2 py-0.5"><span class="ltr">12</span> مفتوحة</span>
+              <span class="ms-auto hidden sm:inline-flex items-center gap-1.5 text-steel-300"><span class="h-1.5 w-1.5 rounded-full bg-mint shadow-[0_0_8px_#12C99B]"></span>الفريق متصل</span>
+            </div>
+            <div class="grid md:grid-cols-[250px_minmax(0,1fr)] xl:grid-cols-[250px_minmax(0,1fr)_210px] min-h-[380px]">
+              <!-- conversation list -->
+              <ul class="hidden md:block border-e border-white/[.07] text-[13px]" data-list>
+                <li class="px-4 py-3 flex gap-3 bg-white/[.05] border-s-2 border-mint"><span class="mt-0.5 h-8 w-8 shrink-0 rounded-full bg-wa/15 text-wa grid place-items-center" data-icon="message" data-size="15"></span><span class="min-w-0 flex-1"><span class="flex items-center gap-2"><b class="font-semibold text-white truncate">سارة الدوسري</b><span class="ms-auto ltr text-[12px] text-steel-500">09:41</span></span><span class="block truncate text-steel-300">ممتاز، أبي واحد 👍</span></span></li>
+                <li class="px-4 py-3 flex gap-3 border-s-2 border-transparent"><span class="mt-0.5 h-8 w-8 shrink-0 rounded-full bg-ig/15 text-ig grid place-items-center" data-icon="instagram" data-size="15"></span><span class="min-w-0 flex-1"><span class="flex items-center gap-2"><b class="font-semibold text-white truncate">نورة العتيبي</b><span class="ms-auto ltr text-[12px] text-steel-500">09:38</span></span><span class="flex items-center gap-2"><span class="truncate text-steel-300">هل المنتج متوفر بالمقاس المتوسط؟</span><span class="ms-auto ltr shrink-0 rounded-full bg-mint text-navy text-[12px] font-bold px-1.5">2</span></span></span></li>
+                <li class="px-4 py-3 flex gap-3 border-s-2 border-transparent"><span class="mt-0.5 h-8 w-8 shrink-0 rounded-full bg-fb/15 text-fb grid place-items-center" data-icon="send" data-size="15"></span><span class="min-w-0 flex-1"><span class="flex items-center gap-2"><b class="font-semibold text-white truncate">مها القحطاني</b><span class="ms-auto ltr text-[12px] text-steel-500">09:12</span></span><span class="block truncate text-steel-300">أرغب بمعرفة طرق الدفع المتاحة</span></span></li>
+                <li class="px-4 py-3 flex gap-3 border-s-2 border-transparent"><span class="mt-0.5 h-8 w-8 shrink-0 rounded-full bg-wa/15 text-wa grid place-items-center" data-icon="message" data-size="15"></span><span class="min-w-0 flex-1"><span class="flex items-center gap-2"><b class="font-semibold text-white truncate">خالد السبيعي</b><span class="ms-auto ltr text-[12px] text-steel-500">08:30</span></span><span class="block truncate text-steel-300">وصلت الشحنة، شكراً لكم ⭐</span></span></li>
+                <li class="px-4 py-3 flex gap-3 border-s-2 border-transparent"><span class="mt-0.5 h-8 w-8 shrink-0 rounded-full bg-white/10 text-steel-300 grid place-items-center" data-icon="mail" data-size="15"></span><span class="min-w-0 flex-1"><span class="flex items-center gap-2"><b class="font-semibold text-white truncate">مؤسسة الندى</b><span class="ms-auto text-[12px] text-steel-500">أمس</span></span><span class="block truncate text-steel-300">تم استلام الطلب، شكراً</span></span></li>
+                <li class="lap-only px-4 py-3 gap-3 border-s-2 border-transparent"><span class="mt-0.5 h-8 w-8 shrink-0 rounded-full bg-wa/15 text-wa grid place-items-center" data-icon="message" data-size="15"></span><span class="min-w-0 flex-1"><span class="flex items-center gap-2"><b class="font-semibold text-white truncate">فهد المطيري</b><span class="ms-auto text-[12px] text-steel-500"><span class="ltr">08:12</span></span></span><span class="flex items-center gap-2"><span class="truncate text-steel-300">تم تأكيد الحجز، شكراً</span></span></span></li>
+                <li class="lap-only px-4 py-3 gap-3 border-s-2 border-transparent"><span class="mt-0.5 h-8 w-8 shrink-0 rounded-full bg-ig/15 text-ig grid place-items-center" data-icon="instagram" data-size="15"></span><span class="min-w-0 flex-1"><span class="flex items-center gap-2"><b class="font-semibold text-white truncate">ريم الشهري</b><span class="ms-auto text-[12px] text-steel-500"><span class="ltr">07:55</span></span></span><span class="flex items-center gap-2"><span class="truncate text-steel-300">كم سعر التوصيل للدمام؟</span><span class="ms-auto ltr shrink-0 rounded-full bg-mint text-navy text-[12px] font-bold px-1.5">1</span></span></span></li>
+                <li class="lap-only px-4 py-3 gap-3 border-s-2 border-transparent"><span class="mt-0.5 h-8 w-8 shrink-0 rounded-full bg-mint/15 text-mint grid place-items-center" data-icon="square" data-size="15"></span><span class="min-w-0 flex-1"><span class="flex items-center gap-2"><b class="font-semibold text-white truncate">عبدالله الحربي</b><span class="ms-auto text-[12px] text-steel-500">أمس</span></span><span class="flex items-center gap-2"><span class="truncate text-steel-300">وصلني رمز التحقق</span></span></span></li>
+                <li class="lap-only px-4 py-3 gap-3 border-s-2 border-transparent"><span class="mt-0.5 h-8 w-8 shrink-0 rounded-full bg-white/10 text-steel-300 grid place-items-center" data-icon="mail" data-size="15"></span><span class="min-w-0 flex-1"><span class="flex items-center gap-2"><b class="font-semibold text-white truncate">متجر الأناقة</b><span class="ms-auto text-[12px] text-steel-500">أمس</span></span><span class="flex items-center gap-2"><span class="truncate text-steel-300">طلب عرض سعر للجملة</span></span></span></li>
+              </ul>
+              <!-- thread -->
+              <div class="flex flex-col text-[14px]">
+                <div class="px-4 py-3 flex flex-wrap items-center gap-2 border-b border-white/[.07] text-[13px]"><b class="font-semibold text-white">سارة الدوسري</b><span class="inline-flex items-center gap-1 text-steel-300"><span class="h-1.5 w-1.5 rounded-full bg-wa"></span>واتساب</span><span class="ms-auto rounded-full border border-white/10 px-2 py-0.5 text-steel-300">مسندة إلى: فريق المبيعات</span></div>
+                <div class="flex-1 p-4 space-y-3" data-thread>
+                  <p class="lap-only mx-auto w-fit rounded-full bg-white/[.06] px-3 py-1 text-[12px] text-steel-300">اليوم · أُسندت المحادثة إلى فريق المبيعات</p>
+                  <p class="msg max-w-[80%] w-fit rounded-2xl rounded-ss-[4px] bg-white/[.08] px-3.5 py-2.5 leading-[1.7]">السلام عليكم، هل يوصل الطلب اليوم؟</p>
+                  <div class="msg ms-auto max-w-[84%] w-fit rounded-2xl rounded-se-[4px] bg-mint/[.14] border border-mint/20 px-3.5 py-2.5 leading-[1.7]">
+                    <span class="mb-1 flex w-fit items-center gap-1 rounded-full bg-violet-deep text-violet-300 text-[12px] font-semibold px-2 py-0.5"><span data-icon="sparkles" data-size="11"></span>رد آلي</span>
+                    وعليكم السلام 🌿 نعم! اطلب قبل الساعة <span class="ltr">4</span> ويوصلك اليوم. هذا الأكثر مبيعاً:
+                    <span class="mt-2 flex items-center gap-3 rounded-xl bg-black/25 p-2"><span class="h-11 w-11 rounded-lg" style="background:linear-gradient(135deg,#E8C27A,#8A5A1E)"></span><span><b class="block font-semibold text-white text-[13px]">عطر العود الملكي</b><span class="text-[12px] text-mint">متوفر ✓</span></span></span>
+                  </div>
+                  <p class="msg max-w-[80%] w-fit rounded-2xl rounded-ss-[4px] bg-white/[.08] px-3.5 py-2.5 leading-[1.7]">ممتاز، أبي واحد 👍</p>
+                  <p class="msg ms-auto w-fit rounded-2xl rounded-se-[4px] bg-mint/[.14] border border-mint/20 px-3.5 py-3 text-mint typing" aria-label="جارٍ كتابة الرد"><i></i> <i></i> <i></i></p>
+                </div>
+                <div class="m-3 mt-0 h-11 px-3 flex items-center gap-2 rounded-btn bg-white/[.05] border border-white/[.07] text-[13px] text-steel-500"><span class="flex-1">اكتب ردك…</span><span class="hidden sm:inline-flex items-center gap-1 rounded-full bg-violet-deep text-violet-300 font-semibold px-2.5 py-1"><span data-icon="sparkles" data-size="12"></span>اقترح رداً</span><span class="grid place-items-center h-8 w-8 rounded-lg bg-mint text-navy" data-icon="send" data-size="15"></span></div>
+              </div>
+              <!-- customer record -->
+              <div class="hidden xl:block border-s border-white/[.07] p-4 text-[13px]">
+                <p class="text-steel-500">سجل العميل</p>
+                <p class="mt-2 font-semibold text-white text-[15px]">سارة الدوسري</p>
+                <p class="ltr text-steel-300">+966 5X XXX XX41</p>
+                <div class="mt-3 flex flex-wrap gap-1.5"><span class="rounded-full bg-white/10 px-2 py-0.5">عميلة جديدة</span><span class="rounded-full bg-white/10 px-2 py-0.5">عطور</span><span class="rounded-full bg-coral-deep text-coral px-2 py-0.5">حملة رمضان</span></div>
+                <p class="mt-5 text-steel-500">اقتراح ذكي</p>
+                <p class="mt-2 rounded-xl bg-violet-deep/70 border border-violet/30 text-violet-300 p-3 leading-[1.7]">أرسل رابط الدفع لإتمام الطلب.</p>
+                <p class="mt-5 text-steel-500">ملاحظة داخلية</p>
+                <p class="mt-2 rounded-xl bg-white/[.05] p-3 leading-[1.7] text-steel-300">تفضّل التوصيل مساءً.</p>
+                <div class="lap-only block mt-5"><p class="text-steel-500">آخر الطلبات</p><p class="mt-2 flex items-center gap-2 rounded-xl bg-white/[.05] p-2.5"><span class="ltr text-steel-300">#1042</span><span class="truncate text-white">عطر العود الملكي</span><span class="ms-auto shrink-0 text-mint">تم التوصيل</span></p><p class="mt-2 flex items-center gap-2 rounded-xl bg-white/[.05] p-2.5"><span class="ltr text-steel-300">#0987</span><span class="truncate text-white">بخور فاخر</span><span class="ms-auto shrink-0 text-steel-300">مكتمل</span></p></div>
+              </div>
+            </div>
+          </div>
+
+          </div></div>
+        </div>
+        <p class="mt-2 text-center text-[12px] text-steel-500">بيانات توضيحية</p>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <div class="seam" data-seam="band" aria-hidden="true"></div>
+
+  <!-- ============ TRUST STRIP: metrics + integrations ============ -->
+  <section id="integrations" aria-label="أرقام وتكاملات" class="relative border-y border-white/[.06] bg-[#07132A]">
+    <dl class="mx-auto max-w-page px-4 md:px-8 grid grid-cols-2 md:grid-cols-4 md:divide-x md:divide-x-reverse divide-white/[.06]">
+      <div class="py-10 md:py-12 flex flex-col-reverse items-center text-center" data-reveal><dt class="mt-3 text-[14px] text-steel-300">قنوات تواصل في صندوق واحد</dt><dd class="font-display font-bold text-[48px] md:text-[56px] leading-none text-white"><span class="ltr">+5</span></dd></div>
+      <div class="py-10 md:py-12 flex flex-col-reverse items-center text-center" data-reveal style="--rd:.08s"><dt class="mt-3 text-[14px] text-steel-300">ردود آلية بالذكاء الاصطناعي</dt><dd class="font-display font-bold text-[48px] md:text-[56px] leading-none text-white"><span class="ltr">24/7</span></dd></div>
+      <div class="py-10 md:py-12 flex flex-col-reverse items-center text-center" data-reveal style="--rd:.16s"><dt class="mt-3 text-[14px] text-steel-300">يوماً تجربة مجانية</dt><dd class="font-display font-bold text-[48px] md:text-[56px] leading-none text-white"><span class="ltr">14</span></dd></div>
+      <div class="py-10 md:py-12 flex flex-col-reverse items-center text-center" data-reveal style="--rd:.24s"><dt class="mt-3 text-[14px] text-steel-300">واجهات ميتا الرسمية</dt><dd class="font-display font-bold text-[48px] md:text-[56px] leading-none text-mint" style="text-shadow:0 0 36px rgba(18,201,155,.5)"><span class="ltr">100%</span></dd></div>
+    </dl>
+    <div class="border-t border-white/[.06]">
+      <div class="mx-auto max-w-page px-4 md:px-8 py-8 flex flex-col lg:flex-row lg:items-center gap-5 lg:gap-8">
+        <div class="shrink-0"><p class="font-display font-semibold text-white text-[17px]">يعمل مع الأدوات التي تستخدمها بالفعل</p><p class="mt-1 text-[14px] text-steel-300">تكاملات جاهزة وخطافات ويب وواجهة برمجية كاملة.</p></div>
+        <!-- one row, one direction: the names pass by and pause when you point at them -->
+        <div class="marq flex-1 min-w-0" lang="en" dir="ltr" data-marq><ul class="marq-track" data-logos></ul></div>
+        <button type="button" class="marq-toggle" aria-pressed="false" aria-label="إيقاف حركة شريط التكاملات" data-marq-toggle>
+          <svg class="pause" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+          <svg class="play" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z"/></svg>
+        </button>
+        <a href="#" data-route="/integrations" class="shrink-0 inline-flex items-center gap-2 text-[14px] font-semibold text-mint hover:text-mint-300">عرض كل التكاملات <span data-icon="arrow" data-size="16"></span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROBLEM → SOLUTION: scattered vs gathered ============ -->
+  <section aria-labelledby="ps-title" class="relative mx-auto max-w-page px-4 md:px-8 py-24 md:py-32">
+    <h2 id="ps-title" class="sr-only">المشكلة والحل</h2>
+    <div class="relative grid md:grid-cols-2 gap-5 md:gap-6 items-stretch">
+      <div class="rounded-sheet border border-dashed border-white/15 p-7 md:p-9" data-reveal>
+        <div class="ps-viz" aria-hidden="true" data-scatter></div>
+        <p class="eyebrow" style="--x:1">قبل</p>
+        <h3 class="mt-4 font-display font-bold text-[26px] md:text-[32px] leading-[1.3] text-steel-300">هل يبدو هذا مألوفاً؟</h3>
+        <ul class="mt-7 space-y-4 text-[16px] leading-[1.7] text-steel-300">
+          <li class="flex gap-3"><span class="mt-1 grid place-items-center h-6 w-6 shrink-0 rounded-full bg-white/[.07] text-steel-500" data-icon="x" data-size="14"></span>محادثات مبعثرة بين واتساب وماسنجر وإنستغرام والبريد</li>
+          <li class="flex gap-3"><span class="mt-1 grid place-items-center h-6 w-6 shrink-0 rounded-full bg-white/[.07] text-steel-500" data-icon="x" data-size="14"></span>عملاء محتملون يضيعون بينما تنتظر رسائلهم الرد لساعات</li>
+          <li class="flex gap-3"><span class="mt-1 grid place-items-center h-6 w-6 shrink-0 rounded-full bg-white/[.07] text-steel-500" data-icon="x" data-size="14"></span>صعوبة إرسال العروض أو أتمتة المتابعة على نطاق واسع</li>
+          <li class="flex gap-3"><span class="mt-1 grid place-items-center h-6 w-6 shrink-0 rounded-full bg-white/[.07] text-steel-500" data-icon="x" data-size="14"></span>لا رؤية واضحة لأداء الفريق ولا لما يحقق النتائج</li>
+        </ul>
+      </div>
+      <div class="edge lit rounded-sheet p-7 md:p-9 overflow-hidden" data-reveal style="--rd:.12s">
+        <div class="glow w-[360px] h-[260px] -top-24 -start-16" style="background:rgba(18,201,155,.2)" aria-hidden="true"></div>
+        <div class="relative">
+          <div class="ps-viz grid content-start gap-[6px]" aria-hidden="true" data-gather></div>
+          <p class="eyebrow">بعد</p>
+          <h3 class="mt-4 font-display font-bold text-[26px] md:text-[32px] leading-[1.3] text-white"><span lang="en">ClickChat</span> يحل ذلك كله</h3>
+          <p class="mt-2 text-[16px] text-steel-300">منصة واحدة لالتقاط كل محادثة وأتمتتها وإتمامها.</p>
+          <ul class="mt-6 space-y-4 text-[16px] leading-[1.7] text-white">
+            <li class="flex gap-3"><span class="mt-1 grid place-items-center h-6 w-6 shrink-0 rounded-full bg-mint text-navy" data-icon="check" data-size="14" data-stroke="3"></span>صندوق وارد موحّد لكل القنوات يشاركه فريقك بالكامل</li>
+            <li class="flex gap-3"><span class="mt-1 grid place-items-center h-6 w-6 shrink-0 rounded-full bg-mint text-navy" data-icon="check" data-size="14" data-stroke="3"></span>روبوتات ذكية وأتمتة ترد على مدار الساعة</li>
+            <li class="flex gap-3"><span class="mt-1 grid place-items-center h-6 w-6 shrink-0 rounded-full bg-mint text-navy" data-icon="check" data-size="14" data-stroke="3"></span>حملات جماعية مع جدولة ذكية وتقسيم للجمهور</li>
+            <li class="flex gap-3"><span class="mt-1 grid place-items-center h-6 w-6 shrink-0 rounded-full bg-mint text-navy" data-icon="check" data-size="14" data-stroke="3"></span>تقارير فورية للتسليم وزمن الاستجابة وأداء الفريق</li>
+          </ul>
+        </div>
+      </div>
+      <span class="hidden md:grid absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 place-items-center h-12 w-12 rounded-full bg-mint text-navy shadow-[0_0_0_8px_#040B18,0_0_32px_rgba(18,201,155,.6)]" aria-hidden="true"><span data-icon="arrow" data-size="20" data-stroke="2.5"></span></span>
+    </div>
+  </section>
+
+  <!-- ============ CHANNELS ============ -->
+  <section aria-labelledby="ch-title" class="mx-auto max-w-page px-4 md:px-8 pb-24 md:pb-32">
+    <div class="text-center" data-reveal>
+      <p class="eyebrow">قنوات متعددة</p>
+      <h2 id="ch-title" class="mt-5 font-display font-bold text-white text-[30px] md:text-[44px] leading-[1.3]">كن حيث يوجد عملاؤك بالفعل</h2>
+      <p class="mt-4 mx-auto max-w-[36rem] text-[17px] leading-[1.8] text-steel-300">اربط كل قنوات التواصل بصندوق وارد واحد مشترك — دون تنقّل بين التطبيقات.</p>
+    </div>
+    <div class="relative mt-16" data-cubes>
+      <span class="cube" style="top:-46px; right:9%; --r:22deg; --t:7s" aria-hidden="true"></span>
+      <span class="cube" style="bottom:-52px; right:31%; --r:-18deg; --t:8.5s; width:120px; height:120px" aria-hidden="true"></span>
+      <span class="cube" style="top:-38px; left:36%; --r:38deg; --t:6.5s; width:110px; height:110px" aria-hidden="true"></span>
+      <span class="cube" style="bottom:-48px; left:7%; --r:-28deg; --t:9s" aria-hidden="true"></span>
+      <ul class="relative grid grid-cols-2 lg:grid-cols-5 gap-4" data-channels></ul>
+    </div>
+  </section>
+
+  <!-- ============ SECTORS: who uses it (mood photography generated with Figma AI; not real customers) ============ -->
+  <section id="solutions" aria-labelledby="sol-title" class="border-y border-white/[.06] bg-[#07132A]">
+    <div class="mx-auto max-w-page px-4 md:px-8 py-24 md:py-28">
+      <div class="flex flex-wrap items-end gap-x-10 gap-y-5" data-reveal>
+        <div>
+          <p class="eyebrow">الحلول</p>
+          <h2 id="sol-title" class="mt-5 font-display font-bold text-white text-[30px] md:text-[44px] leading-[1.3]">يناسب طريقة عمل قطاعك</h2>
+        </div>
+        <div class="ms-auto flex items-center gap-5">
+          <a href="#" data-route="/industries" class="inline-flex items-center gap-2 text-[15px] font-semibold text-mint hover:text-mint-300">كل الحلول <span data-icon="arrow" data-size="16"></span></a>
+          <div class="flex items-center gap-2" role="group" aria-label="تنقّل بين القطاعات">
+            <button type="button" class="slide-btn" data-slide="-1" aria-label="السابق" aria-controls="sector-track"><span class="flip" data-icon="arrow" data-size="18"></span></button>
+            <button type="button" class="slide-btn" data-slide="1" aria-label="التالي" aria-controls="sector-track"><span data-icon="arrow" data-size="18"></span></button>
+          </div>
+        </div>
+      </div>
+      <ul id="sector-track" class="slider mt-12" data-sector-cards tabindex="0" aria-label="القطاعات"></ul>
+      <p class="mt-5 text-[12px] text-steel-500">المحادثات في الصور توضيحية.</p>
+    </div>
+  </section>
+
+  <div class="seam" data-seam="thread" aria-hidden="true"></div>
+
+  <!-- ============ FEATURES BENTO ============ -->
+  <section id="features" aria-labelledby="feat-title" class="relative isolate">
+    <div class="glow w-[700px] h-[420px] top-40" style="left:calc(50% - 350px); background:rgba(18,201,155,.09)" aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-page px-4 md:px-8 pb-24 md:pb-32">
+      <div class="text-center" data-reveal>
+        <p class="eyebrow">المزايا</p>
+        <h2 id="feat-title" class="mt-5 font-display font-bold text-white text-[30px] md:text-[48px] leading-[1.25]">كل ما تحتاجه للتفوق <span class="text-mint">في كل قناة</span></h2>
+        <p class="mt-4 mx-auto max-w-[40rem] text-[17px] leading-[1.8] text-steel-300">من صندوق وارد موحّد إلى روبوتات الدردشة الذكية والحملات الجماعية — منصة واحدة لرحلة العميل كاملة.</p>
+      </div>
+
+      <!-- Eight features on one stage: pick a feature, see it in the product -->
+      <div class="mt-14 grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-6 lg:gap-8 items-start" data-feats data-reveal>
+        <ol class="feat-list" data-feat-list></ol>
+        <div class="stage hidden lg:grid" aria-hidden="true" data-feat-stage></div>
+      </div>
+
+      <div class="mt-6">
+        <!-- 09 Analytics -->
+        <article class="bento wide md:col-span-2 lg:col-span-6" data-reveal>
+          <div class="body self-center">
+            <p class="kicker">التقارير</p>
+            <h3 class="mt-4 font-display font-bold text-[26px] text-white">التحليلات والتقارير</h3>
+            <p class="mt-3 text-[16px] leading-[1.8] text-steel-300">تابع معدلات التسليم والقراءة والرد وأداء الفريق ونتائج الحملات.</p>
+            <dl class="mt-6 grid grid-cols-3 gap-3 text-center">
+              <div class="rounded-xl bg-white/[.05] py-3"><dd class="font-display font-bold text-[22px] text-white"><span class="ltr">98%</span></dd><dt class="text-[12px] text-steel-300">التسليم</dt></div>
+              <div class="rounded-xl bg-white/[.05] py-3"><dd class="font-display font-bold text-[22px] text-white"><span class="ltr">74%</span></dd><dt class="text-[12px] text-steel-300">القراءة</dt></div>
+              <div class="rounded-xl bg-white/[.05] py-3"><dd class="font-display font-bold text-[22px] text-mint"><span class="ltr">41%</span></dd><dt class="text-[12px] text-steel-300">الرد</dt></div>
+            </dl>
+            <p class="mt-3 text-[12px] text-steel-500">بيانات توضيحية</p>
+          </div>
+          <div class="viz !items-end" aria-hidden="true"><div class="relative w-full h-[200px] flex items-end gap-2 md:gap-3" dir="ltr" data-bars></div></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <div class="seam" data-seam="band" aria-hidden="true"></div>
+
+  <!-- ============ HOW IT WORKS: one beam, three stations ============ -->
+  <section aria-labelledby="how-title" class="relative isolate border-y border-white/[.06] bg-[#07132A]">
+    <div class="mx-auto max-w-page px-4 md:px-8 py-24 md:py-28">
+      <div class="text-center" data-reveal>
+        <p class="eyebrow">ابدأ الآن</p>
+        <h2 id="how-title" class="mt-5 font-display font-bold text-white text-[30px] md:text-[44px] leading-[1.3]">جاهز خلال دقائق، لا أسابيع</h2>
+        <p class="mt-4 text-[17px] leading-[1.8] text-steel-300">بدون برمجة وبدون إعدادات معقّدة — اربط قناتك وانطلق.</p>
+      </div>
+      <div class="beam relative mt-16" data-beam>
+        <div class="hidden md:block absolute top-[27px] inset-x-[16.6%] h-[2px] bg-white/10"><div class="beam-fill h-full bg-gradient-to-l from-mint to-mint/40 shadow-[0_0_16px_rgba(18,201,155,.8)]"></div></div>
+        <ol class="relative grid md:grid-cols-3 gap-10 text-center">
+          <li><span class="stop mx-auto grid place-items-center h-14 w-14 rounded-full bg-navy-raised font-display font-bold text-[20px] text-white ltr">1</span><h3 class="mt-6 font-display font-semibold text-[22px] text-white">اربط قنواتك</h3><p class="mt-2 text-[16px] leading-[1.8] text-steel-300 max-w-[19rem] mx-auto">اربط واتساب وماسنجر وإنستغرام عبر واجهات ميتا الرسمية بخطوات بسيطة.</p></li>
+          <li><span class="stop mx-auto grid place-items-center h-14 w-14 rounded-full bg-navy-raised font-display font-bold text-[20px] text-white ltr">2</span><h3 class="mt-6 font-display font-semibold text-[22px] text-white">استورد جهات اتصالك</h3><p class="mt-2 text-[16px] leading-[1.8] text-steel-300 max-w-[19rem] mx-auto">ارفع ملف <span class="ltr">CSV</span> ونظّم جهات الاتصال بالوسوم والشرائح.</p></li>
+          <li><span class="stop mx-auto grid place-items-center h-14 w-14 rounded-full bg-navy-raised font-display font-bold text-[20px] text-white ltr">3</span><h3 class="mt-6 font-display font-semibold text-[22px] text-white">أتمت وانمُ</h3><p class="mt-2 text-[16px] leading-[1.8] text-steel-300 max-w-[19rem] mx-auto">أطلق حملاتك وفعّل الروبوت الذكي وشاهد المحادثات تتحول إلى مبيعات.</p></li>
+        </ol>
+      </div>
+      <p class="mt-12 text-center"><a href="#" data-route="/register" class="inline-flex h-[52px] px-7 items-center gap-2 rounded-btn bg-mint text-navy font-semibold transition-shadow hover:shadow-[0_0_36px_rgba(18,201,155,.55)]">ابدأ مجاناً <span data-icon="arrow" data-size="18"></span></a></p>
+    </div>
+  </section>
+
+  <!-- ============ WHY CLICKCHAT: benefits + security ============ -->
+  <section aria-labelledby="why-title" class="relative isolate mx-auto max-w-page px-4 md:px-8 py-24 md:py-32">
+    <div class="grid lg:grid-cols-[1fr_2fr] gap-10 lg:gap-16">
+      <div class="lg:sticky lg:top-28 self-start" data-reveal>
+        <p class="eyebrow">لماذا <span lang="en">ClickChat</span></p>
+        <h2 id="why-title" class="mt-5 font-display font-bold text-white text-[30px] md:text-[44px] leading-[1.3]">مصمّم للفرق التي تريد نتائج</h2>
+        <p class="mt-4 text-[17px] leading-[1.8] text-steel-300">قوي بما يكفي للشركات الكبيرة، وبسيط بما يكفي للجميع.</p>
+      </div>
+      <ul class="grid sm:grid-cols-2 gap-x-8 gap-y-10" data-benefits></ul>
+    </div>
+
+    <div class="edge rounded-sheet mt-16 p-7 md:p-9" data-reveal>
+      <div class="flex flex-wrap items-end gap-x-6 gap-y-2">
+        <h3 class="font-display font-bold text-[24px] text-white inline-flex items-center gap-3"><span class="text-mint" data-icon="shield" data-size="26"></span>حماية بياناتك أولوية</h3>
+        <p class="text-[15px] text-steel-300">أدوات أمان مدمجة تحمي حسابك وبيانات عملائك.</p>
+      </div>
+      <ul class="mt-7 grid sm:grid-cols-2 lg:grid-cols-4 gap-6" data-security></ul>
+    </div>
+  </section>
+
+  <div class="seam" data-seam="thread" aria-hidden="true"></div>
+
+  <!-- ============ PRICING: live plan logic (billing period + display currency) ============ -->
+  <section id="pricing" aria-labelledby="price-title" class="relative isolate border-t border-white/[.06]">
+    <div class="glow w-[620px] h-[320px] top-0" style="left:calc(50% - 310px); background:rgba(18,201,155,.1)" aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-page px-4 md:px-8 py-24 md:py-32">
+      <div class="text-center" data-reveal>
+        <p class="eyebrow">الأسعار</p>
+        <h2 id="price-title" class="mt-5 font-display font-bold text-white text-[30px] md:text-[44px] leading-[1.3]">أسعار بسيطة وواضحة</h2>
+        <p class="mt-4 text-[17px] leading-[1.8] text-steel-300">اختر الباقة المناسبة لك، وغيّرها في أي وقت.</p>
+        <div class="mt-7 flex flex-wrap justify-center gap-3">
+          <div role="radiogroup" aria-label="مدة الاشتراك" class="seg inline-flex edge rounded-full p-1" data-period>
+            <button type="button" role="radio" aria-checked="true" data-v="m" class="relative h-11 px-5 rounded-full text-[14px] font-semibold text-steel-300">شهري</button>
+            <button type="button" role="radio" aria-checked="false" data-v="y" class="relative h-11 px-5 rounded-full text-[14px] font-semibold text-steel-300">سنوي · وفّر أكثر</button>
+          </div>
+          <div role="radiogroup" aria-label="العملة" class="seg inline-flex edge rounded-full p-1" data-currency>
+            <button type="button" role="radio" aria-checked="true" data-v="SAR" class="relative h-11 px-4 rounded-full text-[14px] font-semibold text-steel-300">ر.س</button>
+            <button type="button" role="radio" aria-checked="false" data-v="USD" class="relative h-11 px-4 rounded-full text-[14px] font-semibold text-steel-300 ltr">USD</button>
+          </div>
+        </div>
+      </div>
+      <ul class="mt-12 grid md:grid-cols-3 gap-5 items-stretch" aria-live="polite" data-plans></ul>
+      <p class="mt-8 text-center"><a href="#" data-route="/pricing" class="inline-flex items-center gap-2 text-[15px] font-semibold text-mint hover:text-mint-300">قارن كل المزايا <span data-icon="arrow" data-size="16"></span></a></p>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section id="faq" aria-labelledby="faq-title" class="relative isolate border-t border-white/[.06] bg-[#07132A]">
+    <div class="mx-auto max-w-page px-4 md:px-8 py-24 md:py-28 grid lg:grid-cols-[1fr_1.6fr] gap-10 lg:gap-16">
+      <div data-reveal>
+        <p class="eyebrow">الأسئلة الشائعة</p>
+        <h2 id="faq-title" class="mt-5 font-display font-bold text-white text-[30px] md:text-[44px] leading-[1.3]">الأسئلة الأكثر تكراراً</h2>
+        <p class="mt-4 text-[17px] leading-[1.8] text-steel-300">كل ما تحتاج معرفته عن <span lang="en">ClickChat</span>.</p>
+        <a href="#" data-route="/faq" class="mt-6 inline-flex items-center gap-2 text-[15px] font-semibold text-mint hover:text-mint-300">كل الأسئلة <span data-icon="arrow" data-size="16"></span></a>
+      </div>
+      <div class="space-y-3" data-faq></div>
+    </div>
+  </section>
+
+  <div class="seam flip" data-seam="band" aria-hidden="true"></div>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section aria-labelledby="cta-title" class="relative overflow-hidden border-t border-white/[.06]">
+    <!-- light streaks (reference: curved green light) -->
+    <svg class="absolute inset-0 w-full h-full" viewBox="0 0 1200 520" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs><linearGradient id="streak" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#12C99B" stop-opacity="0"/><stop offset=".45" stop-color="#12C99B" stop-opacity=".55"/><stop offset="1" stop-color="#12C99B" stop-opacity="0"/></linearGradient></defs>
+      <g fill="none" stroke="url(#streak)" stroke-width="1.2" data-streaks></g>
+    </svg>
+    <div class="glow w-[680px] h-[360px] top-16" style="left:calc(50% - 340px); background:rgba(18,201,155,.18)" aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-page px-4 md:px-8 py-24 md:py-36 text-center">
+      <h2 id="cta-title" class="font-display font-bold text-white text-[36px] md:text-[60px] leading-[1.2]">جاهز لكسب <span class="text-mint">كل محادثة؟</span></h2>
+      <p class="mt-5 text-[17px] md:text-[18px] text-steel-300">ابدأ مجاناً اليوم — دون بطاقة ائتمانية، وفعّل قنواتك خلال دقائق.</p>
+      <div class="mt-10 flex flex-wrap justify-center items-center gap-3">
+        <span class="relative inline-flex">
+          <a href="#" data-route="/register" class="inline-flex h-[60px] px-9 items-center gap-2 rounded-btn bg-mint text-navy text-[17px] font-semibold shadow-[0_0_56px_rgba(18,201,155,.5)]">ابدأ تجربتك المجانية <span data-icon="arrow" data-size="18"></span></a>
+          <!-- glass cursor object (supporting visual, separate from the logo) -->
+          <svg class="absolute -bottom-9 -left-7 w-14 h-14 drop-shadow-[0_8px_20px_rgba(0,0,0,.7)] pointer-events-none" viewBox="0 0 64 64" aria-hidden="true">
+            <defs><linearGradient id="cur" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".97"/><stop offset=".55" stop-color="#DBF8EC" stop-opacity=".9"/><stop offset="1" stop-color="#55DCB1" stop-opacity=".85"/></linearGradient></defs>
+            <path d="M14 8 L52 30 L35 34 L27 52 Z" fill="url(#cur)" stroke="#0B1B3A" stroke-width="3" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <a href="#" data-route="/contact" class="edge inline-flex h-[60px] px-7 items-center rounded-btn text-white text-[17px] font-semibold">تحدّث مع فريق المبيعات</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="border-t border-white/[.06] bg-[#030812]">
+  <div class="sadu-light" aria-hidden="true"></div>
+  <div class="mx-auto max-w-page px-4 md:px-8 py-14 grid grid-cols-2 md:grid-cols-6 gap-8 text-[15px]">
+    <div class="col-span-2"><img src="assets/brand/clickchat-horizontal-reversed.svg" alt="ClickChat كليك شات" class="h-10 w-auto"><p class="mt-4 max-w-sm leading-[1.8] text-steel-300">منصة سعودية تجمع واتساب وماسنجر وإنستغرام في صندوق وارد واحد، مع الذكاء الاصطناعي والأتمتة والحملات الجماعية.</p></div>
+    <nav aria-label="المنتج"><p class="font-semibold text-white">المنتج</p><ul class="mt-3 space-y-2 text-steel-300"><li><a class="hover:text-white" href="#" data-route="/#features" data-no-current>المزايا</a></li><li><a class="hover:text-white" href="#" data-route="/integrations" data-no-current>التكاملات</a></li><li><a class="hover:text-white" href="#" data-route="/pricing" data-no-current>الأسعار</a></li><li><a class="hover:text-white" href="#" data-route="/faq" data-no-current>الأسئلة الشائعة</a></li></ul></nav>
+    <nav aria-label="الحلول"><p class="font-semibold text-white">الحلول</p><ul class="mt-3 space-y-2 text-steel-300"><li><a class="hover:text-white" href="#" data-route="/industries/ecommerce" data-no-current>المتاجر الإلكترونية</a></li><li><a class="hover:text-white" href="#" data-route="/industries/clinics" data-no-current>العيادات</a></li><li><a class="hover:text-white" href="#" data-route="/industries/restaurants" data-no-current>المطاعم والكافيهات</a></li><li><a class="hover:text-white" href="#" data-route="/industries" data-no-current>كل الحلول</a></li></ul></nav>
+    <nav aria-label="الشركة"><p class="font-semibold text-white">الشركة</p><ul class="mt-3 space-y-2 text-steel-300"><li><a class="hover:text-white" href="#" data-route="/about" data-no-current>من نحن</a></li><li><a class="hover:text-white" href="#" data-route="/use-cases" data-no-current>حالات الاستخدام</a></li><li><a class="hover:text-white" href="#" data-route="/contact" data-no-current>تواصل معنا</a></li></ul></nav>
+    <nav aria-label="قانوني"><p class="font-semibold text-white">قانوني</p><ul class="mt-3 space-y-2 text-steel-300"><li><a class="hover:text-white" href="#" data-route="/p/privacy" data-no-current>سياسة الخصوصية</a></li><li><a class="hover:text-white" href="#" data-route="/p/terms" data-no-current>الشروط والأحكام</a></li><li><a class="hover:text-white" href="#" data-route="/p/cookies" data-no-current>سياسة ملفات الارتباط</a></li></ul></nav>
+  </div>
+  <div class="border-t border-white/[.06]"><div class="mx-auto max-w-page px-4 md:px-8 py-5 flex flex-wrap gap-4 text-[13px] text-steel-300"><span>© <span class="ltr">2026</span> <span lang="en">ClickChat</span> | كليك شات. جميع الحقوق محفوظة.</span><span class="ms-auto">من <span lang="en">Click &amp; More</span></span></div></div>
+</footer>
+
+<div class="mobile-bar md:hidden fixed inset-x-0 bottom-0 z-40 bg-[#050E20]/95 border-t border-white/10 p-3 flex gap-2" data-mobile-bar>
+  <a href="#" data-route="/register" class="flex-1 inline-flex h-12 items-center justify-center rounded-btn bg-mint text-navy font-semibold">ابدأ مجاناً</a>
+  <a href="#" data-route="/contact" aria-label="تحدّث مع فريق المبيعات" class="edge inline-flex h-12 w-12 items-center justify-center rounded-btn text-white"><span data-icon="message"></span></a>
+</div>
+
+<script>
+document.documentElement.classList.add('js');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const ico = (n, s = 20) => `<span data-icon="${n}" data-size="${s}"></span>`;
+
+/* ---------- Content (copied from the live site's CMS data) ---------- */
+const SECTORS = [
+  ['restaurants', 'المطاعم والكافيهات', 'استقبل الطلبات والحجوزات من واتساب وإنستغرام في صندوق واحد.'],
+  ['clinics', 'العيادات والمراكز الطبية', 'مواعيد وتذكيرات واستفسارات المرضى من واتساب، مع فريق استقبال منظم.'],
+  ['real-estate', 'العقار', 'تابع كل مهتم بعقار من أول رسالة حتى المعاينة.'],
+  ['ecommerce', 'المتاجر الإلكترونية', 'إشعارات الطلب وخدمة ما بعد البيع والسلات المتروكة عبر واتساب.'],
+  ['car-showrooms', 'معارض السيارات', 'تابع طلبات الأسعار والتجربة والتمويل من كل القنوات.'],
+  ['salons', 'الصالونات ومراكز التجميل', 'حجوزات وتذكيرات وعروض لعميلاتك عبر واتساب وإنستغرام.'],
+  ['education', 'التعليم والتدريب', 'تسجيل الطلاب والاستفسارات وتنبيهات الدورات من مكان واحد.'],
+  ['recruitment', 'شركات ومكاتب الاستقدام', 'تابع طلبات الاستقدام ومراحل المعاملة مع العملاء عبر واتساب.'],
+];
+const TEAMS = [
+  ['sales', 'فرق المبيعات', 'وزّع العملاء المحتملين وتابعهم حتى الإغلاق.'],
+  ['customer-service', 'خدمة العملاء', 'صندوق وارد مشترك وردود آلية وتقارير لرضا العملاء.'],
+  ['operations', 'فرق العمليات', 'أتمتة الإشعارات والتحديثات وربط المنصة بأنظمتك.'],
+];
+const menuItem = ([slug, name, line]) => `<li><a href="#" data-route="/industries/${slug}" class="block rounded-xl px-3 py-2.5 hover:bg-white/[.06]"><span class="block font-semibold text-white text-[15px]">${name}</span><span class="block mt-0.5 text-[13px] leading-[1.6] text-steel-300">${line}</span></a></li>`;
+$('[data-sectors]').innerHTML = SECTORS.map(menuItem).join('');
+/* Eight sectors in one slider: full photograph, a short exchange that arrives over it, and the same line used in the menu (exchanges are illustrative) */
+const SECTOR_CARDS = [
+  ['ecommerce', 'store', '42%', 'cart', 'متاجر', 'هل طلبي في الطريق؟', 'نعم، يصلك اليوم قبل <span class="ltr">6</span> مساءً'],
+  ['clinics', 'clinic', '30%', 'calendar', 'عيادات', 'أحتاج موعد تنظيف أسنان', 'متاح غداً <span class="ltr">4:30</span> — نؤكد الحجز؟'],
+  ['restaurants', 'cafe', '38%', 'message', 'مطاعم وكافيهات', 'طاولة لأربعة الليلة؟', 'تم الحجز، الساعة <span class="ltr">9</span>'],
+  ['real-estate', 'realestate', '48%', 'target', 'عقار', 'هل الشقة متاحة للمعاينة؟', 'نعم، غداً الساعة <span class="ltr">5</span> مساءً يناسبك؟', 1],
+  ['car-showrooms', 'cars', '47%', 'phone', 'معارض سيارات', 'كم القسط الشهري للسيارة؟', 'أرسلنا لك عرض التمويل الآن', 1],
+  ['salons', 'salon', '47%', 'sparkles', 'صالونات', 'أبغى موعد يوم الخميس', 'متاح الخميس <span class="ltr">6</span> مساءً — نؤكد؟', 1],
+  ['education', 'education', '46%', 'users', 'تعليم وتدريب', 'متى تبدأ دورة المحاسبة؟', 'تبدأ الأحد، وهذا رابط التسجيل', 1],
+  ['recruitment', 'recruitment', '47%', 'usercheck', 'استقدام', 'أين وصلت معاملتي؟', 'اكتملت الأوراق، ونبلغك بموعد الوصول', 1],
+];
+$('[data-sector-cards]').innerHTML = SECTOR_CARDS.map(([slug, img, pos, icon, tag, q, r, dim], k) => {
+  const [, name, line] = SECTORS.find(s => s[0] === slug);
+  return `<li data-reveal style="--rd:${(k % 3) * .1}s"><a href="#" data-route="/industries/${slug}" class="photo group">
+    <img src="assets/photos/${img}.jpg"${dim ? ' class="dim"' : ''} alt="" width="1200" height="800" loading="lazy" decoding="async" style="object-position:${pos} 0">
+    <span class="tag">${ico(icon, 15)}${tag}</span>
+    <span class="cap">
+      <span class="bub in" aria-hidden="true">${q}</span>
+      <span class="bub out" aria-hidden="true">${ico('check', 13)}<span>${r}</span></span>
+      <span class="block mt-5 font-display font-semibold text-[22px] text-white">${name}</span>
+      <span class="block mt-1.5 text-[15px] leading-[1.7] text-steel-300">${line}</span>
+      <span class="go" aria-hidden="true">${ico('arrow', 18)}</span>
+    </span></a></li>`;
+}).join('');
+/* Slider controls: step one card; scrollLeft runs negative in RTL, so direction is multiplied in */
+const track = $('[data-sector-cards]'), slideBtns = $$('[data-slide]');
+const rtlSign = () => getComputedStyle(track).direction === 'rtl' ? -1 : 1;
+function slideState() {
+  const pos = Math.abs(track.scrollLeft), max = track.scrollWidth - track.clientWidth;
+  slideBtns.forEach(b => { b.disabled = +b.dataset.slide < 0 ? pos < 4 : pos > max - 4; });
+}
+slideBtns.forEach(b => b.addEventListener('click', () => {
+  const step = track.firstElementChild.getBoundingClientRect().width + 20;
+  track.scrollBy({ left: +b.dataset.slide * rtlSign() * step });
+  setTimeout(slideState, 450); setTimeout(slideState, 1000);
+}));
+track.addEventListener('scroll', slideState, { passive: true }); addEventListener('resize', slideState); slideState();
+$('[data-teams]').innerHTML = TEAMS.map(menuItem).join('');
+$('[data-drawer-solutions]').innerHTML = [...SECTORS, ...TEAMS].map(([s, n]) => `<li><a href="#" data-route="/industries/${s}" class="h-11 px-3 flex items-center rounded-btn hover:bg-white/5">${n}</a></li>`).join('');
+
+/* Integrations: real logos (Simple Icons paths, each in its brand colour, lightened where the original is too dark for navy).
+   The list is printed twice so the row loops without a seam; the copy is hidden from screen readers. */
+const INTEGRATIONS = [
+  ["WhatsApp", "#25D366", "M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"],
+  ["Messenger", "#0A7CFF", "M.001 11.639C.001 4.949 5.241 0 12.001 0S24 4.95 24 11.639c0 6.689-5.24 11.638-12 11.638-1.21 0-2.38-.16-3.47-.46a.96.96 0 00-.64.05l-2.39 1.05a.96.96 0 01-1.35-.85l-.07-2.14a.97.97 0 00-.32-.68A11.39 11.389 0 01.002 11.64zm8.32-2.19l-3.52 5.6c-.35.53.32 1.139.82.75l3.79-2.87c.26-.2.6-.2.87 0l2.8 2.1c.84.63 2.04.4 2.6-.48l3.52-5.6c.35-.53-.32-1.13-.82-.75l-3.79 2.87c-.25.2-.6.2-.86 0l-2.8-2.1a1.8 1.8 0 00-2.61.48z"],
+  ["Instagram", "#E4405F", "M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"],
+  ["OpenAI", "#FFFFFF", "M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"],
+  ["Anthropic", "#F0EEE6", "M17.3041 3.541h-3.6718l6.696 16.918H24Zm-10.6082 0L0 20.459h3.7442l1.3693-3.5527h7.0052l1.3693 3.5528h3.7442L10.5363 3.5409Zm-.3712 10.2232 2.2914-5.9456 2.2914 5.9456Z"],
+  ["Google Gemini", "#8AB4F8", "M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81"],
+  ["Shopify", "#95BF47", "M15.337 23.979l7.216-1.561s-2.604-17.613-2.625-17.73c-.018-.116-.114-.192-.211-.192s-1.929-.136-1.929-.136-1.275-1.274-1.439-1.411c-.045-.037-.075-.057-.121-.074l-.914 21.104h.023zM11.71 11.305s-.81-.424-1.774-.424c-1.447 0-1.504.906-1.504 1.141 0 1.232 3.24 1.715 3.24 4.629 0 2.295-1.44 3.76-3.406 3.76-2.354 0-3.54-1.465-3.54-1.465l.646-2.086s1.245 1.066 2.28 1.066c.675 0 .975-.545.975-.932 0-1.619-2.654-1.694-2.654-4.359-.034-2.237 1.571-4.416 4.827-4.416 1.257 0 1.875.361 1.875.361l-.945 2.715-.02.01zM11.17.83c.136 0 .271.038.405.135-.984.465-2.064 1.639-2.508 3.992-.656.213-1.293.405-1.889.578C7.697 3.75 8.951.84 11.17.84V.83zm1.235 2.949v.135c-.754.232-1.583.484-2.394.736.466-1.777 1.333-2.645 2.085-2.971.193.501.309 1.176.309 2.1zm.539-2.234c.694.074 1.141.867 1.429 1.755-.349.114-.735.231-1.158.366v-.252c0-.752-.096-1.371-.271-1.871v.002zm2.992 1.289c-.02 0-.06.021-.078.021s-.289.075-.714.21c-.423-1.233-1.176-2.37-2.508-2.37h-.115C12.135.209 11.669 0 11.265 0 8.159 0 6.675 3.877 6.21 5.846c-1.194.365-2.063.636-2.16.674-.675.213-.694.232-.772.87-.075.462-1.83 14.063-1.83 14.063L15.009 24l.927-21.166z"],
+  ["WooCommerce", "#B48CE0", "M.754 9.58a.754.754 0 00-.754.758v2.525c0 .42.339.758.758.758h3.135l1.431.799-.326-.799h2.373a.757.757 0 00.758-.758v-2.525a.757.757 0 00-.758-.758H.754zm2.709.445h.03c.065.001.124.023.179.067a.26.26 0 01.103.19.29.29 0 01-.033.16c-.13.239-.236.64-.322 1.199-.083.541-.114.965-.094 1.267a.392.392 0 01-.039.219.213.213 0 01-.176.12c-.086.006-.177-.034-.263-.124-.31-.316-.555-.788-.735-1.416-.216.425-.375.744-.478.957-.196.376-.363.568-.502.578-.09.007-.166-.069-.233-.228-.17-.436-.352-1.277-.548-2.524a.297.297 0 01.054-.222c.047-.064.116-.095.21-.102.169-.013.265.065.288.238.103.695.217 1.284.336 1.766l.727-1.387c.066-.126.15-.192.25-.199.146-.01.237.083.273.28.083.441.188.817.315 1.136.086-.844.233-1.453.44-1.828a.255.255 0 01.218-.147zm1.293.36c.056 0 .116.006.18.02.232.05.411.177.53.386.107.18.161.395.161.654 0 .343-.087.654-.26.94-.2.332-.459.5-.781.5a.88.88 0 01-.18-.022.763.763 0 01-.531-.384 1.287 1.287 0 01-.158-.659c0-.342.085-.655.258-.937.202-.333.462-.498.78-.498zm2.084 0c.056 0 .116.006.18.02.236.05.411.177.53.386.107.18.16.395.16.654 0 .343-.086.654-.259.94-.2.332-.459.5-.781.5a.88.88 0 01-.18-.022.763.763 0 01-.531-.384 1.287 1.287 0 01-.16-.659c0-.342.087-.655.26-.937.202-.333.462-.498.78-.498zm4.437.047c-.305 0-.546.102-.718.304-.173.203-.256.49-.256.856 0 .395.086.697.256.906.17.21.418.316.744.316.315 0 .559-.107.728-.316.17-.21.256-.504.256-.883s-.087-.673-.26-.879c-.176-.202-.424-.304-.75-.304zm-1.466.002a1.13 1.13 0 00-.84.326c-.223.22-.332.499-.332.838 0 .362.108.658.328.88.22.223.505.336.861.336.103 0 .22-.016.346-.052v-.54c-.117.034-.216.051-.303.051a.545.545 0 01-.422-.177c-.106-.12-.16-.278-.16-.48 0-.19.053-.348.156-.468a.498.498 0 01.397-.181c.103 0 .212.015.332.049v-.537a1.394 1.394 0 00-.363-.045zm12.414 0a1.135 1.135 0 00-.84.326c-.223.22-.332.499-.332.838 0 .362.108.658.328.88.22.223.506.336.861.336.103 0 .22-.016.346-.052v-.54c-.116.034-.216.051-.303.051a.545.545 0 01-.422-.177c-.106-.12-.16-.278-.16-.48 0-.19.053-.348.156-.468a.498.498 0 01.397-.181c.103 0 .212.015.332.049v-.537a1.394 1.394 0 00-.363-.045zm-9.598.06l-.29 2.264h.579l.156-1.559.395 1.559h.412l.379-1.555.164 1.555h.603l-.304-2.264h-.791l-.12.508c-.03.13-.06.264-.087.4l-.067.352a29.97 29.97 0 00-.258-1.26h-.771zm2.768 0l-.29 2.264h.579l.156-1.559.396 1.559h.412l.375-1.555.165 1.555h.603l-.305-2.264h-.789l-.119.508c-.03.13-.06.264-.086.4l-.066.352c-.063-.352-.15-.771-.26-1.26h-.771zm3.988 0v2.264h.611v-1.031h.012l.494 1.03h.645l-.489-1.019a.61.61 0 00.37-.552.598.598 0 00-.25-.506c-.167-.123-.394-.186-.68-.186h-.713zm3.377 0v2.264H24v-.483h-.63v-.414h.54v-.468h-.54v-.416h.626v-.483H22.76zm-4.793.004v2.264h1.24v-.483h-.627v-.416h.541v-.468h-.54v-.415h.622v-.482h-1.236zm2.025.432c.146.003.25.025.313.072.063.046.091.12.091.227 0 .156-.135.236-.404.24v-.54zm-15.22.011c-.104 0-.205.069-.301.211a1.078 1.078 0 00-.2.639c0 .096.02.2.06.303.049.13.117.198.196.215.083.016.173-.02.27-.106.123-.11.205-.273.252-.492.016-.077.023-.16.023-.246 0-.097-.02-.2-.06-.303-.05-.13-.116-.198-.196-.215a.246.246 0 00-.045-.006zm2.083 0c-.103 0-.204.069-.3.211a1.078 1.078 0 00-.2.639c0 .096.02.2.06.303.049.13.117.198.196.215.083.016.173-.02.27-.106.123-.11.205-.273.252-.492.013-.077.023-.16.023-.246 0-.097-.02-.2-.06-.303-.05-.13-.116-.198-.196-.215a.246.246 0 00-.045-.006zm4.428.006c.233 0 .354.218.354.66-.004.273-.038.46-.098.553a.293.293 0 01-.262.139.266.266 0 01-.242-.139c-.056-.093-.084-.28-.084-.562 0-.436.11-.65.332-.65Z"],
+  ["Stripe", "#7A73FF", "M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.594-7.305h.003z"],
+  ["PayPal", "#2B9FE0", "M7.016 19.198h-4.2a.562.562 0 0 1-.555-.65L5.093.584A.692.692 0 0 1 5.776 0h7.222c3.417 0 5.904 2.488 5.846 5.5-.006.25-.027.5-.066.747A6.794 6.794 0 0 1 12.071 12H8.743a.69.69 0 0 0-.682.583l-.325 2.056-.013.083-.692 4.39-.015.087zM19.79 6.142c-.01.087-.01.175-.023.261a7.76 7.76 0 0 1-7.695 6.598H9.007l-.283 1.795-.013.083-.692 4.39-.134.843-.014.088H6.86l-.497 3.15a.562.562 0 0 0 .555.65h3.612c.34 0 .63-.249.683-.585l.952-6.031a.692.692 0 0 1 .683-.584h2.126a6.793 6.793 0 0 0 6.707-5.752c.306-1.95-.466-3.744-1.89-4.906z"],
+  ["Twilio", "#F22F46", "M12 0C5.381-.008.008 5.352 0 11.971V12c0 6.64 5.359 12 12 12 6.64 0 12-5.36 12-12 0-6.641-5.36-12-12-12zm0 20.801c-4.846.015-8.786-3.904-8.801-8.75V12c-.014-4.846 3.904-8.786 8.75-8.801H12c4.847-.014 8.786 3.904 8.801 8.75V12c.015 4.847-3.904 8.786-8.75 8.801H12zm5.44-11.76c0 1.359-1.12 2.479-2.481 2.479-1.366-.007-2.472-1.113-2.479-2.479 0-1.361 1.12-2.481 2.479-2.481 1.361 0 2.481 1.12 2.481 2.481zm0 5.919c0 1.36-1.12 2.48-2.481 2.48-1.367-.008-2.473-1.114-2.479-2.48 0-1.359 1.12-2.479 2.479-2.479 1.361-.001 2.481 1.12 2.481 2.479zm-5.919 0c0 1.36-1.12 2.48-2.479 2.48-1.368-.007-2.475-1.113-2.481-2.48 0-1.359 1.12-2.479 2.481-2.479 1.358-.001 2.479 1.12 2.479 2.479zm0-5.919c0 1.359-1.12 2.479-2.479 2.479-1.367-.007-2.475-1.112-2.481-2.479 0-1.361 1.12-2.481 2.481-2.481 1.358 0 2.479 1.12 2.479 2.481z"],
+  ["Google Sheets", "#34A853", "M11.318 12.545H7.91v-1.909h3.41v1.91zM14.728 0v6h6l-6-6zm1.363 10.636h-3.41v1.91h3.41v-1.91zm0 3.273h-3.41v1.91h3.41v-1.91zM20.727 6.5v15.864c0 .904-.732 1.636-1.636 1.636H4.909a1.636 1.636 0 0 1-1.636-1.636V1.636C3.273.732 4.005 0 4.909 0h9.318v6.5h6.5zm-3.273 2.773H6.545v7.909h10.91v-7.91zm-6.136 4.636H7.91v1.91h3.41v-1.91z"]
+];
+$('[data-logos]').innerHTML = [0, 1].map(copy => INTEGRATIONS.map(([n, c, d]) => '<li class="chip"' + (copy ? ' aria-hidden="true"' : '') + '><b style="color:' + c + '"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="' + d + '"/></svg></b>' + n + '</li>').join('')).join('');
+
+const marqBtn = $('[data-marq-toggle]');
+marqBtn.addEventListener('click', () => { const off = marqBtn.getAttribute('aria-pressed') !== 'true'; marqBtn.setAttribute('aria-pressed', off); $('[data-marq]').classList.toggle('paused', off); });
+
+/* Problem → solution: the same five channels, scattered on one side and gathered into one list on the other (illustrative) */
+const PS = [
+  ['message', '#25D366', 'واتساب', 12, '4%', '4px', '-7deg', '70px', '-18px', '-9deg'],
+  ['send', '#0084FF', 'ماسنجر', 5, '54%', '22px', '6deg', '-90px', '10px', '8deg'],
+  ['instagram', '#E4405F', 'إنستغرام', 8, '24%', '80px', '-4deg', '40px', '-12px', '-6deg'],
+  ['square', '#12C99B', 'رسائل نصية', 3, '58%', '116px', '9deg', '-60px', '14px', '10deg'],
+  ['mail', '#B7C2D2', 'البريد', 21, '8%', '150px', '-10deg', '100px', '-6px', '-11deg'],
+];
+$('[data-scatter]').innerHTML = PS.map(([i, c, t, n, l, top, r], k) => `<span class="mini sc" style="--l:${l}; --t:${top}; --r:${r}; --d:${5 + k * .7}s">${ico(i, 16)}${t}<b class="ltr">${n}</b></span>`).join('');
+$('[data-gather]').innerHTML = PS.map(([i, c, t, n, l, top, r, x, y, r2], k) => `<span class="ps-row" style="--i:${k}; --x:${x}; --y:${y}; --r:${r2}"><span style="color:${c}">${ico(i, 16)}</span>${t}${k === 3
+  ? `<span class="ms-auto inline-flex items-center gap-1 text-[12px] text-[#A99CFF]">${ico('sparkles', 13)}رد آلي</span>`
+  : `<span class="ms-auto inline-flex items-center gap-1 text-[12px] text-mint">${ico('check', 13)}تم الرد</span>`}</span>`).join('');
+
+const CHANNELS = [
+  ['message', '#25D366', 'واتساب للأعمال', 'واجهة واتساب السحابية الرسمية: القوالب والحملات والردود الآلية على مدار الساعة.'],
+  ['send', '#0084FF', 'فيسبوك ماسنجر', 'رُدّ على رسائل صفحتك وتعليقاتها من نفس صندوق الوارد.'],
+  ['instagram', '#E4405F', 'رسائل إنستغرام', 'أدر الرسائل المباشرة والتعليقات والإشارات لحظة بلحظة.'],
+  ['square', '#12C99B', 'الرسائل النصية', 'أرسل التنبيهات والحملات النصية لعملائك فوراً.'],
+  ['mail', '#B7C2D2', 'البريد الإلكتروني', 'أرسل رسائل التسويق والإشعارات من نفس سجل العميل.'],
+];
+$('[data-channels]').innerHTML = CHANNELS.map(([i, c, t, d], k) => `<li class="frost p-5 ${k === 4 ? 'col-span-2 lg:col-span-1' : ''}" data-reveal style="--rd:${k * .06}s">
+  <span class="grid place-items-center h-11 w-11 rounded-xl" style="background:${c}22;color:${c};box-shadow:0 0 28px -6px ${c}88">${ico(i, 22)}</span>
+  <h3 class="mt-4 font-display font-semibold text-[18px] text-white">${t}</h3><p class="mt-2 text-[14px] leading-[1.75] text-steel-300">${d}</p></li>`).join('');
+
+const TREND = '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>';
+const BENEFITS = [
+  ['shield', 'رسمي ومتوافق', 'مبني على واجهات ميتا الرسمية للأعمال — دون حلول ملتوية تعرّض رقمك للحظر.'],
+  ['zap', 'سرعة في الرد', 'ردود جاهزة وروبوت ذكي وتوزيع تلقائي يختصر زمن الرد على عملائك.'],
+  [TREND, 'تفاعل أعلى', 'رسائل المحادثة تُقرأ أكثر بكثير من البريد الإلكتروني — كن حيث يرد عملاؤك.'],
+  ['globe', 'عربي أولاً', 'واجهة عربية كاملة تدعم الكتابة من اليمين لليسار، مع دعم الإنجليزية.'],
+  ['users', 'تعاون الفريق', 'وزّع المحادثات، واترك ملاحظات داخلية، وتجنّب الردود المكررة.'],
+  ['workflow', 'قابل للتوسع', 'تكاملات وواجهة برمجية وخطافات ويب تنمو مع أعمالك.'],
+];
+$('[data-benefits]').innerHTML = BENEFITS.map(([i, t, d], k) => `<li class="flex gap-4" data-reveal style="--rd:${(k % 2) * .08}s">
+  <span class="grid place-items-center h-11 w-11 shrink-0 rounded-xl bg-mint/[.12] text-mint">${i.startsWith('<') ? i : ico(i, 22)}</span>
+  <div><h3 class="font-display font-semibold text-[19px] text-white">${t}</h3><p class="mt-1.5 text-[15px] leading-[1.8] text-steel-300">${d}</p></div></li>`).join('');
+
+const SECURITY = [
+  ['lock', 'اتصال مشفّر', 'كل البيانات تنتقل عبر اتصال مشفّر (<span class="ltr">HTTPS</span>).'],
+  ['phone2fa', 'المصادقة الثنائية', 'فعّل التحقق بخطوتين لحماية حسابات فريقك.'],
+  ['usercheck', 'صلاحيات حسب الدور', 'حدّد بدقة ما يمكن لكل عضو في الفريق رؤيته وتعديله.'],
+  ['file', 'سجل تدقيق', 'سجل كامل للعمليات المهمة لمعرفة من فعل ماذا ومتى.'],
+];
+$('[data-security]').innerHTML = SECURITY.map(([i, t, d]) => `<li><span class="text-mint">${ico(i, 22)}</span><h4 class="mt-3 font-semibold text-white text-[16px]">${t}</h4><p class="mt-1 text-[14px] leading-[1.75] text-steel-300">${d}</p></li>`).join('');
+
+const FAQ = [
+  ['ما القنوات التي يدعمها ClickChat؟', 'واتساب للأعمال وفيسبوك ماسنجر ورسائل إنستغرام في صندوق وارد واحد، إضافة إلى الرسائل النصية والبريد الإلكتروني للحملات.'],
+  ['هل أحتاج حساب واتساب للأعمال (API)؟', 'نعم، يعمل ClickChat عبر واجهة واتساب السحابية الرسمية من ميتا، ونرشدك خطوة بخطوة لربط رقمك.'],
+  ['هل يمكنني التجربة قبل الدفع؟', 'نعم، تتوفر تجربة مجانية حتى 14 يوماً حسب الباقة، دون الحاجة إلى بطاقة ائتمانية.'],
+  ['هل يفهم الروبوت الذكي طبيعة نشاطي؟', 'نعم، درّبه على مستنداتك وأسئلتك الشائعة ومعلومات منتجاتك ليقدّم إجابات دقيقة خاصة بنشاطك.'],
+  ['هل يمكن لأكثر من موظف العمل على نفس الرقم؟', 'نعم، يعمل فريقك بالكامل على صندوق وارد مشترك مع توزيع المحادثات وصلاحيات لكل عضو.'],
+];
+$('[data-faq]').innerHTML = FAQ.map(([q, a], k) => `<details class="edge rounded-card group" ${k === 0 ? 'open' : ''}>
+  <summary class="relative px-6 py-5 flex items-center gap-4 font-display font-semibold text-[17px] md:text-[18px] text-white"><span class="flex-1">${q}</span><span class="chev text-mint">${ico('chevron', 20)}</span></summary>
+  <p class="relative px-6 pb-6 -mt-1 text-[16px] leading-[1.85] text-steel-300">${a}</p></details>`).join('');
+
+/* ---------- Features: one stage, eight features (replaces the card grid) ----------
+   The list is an accordion; the stage shows the selected feature's product view.
+   It advances by itself while on screen, and stops for good once the visitor picks a feature. */
+const FEATS = [
+  { k: 'صندوق الوارد', i: 'inbox', t: 'صندوق وارد موحّد للفريق', d: 'كل محادثات واتساب وماسنجر وإنستغرام في مكان واحد، مع توزيع المحادثات والملاحظات الداخلية والردود الجاهزة.',
+    v: `<div class="w-[330px] max-w-full space-y-2.5 text-[13px]">
+      <div class="mini flex items-center gap-3"><span class="h-2 w-2 rounded-full bg-wa"></span><span class="flex-1 text-white">سارة الدوسري</span><span class="rounded-full bg-mint/15 text-mint px-2 py-0.5 font-semibold">مسندة: المبيعات</span></div>
+      <div class="mini flex items-center gap-3 ms-7"><span class="h-2 w-2 rounded-full bg-ig"></span><span class="flex-1 text-white">نورة العتيبي</span><span class="rounded-full bg-white/10 text-steel-300 px-2 py-0.5">ملاحظة داخلية</span></div>
+      <div class="mini flex items-center gap-3"><span class="h-2 w-2 rounded-full bg-fb"></span><span class="flex-1 text-white">مها القحطاني</span><span class="rounded-full bg-white/10 text-steel-300 px-2 py-0.5">رد جاهز</span></div>
+      <div class="mini flex items-center gap-3 ms-7"><span class="h-2 w-2 rounded-full bg-mint"></span><span class="flex-1 text-white">خالد السبيعي</span><span class="rounded-full bg-white/10 text-steel-300 px-2 py-0.5"><span class="ltr">SMS</span></span></div>
+      <div class="mini flex items-center gap-3"><span class="h-2 w-2 rounded-full bg-steel-300"></span><span class="flex-1 text-white">مؤسسة الندى</span><span class="rounded-full bg-mint/15 text-mint px-2 py-0.5 font-semibold">مسندة: الدعم</span></div></div>` },
+  { k: 'ذكاء اصطناعي', i: 'bot', g: '108,92,231', t: 'روبوتات دردشة ذكية', d: 'درّب الروبوت على مستنداتك وأسئلتك الشائعة ليجيب عملاءك فوراً وبدقة وبأي لغة.',
+    v: `<div class="w-[290px] max-w-full space-y-2.5 text-[13px]">
+      <p class="mini w-fit" style="border-radius:16px 4px 16px 16px">ما طرق الدفع المتاحة؟</p>
+      <p class="ms-auto w-fit bg-violet-deep border border-violet/40 text-violet-300 px-3 py-2 flex items-center gap-1.5 shadow-[0_0_28px_-6px_rgba(108,92,231,.8)]" style="border-radius:4px 16px 16px 16px"><span data-icon="sparkles" data-size="12"></span>مدى، فيزا، وتحويل بنكي.</p>
+      <p class="mini w-fit" style="border-radius:16px 4px 16px 16px">Do you ship to Jeddah?</p>
+      <p class="ms-auto w-fit bg-violet-deep border border-violet/40 text-violet-300 px-3 py-2 flex items-center gap-1.5" style="border-radius:4px 16px 16px 16px"><span data-icon="sparkles" data-size="12"></span>Yes — delivery in 2 days.</p>
+      <p class="text-center text-[12px] text-steel-500 pt-1">مدرَّب على: الأسئلة الشائعة · سياسة الشحن · قائمة المنتجات</p></div>` },
+  { k: 'الأتمتة', i: 'workflow', t: 'أتمتة بدون برمجة', d: 'ابنِ مسارات عمل مرئية توجّه الرسائل وتصنّفها وترد عليها تلقائياً.',
+    v: `<div class="w-[320px] max-w-full text-[12px] font-semibold">
+      <div class="mini w-fit mx-auto">رسالة جديدة</div><div class="mx-auto h-5 w-px bg-mint/60"></div>
+      <div class="mini w-fit mx-auto">تصنيف: استفسار / طلب / شكوى</div>
+      <div class="mx-auto h-4 w-px bg-mint/60"></div><div class="mx-auto h-px w-[58%] bg-mint/60"></div>
+      <div class="flex justify-between px-[21%]"><span class="h-4 w-px bg-mint/60"></span><span class="h-4 w-px bg-mint/60"></span></div>
+      <div class="flex justify-between gap-3"><span class="rounded-xl bg-mint text-navy px-3 py-2 shadow-[0_0_24px_-4px_rgba(18,201,155,.9)]">رد تلقائي</span><span class="mini">إسناد إلى: فريق الدعم</span></div></div>` },
+  { k: 'الحملات', i: 'megaphone', g: '255,106,77', t: 'حملات جماعية', d: 'أرسل حملات واتساب ورسائل نصية مخصّصة لآلاف جهات الاتصال مع جدولة ذكية.',
+    v: `<div class="mini w-[300px] max-w-full text-[12px] text-steel-300" style="padding:18px">
+      <div class="flex items-center gap-2"><span class="text-coral" data-icon="megaphone" data-size="16"></span><b class="font-semibold text-white text-[14px]">عرض نهاية الأسبوع</b></div>
+      <p class="mt-2">الشريحة: مهتم بالعروض · <span class="ltr">2,400</span> جهة اتصال</p>
+      <div class="mt-4 flex justify-between"><span>مجدولة <span class="ltr">20:00</span></span><span class="ltr text-coral font-semibold">68%</span></div>
+      <div class="mt-2 h-1.5 rounded-full bg-white/10 overflow-hidden"><div class="h-full w-[68%] rounded-full bg-coral shadow-[0_0_12px_rgba(255,106,77,.9)]"></div></div>
+      <div class="mt-4 grid grid-cols-3 gap-2 text-center"><span class="rounded-lg bg-white/[.06] py-2">واتساب</span><span class="rounded-lg bg-white/[.06] py-2"><span class="ltr">SMS</span></span><span class="rounded-lg bg-coral-deep text-coral py-2">قالب معتمد</span></div></div>` },
+  { k: 'العملاء', i: 'users', t: 'إدارة علاقات العملاء', d: 'سجل كامل لكل عميل مع المحادثات والحقول المخصّصة والوسوم والشرائح.',
+    v: `<div class="mini w-[290px] max-w-full text-[12px]" style="padding:18px">
+      <div class="flex items-center gap-3"><span class="grid place-items-center h-10 w-10 rounded-full bg-mint/20 text-mint font-display font-bold text-[15px]">خ</span><span><b class="block font-semibold text-white text-[14px]">خالد السبيعي</b><span class="text-steel-300">عميل منذ <span class="ltr">2024</span></span></span></div>
+      <div class="mt-3 flex flex-wrap gap-1.5"><span class="rounded-full bg-white/10 px-2.5 py-1">عميل دائم</span><span class="rounded-full bg-white/10 px-2.5 py-1">الرياض</span><span class="rounded-full bg-mint/15 text-mint px-2.5 py-1">مهتم بالعروض</span></div>
+      <dl class="mt-4 space-y-2 text-steel-300"><div class="flex justify-between"><dt>آخر محادثة</dt><dd class="text-white">واتساب · اليوم</dd></div><div class="flex justify-between"><dt>الطلبات</dt><dd class="ltr text-white">7</dd></div><div class="flex justify-between"><dt>المسؤول</dt><dd class="text-white">فريق المبيعات</dd></div></dl></div>` },
+  { k: 'العملاء المحتملون', i: 'target', t: 'استقطاب العملاء المحتملين', d: 'اجمع العملاء المحتملين وأهّلهم تلقائياً ولا تفوّت أي فرصة.',
+    v: `<div class="w-[300px] max-w-full space-y-2.5 text-[12px] text-steel-300">
+      <div class="flex items-center gap-2"><span class="w-12">جديد</span><span class="flex-1"><span class="block h-8 rounded-lg bg-white/[.12]"></span></span><b class="ltr w-6 text-white">48</b></div>
+      <div class="flex items-center gap-2"><span class="w-12">مؤهَّل</span><span class="flex-1"><span class="block h-8 w-[62%] rounded-lg bg-mint/40"></span></span><b class="ltr w-6 text-white">30</b></div>
+      <div class="flex items-center gap-2"><span class="w-12">فرصة</span><span class="flex-1"><span class="block h-8 w-[34%] rounded-lg bg-mint shadow-[0_0_18px_-2px_rgba(18,201,155,.9)]"></span></span><b class="ltr w-6 text-mint">16</b></div></div>` },
+  { k: 'المتاجر', i: 'cart', t: 'ربط المتاجر الإلكترونية', d: 'اربط متجرك على شوبيفاي أو ووكومرس لمزامنة الطلبات وتذكير السلات المتروكة.',
+    v: `<div class="w-[290px] max-w-full space-y-2.5 text-[12px]">
+      <div class="mini flex items-center gap-2"><span class="text-steel-300" data-icon="cart" data-size="16"></span><span class="flex-1 text-white">طلب <span class="ltr">#1042</span></span><span class="rounded-full bg-white/10 text-steel-300 px-2 py-0.5">سلة متروكة</span></div>
+      <div class="ms-auto w-fit bg-mint/[.14] border border-mint/25 text-white px-3 py-2" style="border-radius:4px 16px 16px 16px">نسيت شيئاً في سلتك؟ 🛒</div>
+      <div class="mini flex items-center gap-2"><span class="text-mint" data-icon="check" data-size="16"></span><span class="flex-1 text-white">طلب <span class="ltr">#1042</span></span><span class="rounded-full bg-mint/15 text-mint px-2 py-0.5 font-semibold">تم الدفع</span></div></div>` },
+  { k: 'المنشورات', i: 'calendar', t: 'جدولة منشورات التواصل', d: 'خطّط لمنشوراتك وانشرها على حساباتك من تقويم محتوى واحد.',
+    v: `<div class="w-[300px] max-w-full grid grid-cols-7 gap-1.5 text-center text-[12px] text-steel-500">
+      <span>س</span><span>ح</span><span>ن</span><span>ث</span><span>ر</span><span>خ</span><span>ج</span>
+      <span class="day"></span><span class="day on"><i class="bg-ig"></i></span><span class="day"></span><span class="day"></span><span class="day on"><i class="bg-fb"></i></span><span class="day"></span><span class="day"></span>
+      <span class="day"></span><span class="day"></span><span class="day now"><i class="bg-mint"></i></span><span class="day"></span><span class="day"></span><span class="day on"><i class="bg-ig"></i></span><span class="day"></span>
+      <span class="day on"><i class="bg-fb"></i></span><span class="day"></span><span class="day"></span><span class="day on"><i class="bg-ig"></i></span><span class="day"></span><span class="day"></span><span class="day"></span></div>` },
+];
+const featList = $('[data-feat-list]'), stage = $('[data-feat-stage]'), featsRoot = $('[data-feats]');
+featList.innerHTML = FEATS.map((f, i) => `<li class="feat" style="${f.g ? `--g:${f.g}` : ''}">
+  <h3><button type="button" class="feat-btn" aria-expanded="false" aria-controls="feat-p${i}" id="feat-b${i}"><span class="num ltr">${String(i + 1).padStart(2, '0')}</span><span class="ttl">${f.t}</span><span class="ic">${ico(f.i, 20)}</span></button></h3>
+  <div class="feat-panel" id="feat-p${i}" role="region" aria-labelledby="feat-b${i}"><div><p class="feat-desc">${f.d}</p><div class="feat-viz lg:hidden" aria-hidden="true">${f.v}</div><span class="prog" aria-hidden="true"><i></i></span></div></div></li>`).join('');
+const featItems = $$('.feat', featList); let featAt = -1;
+function showFeat(i, user) {
+  if (user) featsRoot.classList.remove('auto');
+  if (i === featAt) return; featAt = i;
+  featItems.forEach((li, k) => { li.classList.toggle('on', k === i); $('.feat-btn', li).setAttribute('aria-expanded', k === i); });
+  const f = FEATS[i];
+  stage.style.setProperty('--g', f.g || '18,201,155');
+  stage.innerHTML = `<span class="brk tl"></span><span class="brk tr"></span><span class="brk bl"></span><span class="brk br"></span>
+    <span class="ghost ltr">${String(i + 1).padStart(2, '0')}</span>
+    <p class="stage-k"><span class="ic">${ico(f.i, 16)}</span>${f.k}</p>
+    <div class="stage-inner">${f.v}</div>
+    <p class="stage-note">بيانات توضيحية</p>`;
+  window.renderIcons && renderIcons(stage);
+}
+featItems.forEach((li, i) => {
+  $('.feat-btn', li).addEventListener('click', () => showFeat(i, true));
+  $('.prog i', li).addEventListener('animationend', () => { if (featsRoot.classList.contains('auto')) showFeat((i + 1) % FEATS.length); });
+});
+showFeat(0);
+if (!reduce && 'IntersectionObserver' in window) {
+  featsRoot.classList.add('auto', 'paused');
+  new IntersectionObserver(([e]) => featsRoot.classList.toggle('paused', !e.isIntersecting), { threshold: .25 }).observe(featsRoot);
+}
+
+/* Analytics bars (illustrative) */
+$('[data-bars]').innerHTML = [38, 52, 44, 63, 58, 74, 66, 82, 71, 90, 84, 100].map((h, i) =>
+  `<span class="bar flex-1 rounded-t-md ${i === 11 ? 'bg-mint shadow-[0_0_24px_rgba(18,201,155,.6)]' : 'bg-gradient-to-t from-mint/10 to-mint/45'}" style="height:${h}%; --i:${i}"></span>`).join('');
+
+/* CTA light streaks */
+$('[data-streaks]').innerHTML = Array.from({ length: 16 }, (_, i) => `<path d="M${-80 + i * 14} 560 C ${260 + i * 22} ${520 - i * 6}, ${640 + i * 16} ${300 - i * 4}, ${1280} ${-60 + i * 26}" opacity="${(.25 + (i % 5) * .15).toFixed(2)}"/>`).join('');
+
+/* ---------- Pricing: same rules as the live site ----------
+   Plans are stored in USD and shown in the display currency through an exchange rate
+   (live: SAR 3.75). Yearly shows the yearly price and the saving against 12 months.
+   One plan is featured. Trial length comes from each plan. */
+const RATES = { SAR: { rate: 3.75, sym: 'ر.س' }, USD: { rate: 1, sym: '$' } };
+const PLANS = [
+  { name: 'Starter', desc: 'للأفراد والمشاريع الصغيرة.', m: 0, y: 0, trial: 0, f: ['حتى <span class="ltr">2</span> من أعضاء الفريق', 'تخزين <span class="ltr">5 GB</span>', 'دعم عبر البريد الإلكتروني'] },
+  { name: 'Pro', desc: 'للفرق النامية التي تحتاج إمكانات أكثر.', m: 29, y: 290, trial: 14, f: ['حتى <span class="ltr">10</span> من أعضاء الفريق', 'تخزين <span class="ltr">50 GB</span>', 'دعم بأولوية', 'تحليلات متقدمة'] },
+  { name: 'Business', desc: 'مزايا المؤسسات للشركات الكبيرة.', m: 99, y: 990, trial: 14, featured: true, f: ['أعضاء فريق بلا حدود', 'تخزين <span class="ltr">500 GB</span>', 'دعم مخصّص', 'هوية خاصة <span class="ltr">(White-label)</span>', 'نطاق خاص', 'اتفاقية مستوى الخدمة <span class="ltr">SLA</span>'] },
+];
+const state = { period: 'm', cur: 'SAR' };
+const money = n => (n * RATES[state.cur].rate).toLocaleString('en-US', { maximumFractionDigits: 2 });
+function renderPlans() {
+  const yearly = state.period === 'y', sym = RATES[state.cur].sym;
+  $('[data-plans]').innerHTML = PLANS.map(p => {
+    const price = yearly ? p.y : p.m, free = p.m === 0;
+    const save = yearly && !free ? Math.round((1 - p.y / (p.m * 12)) * 100) : 0;
+    return `<li class="edge ${p.featured ? 'lit md:-my-3' : ''} rounded-sheet p-7 flex flex-col ${p.featured ? 'shadow-[0_0_80px_-24px_rgba(18,201,155,.55)]' : ''}">
+      <div class="relative flex items-center gap-2"><h3 lang="en" class="font-display font-semibold text-[20px] text-white">${p.name}</h3>${p.featured ? '<span class="ms-auto rounded-full bg-mint text-navy text-[12px] font-semibold px-2.5 py-1">الأكثر طلباً</span>' : ''}</div>
+      <p class="relative mt-1 text-[14px] text-steel-300">${p.desc}</p>
+      <p class="relative mt-5 flex flex-wrap items-baseline gap-x-2 font-display font-bold text-white">${free ? '<span class="text-[40px] leading-none">مجاناً</span>' : `<span class="ltr text-[40px] leading-none">${money(price)}</span><span class="text-[16px] font-semibold">${sym}</span><span class="text-[14px] font-normal text-steel-300">${yearly ? '/سنوياً' : '/شهرياً'}</span>`}${save ? `<span class="rounded-full bg-mint/15 text-mint text-[12px] font-semibold px-2 py-0.5">وفّر <span class="ltr">${save}%</span></span>` : ''}</p>
+      <p class="relative mt-2 h-5 text-[13px] text-mint">${p.trial ? `تجربة مجانية <span class="ltr">${p.trial}</span> يوماً` : ''}</p>
+      <ul class="relative mt-5 space-y-3 text-[15px] text-steel-300 flex-1">${p.f.map(x => `<li class="flex gap-2.5"><span class="mt-1 text-mint shrink-0">${ico('check', 16)}</span><span>${x}</span></li>`).join('')}</ul>
+      <a href="#" data-route="/register?plan=${p.name.toLowerCase()}" class="relative mt-8 inline-flex h-12 justify-center items-center rounded-btn font-semibold ${p.featured ? 'bg-mint text-navy hover:shadow-[0_0_28px_rgba(18,201,155,.5)]' : 'border border-white/20 text-white hover:bg-white/5'} transition-shadow">${p.featured ? 'ابدأ الآن' : 'اختر الباقة'}</a></li>`;
+  }).join('');
+  window.renderIcons && renderIcons($('[data-plans]'));
+}
+function segmented(root, key) {
+  const btns = $$('button', root);
+  const set = b => { btns.forEach(x => x.setAttribute('aria-checked', x === b)); state[key] = b.dataset.v; renderPlans(); };
+  btns.forEach((b, i) => {
+    b.addEventListener('click', () => set(b));
+    b.addEventListener('keydown', e => { if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { const n = btns[(i + 1) % btns.length]; n.focus(); set(n); } });
+  });
+}
+segmented($('[data-period]'), 'period'); segmented($('[data-currency]'), 'cur');
+document.addEventListener('DOMContentLoaded', () => { renderIcons(); renderPlans(); });
+
+/* ---------- Sadu seams (pattern from Direction 4, recoloured for Signal) ----------
+   Drawn 2400 units wide and cropped around the centre, so triangles keep their proportions at every width. */
+const SEAM_W = 2400, NS = 'http://www.w3.org/2000/svg';
+const sv = (tag, attrs) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); return e; };
+function buildBand(svg) {
+  const hh = 46, step = 20; let d = 0;
+  for (let i = 0; i < SEAM_W / step; i++) {
+    const x = i * step, up = i % 2 === 0;
+    svg.appendChild(sv('path', { d: up ? `M${x} ${hh} L${x + step / 2} ${hh * .35} L${x + step} ${hh} Z` : `M${x} ${hh * .35} L${x + step / 2} ${hh} L${x + step} ${hh * .35} Z`, fill: up ? '#143B2E' : 'rgba(20,59,46,.5)', class: 'sadu-tri', style: `--i:${Math.abs(i - 60)}` }));
+    if (i % 4 === 2) svg.appendChild(sv('path', { d: `M${x + step / 2} ${hh * .05} L${x + step / 2 + 7} ${hh * .2} L${x + step / 2} ${hh * .35} L${x + step / 2 - 7} ${hh * .2} Z`, fill: '#12C99B', class: 'sadu-dia', style: `--i:${Math.abs(d++ - 15)}` }));
+  }
+}
+function buildThread(svg) {
+  const mid = 9, step = 16;
+  for (let i = 0; i < SEAM_W / step; i++) {
+    const x = i * step, o = Math.abs(i - 75);
+    svg.appendChild(sv('path', { d: `M${x} ${mid} L${x + step / 2} ${mid - 6} L${x + step} ${mid} Z`, fill: '#143B2E', class: 'sadu-tri', style: `--i:${o}` }));
+    svg.appendChild(sv('path', { d: `M${x + step / 2} ${mid} L${x + step} ${mid + 6} L${x + step * 1.5} ${mid} Z`, fill: 'rgba(20,59,46,.6)', class: 'sadu-tri', style: `--i:${o}; transform-origin:50% 0` }));
+  }
+  svg.appendChild(sv('line', { x1: 0, y1: mid, x2: SEAM_W, y2: mid, stroke: '#12C99B', 'stroke-opacity': .5, class: 'seam-line' }));
+  for (let k = -5; k <= 5; k++) { const cx = SEAM_W / 2 + k * 240; svg.appendChild(sv('path', { d: `M${cx} ${mid - 7} L${cx + 5} ${mid} L${cx} ${mid + 7} L${cx - 5} ${mid} Z`, fill: '#12C99B', class: 'sadu-dia', style: `--i:${Math.abs(k)}` })); }
+}
+$$('[data-seam]').forEach(s => {
+  const band = s.dataset.seam === 'band';
+  const svg = s.appendChild(sv('svg', { viewBox: `0 0 ${SEAM_W} ${band ? 46 : 18}`, preserveAspectRatio: 'xMidYMid slice', focusable: 'false' }));
+  (band ? buildBand : buildThread)(svg);
+  if (!reduce) s.appendChild(document.createElement('span')).className = 'seam-light';
+});
+
+/* ---------- Header: mega menu + drawer ---------- */
+const megaBtn = $('[data-mega-btn]'), mega = $('[data-mega]');
+const setMega = on => { mega.classList.toggle('open', on); megaBtn.setAttribute('aria-expanded', on); };
+megaBtn.addEventListener('click', e => { e.stopPropagation(); setMega(!mega.classList.contains('open')); });
+document.addEventListener('click', e => { if (!mega.contains(e.target)) setMega(false); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { setMega(false); setDrawer(false); } });
+const drawerBtn = $('[data-drawer-btn]'), drawer = $('[data-drawer]');
+const setDrawer = on => { drawer.classList.toggle('hidden', !on); drawerBtn.setAttribute('aria-expanded', on); drawerBtn.setAttribute('aria-label', on ? 'إغلاق القائمة' : 'فتح القائمة'); };
+drawerBtn.addEventListener('click', () => setDrawer(drawer.classList.contains('hidden')));
+drawer.addEventListener('click', e => { if (e.target.closest('a')) setDrawer(false); });
+
+/* ---------- Hero laptop: project the flat inbox onto the photographed display ----------
+   QUAD holds the display's corners as fractions of the image (top-left, top-right, bottom-right, bottom-left),
+   measured from the picture. A homography maps the 840 x 525 inbox rectangle onto that quadrilateral. */
+const QUAD = [[.1285, .0410], [.8700, .0410], [.8700, .7570], [.1285, .7570]];
+const lapBox = $('[data-laptop]'), lapFit = $('[data-laptop-fit]'), chanItems = $$('.chan-row li');
+function homography(w, hh, q) {
+  const src = [[0, 0], [w, 0], [w, hh], [0, hh]], M = [];
+  src.forEach(([x, y], i) => { const [X, Y] = q[i]; M.push([x, y, 1, 0, 0, 0, -x * X, -y * X, X]); M.push([0, 0, 0, x, y, 1, -x * Y, -y * Y, Y]); });
+  for (let c = 0; c < 8; c++) {                       /* Gauss-Jordan elimination with pivoting */
+    let p = c; for (let r = c + 1; r < 8; r++) if (Math.abs(M[r][c]) > Math.abs(M[p][c])) p = r;
+    const t = M[c]; M[c] = M[p]; M[p] = t;
+    const d = M[c][c]; for (let k = c; k < 9; k++) M[c][k] /= d;
+    for (let r = 0; r < 8; r++) if (r !== c) { const f = M[r][c]; for (let k = c; k < 9; k++) M[r][k] -= f * M[c][k]; }
+  }
+  const [a, b, c2, d2, e, f2, g, i2] = M.map(r => r[8]);
+  return 'matrix3d(' + [a, d2, 0, g, b, e, 0, i2, 0, 0, 1, 0, c2, f2, 0, 1].map(n => +n.toFixed(8)).join(',') + ')';
+}
+function fitLaptop() {
+  const W = lapBox.clientWidth, H = lapBox.clientHeight; if (!W) return;
+  const q = QUAD.map(([x, y]) => [x * W, y * H]);
+  lapFit.style.setProperty('--m', homography(840, 549, q));
+  chanItems.forEach((li, i) => { const t = .1 + i * .2; li.style.left = (q[0][0] + (q[1][0] - q[0][0]) * t) + 'px'; li.style.top = (q[0][1] + (q[1][1] - q[0][1]) * t - 6) + 'px'; });
+}
+fitLaptop(); addEventListener('resize', fitLaptop); addEventListener('load', fitLaptop);
+if ('ResizeObserver' in window) new ResizeObserver(fitLaptop).observe(lapBox);
+
+/* ---------- Hero: messages arrive, then loop quietly ---------- */
+const hero = $('[data-hero]'), msgs = $$('[data-thread] .msg'), rows = $$('[data-list] li');
+if (reduce) msgs.forEach(m => m.classList.add('in'));
+else {
+  msgs.forEach((m, i) => setTimeout(() => m.classList.add('in'), 500 + i * 900));
+  /* a new message lands on a different conversation every few seconds */
+  let r = 1; setInterval(() => { if (hero.classList.contains('paused')) return; const el = rows[r % rows.length]; el.classList.remove('row-new'); void el.offsetWidth; el.classList.add('row-new'); r++; }, 3200);
+}
+
+/* Dust field (reference: DotDNA): few particles, capped DPR, paused off-screen. */
+const cv = $('[data-dust]'), ctx = cv.getContext('2d'); let dots = [], raf = 0, W = 0, H = 0;
+function sizeDust() {
+  const d = Math.min(devicePixelRatio || 1, 1.5); W = cv.clientWidth; H = cv.clientHeight; cv.width = W * d; cv.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0);
+  const n = W < 640 ? 45 : 110; dots = Array.from({ length: n }, () => ({ x: Math.random() * W, y: Math.random() * H, r: Math.random() * 1.4 + .3, a: Math.random() * .5 + .1, v: Math.random() * .18 + .04, p: Math.random() * 6.28 }));
+}
+function drawDust(t) {
+  ctx.clearRect(0, 0, W, H);
+  for (const o of dots) { if (t) { o.y -= o.v; o.x += Math.sin(t / 2400 + o.p) * .08; if (o.y < -4) { o.y = H + 4; o.x = Math.random() * W; } }
+    ctx.globalAlpha = o.a * (t ? .7 + .3 * Math.sin(t / 900 + o.p) : 1); ctx.fillStyle = '#55DCB1'; ctx.beginPath(); ctx.arc(o.x, o.y, o.r, 0, 6.283); ctx.fill(); }
+  if (t) raf = requestAnimationFrame(drawDust);
+}
+sizeDust(); drawDust(0); addEventListener('resize', () => { sizeDust(); drawDust(0); });
+if ('IntersectionObserver' in window) {
+  new IntersectionObserver(([e]) => { hero.classList.toggle('paused', !e.isIntersecting); cancelAnimationFrame(raf); if (e.isIntersecting && !reduce) raf = requestAnimationFrame(drawDust); }).observe(hero);
+
+  /* Reveal on scroll */
+  if (!reduce) {
+    document.documentElement.classList.add('js-reveal');
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
+    $$('[data-reveal]').forEach(el => io.observe(el));
+
+    /* Headlines: split into whole words, then let them arrive in order */
+    const ho = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('go'); ho.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
+    $$('main h1, main h2:not(.sr-only)').forEach(h => {
+      let k = 0;
+      const walk = node => Array.from(node.childNodes).forEach(n => {
+        if (n.nodeType === 1) return walk(n);
+        if (n.nodeType !== 3) return;
+        const f = document.createDocumentFragment(), mint = node.classList.contains('text-mint');
+        n.textContent.split(' ').forEach((p, i) => {
+          if (i) f.appendChild(document.createTextNode(' '));
+          if (!p.trim()) return;
+          const s = document.createElement('span'); s.className = mint ? 'w hl' : 'w'; s.style.setProperty('--k', k++); s.textContent = p; f.appendChild(s);
+        });
+        n.replaceWith(f);
+      });
+      walk(h); h.classList.add('split'); ho.observe(h);
+    });
+
+    /* Numbers count up once when they come into view */
+    const no = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return; no.unobserve(e.target);
+      const el = e.target, m = el.textContent.match(/^([^0-9]*)([0-9]+)([^0-9]*)$/); if (!m) return;
+      const end = +m[2], t0 = performance.now();
+      const tick = t => { const p = Math.min(1, (t - t0) / 1200), v = 1 - Math.pow(1 - p, 3); el.textContent = m[1] + Math.round(end * v) + m[3]; if (p < 1) requestAnimationFrame(tick); };
+      requestAnimationFrame(tick);
+    }), { threshold: .6 });
+    $$('#integrations dd .ltr, .bento dd .ltr').forEach(el => { el.setAttribute('data-count', ''); no.observe(el); });
+
+    /* seams weave in when they enter, and pause their loops when off-screen */
+    const so = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); e.target.classList.toggle('paused', !e.isIntersecting); }), { threshold: .2 });
+    $$('[data-seam]').forEach(el => so.observe(el));
+    const co = new IntersectionObserver(([e]) => e.target.classList.toggle('paused', !e.isIntersecting));
+    co.observe($('[data-cubes]'));
+    /* the logo row also rests while it is off-screen (unless the visitor paused it by hand, which always wins) */
+    new IntersectionObserver(([e]) => { if (marqBtn.getAttribute('aria-pressed') !== 'true') e.target.classList.toggle('paused', !e.isIntersecting); }).observe($('[data-marq]'));
+  }
+  /* Steps beam fills once */
+  const beam = $('[data-beam]');
+  new IntersectionObserver(([e], o) => { if (e.isIntersecting) { beam.classList.add('on'); o.disconnect(); } }, { threshold: .4 }).observe(beam);
+  /* Mobile CTA bar after the hero headline */
+  const bar = $('[data-mobile-bar]');
+  new IntersectionObserver(([e]) => bar.classList.toggle('show', !e.isIntersecting), { rootMargin: '-80px 0px 0px 0px' }).observe($('#hero-title'));
+} else { $('[data-beam]').classList.add('on'); }
+</script>
+</body>
+</html>

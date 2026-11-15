@@ -1,0 +1,170 @@
+{
+ "page": {
+  "key": "pricing",
+  "title": "الأسعار",
+  "seo": {
+   "title": "الأسعار والباقات — ClickChat",
+   "description": "قارن باقات ClickChat واختر ما يناسب فريقك: صندوق وارد موحّد لواتساب وماسنجر وإنستغرام، روبوتات ذكاء اصطناعي، حملات جماعية وأتمتة. ادفع شهرياً أو سنوياً وغيّر باقتك متى شئت.",
+   "keywords": "أسعار ClickChat، باقات واتساب للأعمال، سعر منصة واتساب، اشتراك صندوق وارد موحد",
+   "image": ""
+  },
+  "sections": [
+   {
+    "id": 15,
+    "type": "page_hero",
+    "anchor": null,
+    "data": {
+     "badge": "الأسعار",
+     "title": "باقات واضحة تنمو مع أعمالك",
+     "subtitle": "ابدأ بالباقة التي تناسب حجم فريقك اليوم، وانتقل إلى باقة أعلى متى احتجت. لا عقود طويلة — ادفع شهرياً أو وفّر بالاشتراك السنوي.",
+     "primary_label": "",
+     "primary_url": "",
+     "secondary_label": "",
+     "secondary_url": "",
+     "background_image": ""
+    }
+   },
+   {
+    "id": 16,
+    "type": "pricing",
+    "anchor": null,
+    "data": {
+     "badge": "",
+     "title": "",
+     "subtitle": "",
+     "monthly_label": "شهري",
+     "yearly_label": "سنوي",
+     "yearly_badge": "وفّر أكثر",
+     "featured_label": "الأكثر طلباً",
+     "free_label": "مجاناً",
+     "per_month": "/شهرياً",
+     "per_year": "/سنوياً",
+     "trial_text": "تجربة مجانية :days يوماً",
+     "featured_button": "ابدأ الآن",
+     "button": "اختر الباقة",
+     "button_url": "/register",
+     "empty_text": "نجهّز الباقات حالياً، تواصل معنا لمعرفة الأسعار المناسبة لك.",
+     "footnote": "رسوم محادثات واتساب التي تفرضها ميتا تُحتسب مباشرة على حسابك في ميتا وفق تسعيرتها الرسمية، وهي منفصلة عن اشتراك المنصة."
+    }
+   },
+   {
+    "id": 17,
+    "type": "faq",
+    "anchor": null,
+    "data": {
+     "badge": "",
+     "title": "أسئلة حول الأسعار والفوترة",
+     "subtitle": "",
+     "items": [
+      {
+       "id": "6546c90d-91f2-462d-8e21-f97fe54de6d0",
+       "q": "هل يمكنني تغيير باقتي لاحقاً؟",
+       "a": "نعم، يمكنك الترقية أو الانتقال إلى باقة أخرى في أي وقت من صفحة «الاشتراك» داخل لوحة التحكم."
+      },
+      {
+       "id": "75d3faff-ce10-45fe-b5f6-770d0c16b6f2",
+       "q": "هل يشمل الاشتراك رسوم رسائل واتساب؟",
+       "a": "لا. اشتراك ClickChat يغطي استخدام المنصة. أما رسوم المحادثات التي تفرضها ميتا على واجهة واتساب السحابية فتُدفع مباشرة لميتا عبر حسابك لديها."
+      },
+      {
+       "id": "9ccee5b6-3063-4370-a9e4-ac85bfcefbb1",
+       "q": "هل توجد تجربة مجانية؟",
+       "a": "نعم، بعض الباقات تتضمن تجربة مجانية تصل إلى ١٤ يوماً، وتظهر مدة التجربة على بطاقة كل باقة."
+      },
+      {
+       "id": "8e912ad7-812d-4839-8f67-46d13ce13c61",
+       "q": "ماذا يحدث إذا وصلت إلى حدود باقتي؟",
+       "a": "تنبّهك المنصة داخل لوحة التحكم عند الوصول إلى حدود الباقة، ويمكنك الترقية فوراً لمواصلة العمل دون انقطاع."
+      },
+      {
+       "id": "0516344e-da2a-458f-9681-ef22079a7ece",
+       "q": "هل يمكنني إلغاء الاشتراك؟",
+       "a": "نعم، يمكنك إلغاء اشتراكك في أي وقت من صفحة «الاشتراك» في لوحة التحكم."
+      },
+      {
+       "id": "e0169997-b548-41fa-833f-66a8d3667d9d",
+       "q": "هل أحصل على فواتير لمدفوعاتي؟",
+       "a": "نعم، تجد كل فواتيرك في صفحة الاشتراك ويمكنك تنزيلها بصيغة PDF."
+      }
+     ]
+    }
+   },
+   {
+    "id": 18,
+    "type": "cta",
+    "anchor": null,
+    "data": {
+     "title": "ما زلت محتاراً في اختيار الباقة؟",
+     "subtitle": "أخبرنا عن حجم فريقك وعدد محادثاتك، وسنساعدك في اختيار الباقة الأنسب.",
+     "primary_label": "ابدأ مجاناً",
+     "primary_url": "/register",
+     "secondary_label": "تحدّث مع فريق المبيعات",
+     "secondary_url": "/contact",
+     "background_image": ""
+    }
+   }
+  ]
+ },
+ "plans": [
+  {
+   "id": 16,
+   "name": "Starter",
+   "description": "Perfect for individuals and small projects.",
+   "price_monthly": 0,
+   "price_yearly": 0,
+   "features": [
+    "Up to 2 team members",
+    "5 GB storage",
+    "Email support"
+   ],
+   "is_featured": false,
+   "trial_days": 0,
+   "currency": "USD"
+  },
+  {
+   "id": 17,
+   "name": "Pro",
+   "description": "For growing teams that need more power.",
+   "price_monthly": 29,
+   "price_yearly": 290,
+   "features": [
+    "Up to 10 team members",
+    "50 GB storage",
+    "Priority support",
+    "Advanced analytics"
+   ],
+   "is_featured": false,
+   "trial_days": 14,
+   "currency": "USD"
+  },
+  {
+   "id": 18,
+   "name": "Business",
+   "description": "Enterprise-grade features for large organisations.",
+   "price_monthly": 99,
+   "price_yearly": 990,
+   "features": [
+    "Unlimited team members",
+    "500 GB storage",
+    "Dedicated support",
+    "White-label branding",
+    "Custom domain",
+    "SLA"
+   ],
+   "is_featured": true,
+   "trial_days": 14,
+   "currency": "USD"
+  },
+  {
+   "id": 19,
+   "name": "الإحترافية",
+   "description": "للفرق المتوسطة التي تدير عدة أرقام",
+   "price_monthly": 500,
+   "price_yearly": 0,
+   "features": [],
+   "is_featured": true,
+   "trial_days": 5,
+   "currency": "SAR"
+  }
+ ]
+}

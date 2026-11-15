@@ -1,0 +1,59 @@
+{
+ "page": {
+  "key": "contact",
+  "title": "تواصل معنا",
+  "seo": {
+   "title": "تواصل معنا — ClickChat",
+   "description": "تواصل مع فريق ClickChat للاستفسار عن الباقات أو طلب عرض توضيحي أو الحصول على مساعدة في البدء.",
+   "keywords": "",
+   "image": ""
+  },
+  "sections": [
+   {
+    "id": 36,
+    "type": "page_hero",
+    "anchor": null,
+    "data": {
+     "badge": "تواصل معنا",
+     "title": "يسعدنا أن نسمع منك",
+     "subtitle": "استفسار عن الباقات، أو طلب عرض توضيحي، أو سؤال عن الربط؟ أرسل رسالتك وسيتواصل معك فريقنا.",
+     "primary_label": "",
+     "primary_url": "",
+     "secondary_label": "",
+     "secondary_url": "",
+     "background_image": ""
+    }
+   },
+   {
+    "id": 37,
+    "type": "contact",
+    "anchor": null,
+    "data": {
+     "info_heading": "طرق أخرى للتواصل",
+     "email_title": "البريد الإلكتروني",
+     "phone_title": "الهاتف",
+     "whatsapp_title": "واتساب",
+     "address_title": "العنوان",
+     "form_heading": "أرسل لنا رسالة",
+     "name_label": "الاسم",
+     "email_label": "البريد الإلكتروني",
+     "subject_label": "الموضوع",
+     "message_label": "رسالتك",
+     "submit_label": "إرسال الرسالة",
+     "sending_label": "جارٍ الإرسال…",
+     "success_message": "شكراً لتواصلك معنا، وصلتنا رسالتك وسنرد عليك في أقرب وقت.",
+     "items": [
+      {
+       "id": "cb25a453-464a-4556-95b6-6de0fbc5b8e1",
+       "icon": "headphones",
+       "title": "دعم المشتركين",
+       "desc": "إن كنت مشتركاً، افتح تذكرة دعم من لوحة التحكم لنتابع طلبك بشكل أسرع.",
+       "url": "/login"
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "plans": []
+}

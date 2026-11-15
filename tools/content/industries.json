@@ -1,0 +1,137 @@
+{
+ "page": {
+  "key": "industries",
+  "title": "حلولنا",
+  "seo": {
+   "title": "حلول ClickChat حسب القطاع وفريق العمل",
+   "description": "اكتشف كيف تستخدم المطاعم والعيادات والعقار والمتاجر ومكاتب الاستقدام وفرق المبيعات وخدمة العملاء منصة ClickChat لإدارة محادثات واتساب والقنوات الأخرى.",
+   "keywords": "حلول واتساب للأعمال، واتساب حسب القطاع",
+   "image": ""
+  },
+  "sections": [
+   {
+    "id": 38,
+    "type": "page_hero",
+    "anchor": null,
+    "data": {
+     "badge": "حلولنا",
+     "title": "حلول مصممة لقطاعك ولفريقك",
+     "subtitle": "اختر قطاعك أو فريقك لترى كيف يساعدك ClickChat في الرد على العملاء وتنظيم العمل.",
+     "primary_label": "",
+     "primary_url": "",
+     "secondary_label": "",
+     "secondary_url": "",
+     "background_image": ""
+    }
+   },
+   {
+    "id": 39,
+    "type": "cta",
+    "anchor": null,
+    "data": {
+     "title": "لم تجد قطاعك؟",
+     "subtitle": "المنصة تناسب أي نشاط يتواصل مع عملائه عبر واتساب. تحدث معنا ونساعدك في الإعداد.",
+     "primary_label": "ابدأ مجاناً",
+     "primary_url": "/register",
+     "secondary_label": "تواصل معنا",
+     "secondary_url": "/contact",
+     "background_image": ""
+    }
+   }
+  ]
+ },
+ "industries": {
+  "sector": [
+   {
+    "slug": "restaurants",
+    "category": "sector",
+    "icon": "utensils",
+    "name": "المطاعم والكافيهات",
+    "short_description": "استقبل الطلبات والحجوزات من واتساب وإنستغرام في صندوق واحد.",
+    "url": "/industries/restaurants"
+   },
+   {
+    "slug": "clinics",
+    "category": "sector",
+    "icon": "stethoscope",
+    "name": "العيادات والمراكز الطبية",
+    "short_description": "مواعيد وتذكيرات واستفسارات المرضى من واتساب، مع فريق استقبال منظم.",
+    "url": "/industries/clinics"
+   },
+   {
+    "slug": "real-estate",
+    "category": "sector",
+    "icon": "building",
+    "name": "العقار",
+    "short_description": "تابع كل مهتم بعقار من أول رسالة حتى المعاينة.",
+    "url": "/industries/real-estate"
+   },
+   {
+    "slug": "ecommerce",
+    "category": "sector",
+    "icon": "shopping-cart",
+    "name": "المتاجر الإلكترونية",
+    "short_description": "إشعارات الطلب وخدمة ما بعد البيع والسلات المتروكة عبر واتساب.",
+    "url": "/industries/ecommerce"
+   },
+   {
+    "slug": "car-showrooms",
+    "category": "sector",
+    "icon": "car",
+    "name": "معارض السيارات",
+    "short_description": "تابع طلبات الأسعار والتجربة والتمويل من كل القنوات.",
+    "url": "/industries/car-showrooms"
+   },
+   {
+    "slug": "salons",
+    "category": "sector",
+    "icon": "scissors",
+    "name": "الصالونات ومراكز التجميل",
+    "short_description": "حجوزات وتذكيرات وعروض لعميلاتك عبر واتساب وإنستغرام.",
+    "url": "/industries/salons"
+   },
+   {
+    "slug": "education",
+    "category": "sector",
+    "icon": "graduation-cap",
+    "name": "التعليم والتدريب",
+    "short_description": "تسجيل الطلاب والاستفسارات وتنبيهات الدورات من مكان واحد.",
+    "url": "/industries/education"
+   },
+   {
+    "slug": "recruitment",
+    "category": "sector",
+    "icon": "user-plus",
+    "name": "شركات ومكاتب الاستقدام",
+    "short_description": "تابع طلبات الاستقدام ومراحل المعاملة مع العملاء عبر واتساب.",
+    "url": "/industries/recruitment"
+   }
+  ],
+  "team": [
+   {
+    "slug": "sales",
+    "category": "team",
+    "icon": "trending-up",
+    "name": "فرق المبيعات",
+    "short_description": "وزّع العملاء المحتملين وتابعهم حتى الإغلاق.",
+    "url": "/industries/sales"
+   },
+   {
+    "slug": "customer-service",
+    "category": "team",
+    "icon": "headphones",
+    "name": "خدمة العملاء",
+    "short_description": "صندوق وارد مشترك وردود آلية وتقارير لرضا العملاء.",
+    "url": "/industries/customer-service"
+   },
+   {
+    "slug": "operations",
+    "category": "team",
+    "icon": "workflow",
+    "name": "فرق العمليات",
+    "short_description": "أتمتة الإشعارات والتحديثات وربط المنصة بأنظمتك.",
+    "url": "/industries/operations"
+   }
+  ]
+ }
+}

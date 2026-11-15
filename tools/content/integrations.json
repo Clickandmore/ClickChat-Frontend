@@ -1,0 +1,105 @@
+{
+ "page": {
+  "key": "integrations",
+  "title": "التكاملات",
+  "seo": {
+   "title": "التكاملات — اربط ClickChat بأدواتك",
+   "description": "اربط ClickChat بواتساب وماسنجر وإنستغرام، وبمتاجر شوبيفاي وووكومرس وبيغ كومرس، ومزوّدي الذكاء الاصطناعي، وخدمات الرسائل النصية، وGoogle Workspace، عبر تكاملات جاهزة وواجهة برمجية وخطافات ويب.",
+   "keywords": "تكامل واتساب شوبيفاي، تكامل ووكومرس واتساب، واجهة برمجية واتساب، ربط واتساب بجوجل شيت",
+   "image": ""
+  },
+  "sections": [
+   {
+    "id": 23,
+    "type": "page_hero",
+    "anchor": null,
+    "data": {
+     "badge": "التكاملات",
+     "title": "اربط ClickChat بالأدوات التي يعمل بها فريقك",
+     "subtitle": "تكاملات جاهزة مع قنوات المراسلة والمتاجر الإلكترونية والذكاء الاصطناعي وخدمات الرسائل النصية، إضافة إلى واجهة برمجية وخطافات ويب لربط أي نظام آخر.",
+     "primary_label": "",
+     "primary_url": "",
+     "secondary_label": "",
+     "secondary_url": "",
+     "background_image": ""
+    }
+   },
+   {
+    "id": 24,
+    "type": "integration_groups",
+    "anchor": null,
+    "data": {
+     "badge": "",
+     "title": "",
+     "subtitle": "",
+     "items": [
+      {
+       "id": "440ed4e6-51a2-4bef-ad39-cbc62d29e903",
+       "icon": "message-circle",
+       "title": "قنوات المراسلة",
+       "desc": "كل محادثاتك في صندوق وارد واحد.",
+       "names": "WhatsApp Cloud API\nWhatsApp QR\nMessenger\nInstagram"
+      },
+      {
+       "id": "6bd61800-6f5c-47be-af37-ade2841e6ec1",
+       "icon": "shopping-cart",
+       "title": "المتاجر الإلكترونية",
+       "desc": "زامن الطلبات والعملاء وأرسل إشعارات الطلب تلقائياً.",
+       "names": "Shopify\nWooCommerce\nBigCommerce"
+      },
+      {
+       "id": "5204ee78-2a37-47c0-9147-545c2a6dfa32",
+       "icon": "bot",
+       "title": "الذكاء الاصطناعي",
+       "desc": "شغّل روبوتات الدردشة بالنموذج الذي تفضّله.",
+       "names": "OpenAI\nAnthropic Claude\nGoogle Gemini\nOpenRouter"
+      },
+      {
+       "id": "064aaf59-891d-436c-992f-6c3c3f36d769",
+       "icon": "send",
+       "title": "الرسائل النصية (SMS)",
+       "desc": "أرسل حملاتك النصية عبر المزوّد الذي تتعامل معه.",
+       "names": "Twilio\nInfobip\nMessageBird\nVonage\nPlivo\nTelnyx\nClickSend\nAmazon SNS"
+      },
+      {
+       "id": "bea85285-c83a-4b98-83ad-bd17c28f31e4",
+       "icon": "share-2",
+       "title": "النشر على وسائل التواصل",
+       "desc": "خطّط لمنشوراتك وانشرها من تقويم واحد.",
+       "names": "Facebook\nInstagram\nLinkedIn\nX\nYouTube\nTikTok"
+      },
+      {
+       "id": "6a1c289b-cd02-4aa9-a28a-4266aa8cb9e3",
+       "icon": "file-text",
+       "title": "Google Workspace",
+       "desc": "أرسل بيانات المحادثات والعملاء إلى أدوات جوجل ضمن مسارات الأتمتة.",
+       "names": "Google Sheets\nGoogle Docs\nGoogle Drive\nGoogle Calendar"
+      },
+      {
+       "id": "cdbfd5b7-cedd-410d-94f8-ebb7a8ff0ff5",
+       "icon": "link",
+       "title": "للمطوّرين",
+       "desc": "اربط أنظمتك الداخلية بالمنصة مباشرة.",
+       "names": "REST API\nWebhooks\nAPI Tokens"
+      }
+     ]
+    }
+   },
+   {
+    "id": 25,
+    "type": "cta",
+    "anchor": null,
+    "data": {
+     "title": "تحتاج تكاملاً خاصاً بنظامك؟",
+     "subtitle": "استخدم الواجهة البرمجية وخطافات الويب لربط ClickChat بأي نظام، أو تواصل معنا لنساعدك.",
+     "primary_label": "ابدأ مجاناً",
+     "primary_url": "/register",
+     "secondary_label": "تواصل معنا",
+     "secondary_url": "/contact",
+     "background_image": ""
+    }
+   }
+  ]
+ },
+ "plans": []
+}
